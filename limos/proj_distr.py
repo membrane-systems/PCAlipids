@@ -1,4 +1,3 @@
-import numpy
 import matplotlib.pyplot as plt
 from scipy.stats.kde import gaussian_kde
 import time 
