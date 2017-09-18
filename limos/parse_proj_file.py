@@ -6,18 +6,23 @@ import sys
 import os
 
 
-def get_data_from_file(file_name, proj_num):
+def get_data_from_file(file_name, first_PC, last_PC):
 	file = open(file_name, 'r')
 	line = file.readline()
-	i = 0
+	i = 1
 	projs = []
-	while i < proj_num:
+	while i < first_PC:
+		line = file.readline()
+		if line.find('&') != -1:
+			i += 1
+	line = file.readline()
+	while i <= last_PC:
 		proj = []
-		while line.find('&') != 0:
-			if line.find('@') != 0:
+		while line.find('&') == -1:
+			if line.find('@') == -1:
 				proj.append(float(line.split()[1]))
 			line = file.readline()
-		proj.append(i + 1)
+		proj.append(i)
 		i += 1
 		line = file.readline()
 		projs.append(proj)
@@ -38,9 +43,9 @@ def plot_dist(data, PATH):
 	plt.clf()
 
 
-def main(file_name, proj_num):
+def main(file_name, first_PC, last_PC):
 	PATH = os.getcwd() + '/'
-	projs = get_data_from_file(PATH + file_name, int(proj_num))
+	projs = get_data_from_file(PATH + file_name, int(first_PC), int(last_PC))
 	# for data in projs:
 	# 	plot_dist(data, PATH)
 	for i in range(len(projs)):
@@ -51,12 +56,11 @@ def main(file_name, proj_num):
 
 if __name__ == '__main__':
 	args = sys.argv[1:]
-	if '-p' in args and '-n' in args:
-		main(args[args.index('-p') + 1], args[args.index('-n') + 1])
-	elif '-p' in args and '-n' not in args:
-		main(args[args.index('-p') + 1], 3)
+	if '-p' in args and '-first' in args and '-last' in args:
+		main(args[args.index('-p') + 1], args[args.index('-first') + 1], args[args.index('-last') + 1])
+	elif '-p' in args and '-first' not in args and '-last' not in args:
+		main(args[args.index('-p') + 1], 1, 3)
 	elif '-h' not in args:
 		print('Missing parameters, try -h for flags\n')
 	else:
-		print('-p <projection file> (file format *.xvg)\n-h <number of first projection> (int format). If not supplied, the firts 3 projections will be analyzed.')
-	
+		print('-p <projection file> (file format *.xvg)\n -fisrt <first projection> -last <last projection> (int format). \nIf not supplied, the first 3 projections will be analyzed.')
