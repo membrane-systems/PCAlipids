@@ -17,6 +17,12 @@ def concat(traj, lipid):
 	return sin_lip_traj
 
 
+def average_structure(traj):
+	avg_xyz = traj.xyz.mean(axis = 0)
+	avg_traj = md.Trajectory([avg_xyz], traj.top)
+	return avg_traj
+
+
 def main(file_1, file_2, file_3 = None):
 	PATH = os.getcwd() + '/'
 	traj = load_traj(PATH + file_1, PATH + file_2)
@@ -28,14 +34,20 @@ def main(file_1, file_2, file_3 = None):
 	for i in range(1, N):
 		traj = traj.join(trajs_[i])
 		trajs_[i] = 0
-	print('Concatenated trajectory was created.')
+	print('Concatenated trajectory was created, saved in "concatenated.xtc"')
 	if file_3 != None:
 		ref_traj = md.load(PATH + file_3)
 	else:
 		ref_traj = traj[0]
 	traj = traj.superpose(ref_traj)
-	print('The trajectory was aligned.')
-	traj.save_xtc(PATH + 'full.xtc')
+	print('The trajectory was aligned, reference = first frame.')
+	traj.save_xtc(PATH + 'concatenated.xtc')
+	avg_str = average_structure(traj)
+	avg_str.save('average_con.pdb')
+	print('Average structure saved in "average_con.pdb"')
+	traj = traj.superpose(avg_str)
+	print('The trajectory was aligned, reference = average structure.')
+
 
 
 if __name__ == '__main__':
