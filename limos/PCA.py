@@ -68,20 +68,21 @@ def main(traj_file, top_file, first_PC = None, last_PC = None):
 					flag = 0
 					file.write('\n')
 	print('Wrote covariance matrix in "covar.dat"')
+	return 'projection.xvg', first_PC, last_PC
 
 
-if __name__ == '__main__':
-	# start = time.time()
-	args = sys.argv[1:]
-	if '-f' in args and '-t' in args and '-first' in args and '-last' in args:
-		main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-first') + 1], args[args.index('-last') + 1])
-	elif '-f' in args and '-t' in args and '-first' not in args and '-last' not in args:
-		main(args[args.index('-f') + 1], args[args.index('-t') + 1], None, None)
-	elif '-f' in args and '-t' in args and '-first' in args and '-last' not in args:
-		main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-first') + 1], None)
-	elif '-f' in args and '-t' in args and '-first' not in args and '-last' in args:
-		main(args[args.index('-f') + 1], args[args.index('-t') + 1], None, args[args.index('-last') + 1])
-	elif '-h' not in args:
-		print('Missing parameters, try -h for flags\n')
-	else:
-		print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC>.')
+# if __name__ == '__main__':
+# 	# start = time.time()
+# 	args = sys.argv[1:]
+# 	if '-f' in args and '-t' in args and '-first' in args and '-last' in args:
+# 		main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-first') + 1], args[args.index('-last') + 1])
+# 	elif '-f' in args and '-t' in args and '-first' not in args and '-last' not in args:
+# 		main(args[args.index('-f') + 1], args[args.index('-t') + 1], None, None)
+# 	elif '-f' in args and '-t' in args and '-first' in args and '-last' not in args:
+# 		main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-first') + 1], None)
+# 	elif '-f' in args and '-t' in args and '-first' not in args and '-last' in args:
+# 		main(args[args.index('-f') + 1], args[args.index('-t') + 1], None, args[args.index('-last') + 1])
+# 	elif '-h' not in args:
+# 		print('Missing parameters, try -h for flags\n')
+# 	else:
+# 		print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC>.')

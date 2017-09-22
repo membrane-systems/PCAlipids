@@ -47,17 +47,18 @@ def main(file_1, file_2, file_3 = None):
 	avg_str = average_structure(traj)
 	avg_str.save('average.pdb')
 	print('Average structure saved in "average.pdb"')
+	return 'concatenated.xtc', 'average.pdb'
 
 
-if __name__ == '__main__':
-	args = sys.argv[1:]
-	if '-f' in args and '-t' in args and '-r' in args:
-		main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-r') + 1])
-	elif '-f' in args and '-t' in args and '-r' not in args:
-		print('No reference file supplied. The first frame of trajectory will be used for alignment.')
-		main(args[args.index('-f') + 1], args[args.index('-t') + 1])
-	elif '-h' not in args:
-		print('Missing parameters, try -h for flags\n')
-	else:
-		print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n-r <reference traj file> (any file with 1 ref frame). If not supplied, \
-			the first frame of trajectory will be used for alignment.')
+# if __name__ == '__main__':
+	# args = sys.argv[1:]
+	# if '-f' in args and '-t' in args and '-r' in args:
+	# 	main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-r') + 1])
+	# elif '-f' in args and '-t' in args and '-r' not in args:
+	# 	print('No reference file supplied. The first frame of trajectory will be used for alignment.')
+	# 	main(args[args.index('-f') + 1], args[args.index('-t') + 1])
+	# elif '-h' not in args:
+	# 	print('Missing parameters, try -h for flags\n')
+	# else:
+	# 	print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n-r <reference traj file> (any file with 1 ref frame). If not supplied, \
+	# 		the first frame of trajectory will be used for alignment.')

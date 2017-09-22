@@ -52,13 +52,13 @@ def main(file_name, first_PC, last_PC):
 		p.starmap(plot_dist, projs)
 
 
-if __name__ == '__main__':
-	args = sys.argv[1:]
-	if '-p' in args and '-first' in args and '-last' in args:
-		main(args[args.index('-p') + 1], args[args.index('-first') + 1], args[args.index('-last') + 1])
-	elif '-p' in args and '-first' not in args and '-last' not in args:
-		main(args[args.index('-p') + 1], 1, 3)
-	elif '-h' not in args:
-		print('Missing parameters, try -h for flags\n')
-	else:
-		print('-p <projection file> (file format *.xvg)\n -fisrt <first projection> -last <last projection> (int format). \nIf not supplied, the first 3 projections will be analyzed.')
+# if __name__ == '__main__':
+# 	args = sys.argv[1:]
+# 	if '-p' in args and '-first' in args and '-last' in args:
+# 		main(args[args.index('-p') + 1], args[args.index('-first') + 1], args[args.index('-last') + 1])
+# 	elif '-p' in args and '-first' not in args and '-last' not in args:
+# 		main(args[args.index('-p') + 1], 1, 3)
+# 	elif '-h' not in args:
+# 		print('Missing parameters, try -h for flags\n')
+# 	else:
+# 		print('-p <projection file> (file format *.xvg)\n -fisrt <first projection> -last <last projection> (int format). \nIf not supplied, the first 3 projections will be analyzed.')
