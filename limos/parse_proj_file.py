@@ -36,8 +36,8 @@ def plot_dist(data, PATH):
 	KDEpf = gaussian_kde(data)
 	x = np.linspace(np.amin(data) - 0.5, np.amax(data) + 0.5, 200)
 	plt.ylabel('Probability density (a.u.)')
-	plt.xlabel('PC projection value (A')
-	plt.title('Distributions of the PC%s projection' % N)
+	plt.xlabel('PC projection value (A)')
+	plt.title('Distribution of the PC%s projection' % N)
 	plt.plot(x, KDEpf(x), 'r', color = 'blue')
 	plt.savefig(PATH + 'PC%s_dist.png' % N)
 	plt.clf()
@@ -46,8 +46,6 @@ def plot_dist(data, PATH):
 def main(file_name, first_PC, last_PC):
 	PATH = os.getcwd() + '/'
 	projs = get_data_from_file(PATH + file_name, int(first_PC), int(last_PC))
-	# for data in projs:
-	# 	plot_dist(data, PATH)
 	for i in range(len(projs)):
 		projs[i] = (projs[i], PATH)
 	with Pool(2) as p:
