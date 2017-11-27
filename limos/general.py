@@ -39,7 +39,7 @@ def main(args):
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
-			print('-p <projection file> (file format *.xvg)\n -fisrt <first projection> -last <last projection> (int format). \nIf not supplied, the first 3 projections will be analyzed.')
+			print('-p <projection file> (file format *.xvg)\n -first <first projection> -last <last projection> (int format). \nIf not supplied, the first 3 projections will be analyzed.')
 
 	elif args[0] == 'all':
 		if '-f' in args and '-t' in args and '-r' in args:
@@ -72,7 +72,7 @@ def main(args):
 		print("'concat' - create concatenated trajectory\n\
 'covar' - principal component analysis\n\
 'anaproj' - projections distribution\n\
-'all' - all steps\n\
+'all -f <trajectory> -t <topology> -first <first PC> -last <last PC>' - all steps\n\
 Use any of this options.")
 
 	else:
