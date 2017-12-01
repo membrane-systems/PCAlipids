@@ -123,17 +123,12 @@ def main(filename):     #, N_lip, N_bins, N_samples, cutoff = 0):
     return KSS_time, T
 
 
-# file = open('KSS_vs_T.xvg', 'w')
+
 filenames = []
 N = 100
 for i in range(1, N + 1):
     filenames.append('proj_%s.xvg' % i)
-# for i in range(1, 101):
-#     KSS_time, T = main('/home/kmustafin/sim/1030GC36_DOPC_T_310/pca/proj_%s.xvg' % i, 128, 101, 24)
-#     file.write(str(KSS_time) + ' ' + str(T))
-#     file.write('\n')
-#     file.write('\n')
-#     plt.loglog(T, KSS_time, color = [0, 0, 1 - i / 100 * 2])
+
 
 TIME = time.time()
 
