@@ -44,7 +44,8 @@ To execute python script (script.py) run:
     $ python3 script.py
 
 **NOTE**: Third-party python modules and module packages can be downloaded and installed using *pip*. Python 3.4 and later versions include pip by default, so to check if pip installed, open command prompt and run:
-    $ command -v pip 
+    
+    $ pip -v 
 
 It is important to note that *pip* package belongs to Python interpreter version 2.x and *pip3* package belongs to Python 3.x. 
 
