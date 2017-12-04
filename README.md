@@ -138,13 +138,23 @@ We wrote all analyzing data in text files, so let us familiarize the structure o
 
 ### Data processing for visualizing results
 
-For visualizing the distribution of projections on proncipal components use program projdist:
+* For visualizing the distribution of projections on proncipal components use program projdist:
     
     $ python3 pcalipids.py projdist -p <projection_file> -first <number of the first projection> -last <... last projection>
 
 Output is the picture of probability distribution density:
 ![Probability distribution density of projections on the first principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC1_dist.png)
 ![Probability distribution density of projections on the second principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC2_dist.png)
+
+* Also you could analyze the difference between two different trajectories be using progarams "pearson" and "eigevecdot":
+
+    $ python3 pcalipids.py pearson -cov1 <first file with covariance matrix> -cov2 <second file with cov. matrix>
+
+This command wil compare conformational ensembles obtained in different simulations.
+
+    $ python pcalipids.py eigenvecdot -evec <first file with eigevector> <second file>
+
+Picture with 
 
 ## Contributing
 
