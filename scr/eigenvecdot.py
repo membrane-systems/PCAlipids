@@ -35,9 +35,9 @@ def main(file1, file2):
 
 	for i in range(len(eigenvecs1)):
 		for j in range(len(eigenvecs1)):
-			matrix[i][j] = np.dot(eigenvecs1[i], eigenvecs2[j])
+			matrix[i][j] = abs(np.dot(eigenvecs1[i], eigenvecs2[j]))
 
-	plt.imshow(matrix, interpolation='nearest', origin='lower')
+	plt.imshow(matrix, interpolation='nearest', origin='lower', cmap='gray_r')
 	plt.show()
 
 
