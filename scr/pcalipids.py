@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import PCA
 import con_traj
 import sys

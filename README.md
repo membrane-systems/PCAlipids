@@ -48,6 +48,14 @@ To execute python script (script.py) run:
 
 It is important to note that *pip* package belongs to Python interpreter version 2.x and *pip3* package belongs to Python 3.x. 
 
+### Installing PCAlipids
+
+PCAlipids does not require installation. You can download the files and use them as is. To run the software from any folder, add the path to the software directory to the PATH global variable in ~/.bashrc as follows:
+
+   PATH=/path/to/your/pcalipids/directory:${PATH} 
+
+where /path/to/your/pcalipids/directory has to be replaced with your path to your pcalipids directory
+
 ### PCAlipids basics:
 
 To run the software on your computer open command prompt and run:
