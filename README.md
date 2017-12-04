@@ -45,9 +45,11 @@ To execute python script (script.py) run:
 
 **NOTE**: Third-party python modules and module packages can be downloaded and installed using *pip*. Python 3.4 and later versions include pip by default, so to check if pip installed, open command prompt and run:
     
-    $ pip -v 
+    $ pip -V 
 
-It is important to note that *pip* package belongs to Python interpreter version 2.x and *pip3* package belongs to Python 3.x. 
+It is important that *pip* package belongs to Python interpreter version 3.x. If this is not the case, please install python3-pip. Then you can go to the downloaded PCAlipids directory and run:
+
+    $ pip install -r requirements.txt
 
 ### Installing PCAlipids
 
