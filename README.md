@@ -154,7 +154,7 @@ This command wil compare conformational ensembles obtained in different simulati
 
     $ python pcalipids.py eigenvecdot -evec <first file with eigevector> <second file>
 
-Output is a with scalar projections:
+Output is a with scalar projections (values in range (-1; +1) -> (dark blue; yellow)):
 ![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenveccomp.png)
 
 ## Contributing
