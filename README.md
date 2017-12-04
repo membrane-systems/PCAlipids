@@ -13,6 +13,8 @@ Please find below a step-by-step tutorial on using the software. Overall, the pr
 * The resulting trajectory is subjected to PCA. Covariance matrix, eigenvalues, eigenvectors and projections of the trajectory on eigenvectors are calculated.
 * Projections of the trajectory on PCA eigenvectors are analyzed by calculating the projection distribution and characteristic relaxation times.
 
+**NOTE**: Exemplary trajectory from the test_input directory can be used for tutorial.
+
 ### Prerequisites
 
 The software requires a Python interpreter and some other modules that you need to install:
