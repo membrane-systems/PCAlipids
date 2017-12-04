@@ -142,7 +142,7 @@ We wrote all analyzing data in text files, so let us familiarize the structure o
     
     $ python3 pcalipids.py projdist -p <projection_file> -first <number of the first projection> -last <... last projection>
 
-Output is the picture of probability distribution density:
+Output is a picture of probability distribution density:
 ![Probability distribution density of projections on the first principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC1_dist.png)
 ![Probability distribution density of projections on the second principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC2_dist.png)
 
@@ -154,7 +154,8 @@ This command wil compare conformational ensembles obtained in different simulati
 
     $ python pcalipids.py eigenvecdot -evec <first file with eigevector> <second file>
 
-Picture with 
+Output is a with scalar projections:
+![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenveccomp.png)
 
 ## Contributing
 
