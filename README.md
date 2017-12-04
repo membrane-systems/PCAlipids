@@ -138,14 +138,21 @@ We wrote all analyzing data in text files, so let us familiarize the structure o
 
 ### Data processing for visualizing results
 
+For visualizing the distribution of projections on proncipal components use program projdist:
+    
+    $ python3 pcalipids.py projdist -p <projection_file> -first <number of the first projection> -last <... last projection>
+
+Output is the picture of probability distribution density:
+![Probability distribution density of projections on the first principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC1_dist.png)
+![Probability distribution density of projections on the second principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC2_dist.png)
 
 ## Contributing
 
-Please read [CONTRIBUTING.txt](https://github.com/membrane-systems/PCAlipids/blob/master/CONTRIBUTING.txt) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.txt](CONTRIBUTING.txt) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-Look for [VERSION.txt](https://github.com/membrane-systems/PCAlipids/blob/master/VERSION.txt)
+Look for [VERSION.txt](VERSION.txt)
 
 ## Contacts
 
