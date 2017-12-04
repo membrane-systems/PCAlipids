@@ -157,6 +157,12 @@ This command wil compare conformational ensembles obtained in different simulati
 Output is a with scalar projections (values in range (-1; +1) -> (dark blue; yellow)):
 ![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenveccomp.png)
 
+* To vizualize the conformational space and lipid motions along different components yuo could use programs - "conspace" and "motion":
+
+    $ python3 pcalipids.py conspace -f <trajectory file> -t <average structure>
+
+
+
 ## Contributing
 
 Please read [CONTRIBUTING.txt](CONTRIBUTING.txt) for details on our code of conduct, and the process for submitting pull requests to us.
