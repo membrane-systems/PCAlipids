@@ -172,7 +172,7 @@ The output plot is the dot product matrix (values in range (-1; +1) -> (dark blu
 
 * Individual conformations can be visualized using "conspace" and "motion":
 
-    $ python3 pcalipids.py conspace -f \<trajectory file> -t \<average structure>
+    $ python3 pcalipids.py conspace -f \<concatenated trajectory file> -t \<average structure>
 
 ![Example of comformational space with average structure](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1b.png)
 
