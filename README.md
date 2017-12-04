@@ -49,7 +49,7 @@ To execute python script (script.py) run:
 
 It is important that *pip* package belongs to Python interpreter version 3.x. If this is not the case, please install python3-pip. Then you can go to the downloaded PCAlipids directory and run:
 
-    $ pip install -r requirements.txt
+    $ sudo pip install -r requirements.txt
 
 ### Installing PCAlipids
 
