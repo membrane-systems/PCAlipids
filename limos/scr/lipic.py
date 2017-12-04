@@ -26,5 +26,4 @@ def main(traj_file, top_file, stride = 10000):
 
 if __name__ == '__main__':
 	main('concatenated.xtc', 'average.pdb')
-	print('algo ends')
-	print('oxygen not included')
+
