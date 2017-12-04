@@ -22,7 +22,7 @@ The software requires a Python interpreter and some other modules that you need 
 * [Scipy](https://www.scipy.org/) - module for scientific calculations
 * [MDTraj](http://mdtraj.org/1.9.0/) - reading, writing and analyzing MD trajectories 
 
-### Installing
+### Installing Python
 
 It is advisable to install the modules in the correct order, so you will avoid subsequent difficulties. 
 
@@ -69,7 +69,7 @@ Let's try to analyze the trajectory using it!
 
 **ANALYSIS**:
 
-#### Step 1
+#### Step 1: Creating concatenated trajectory
 
 You need to place the PCAlipids script file in the folder that contains the trajectory (.xtc, .trr, etc.) and structure  (.pdb) files for your system. In our case, the names of the trajectory and structure files are “trajectory.xtc” and “structure.pdb”, respectively. The concatenated trajectory is produced by running:
 
@@ -94,7 +94,7 @@ You need to place the PCAlipids script file in the folder that contains the traj
 * -oc \<output trajectory file> - concatenated trajectory
 * -oa \<output topology file> - average structure calculated from the concatenated trajectory
 
-#### Step 2
+#### Step 2: Performing PCA
 
 Now you are ready to move on to the next step. Run in the command prompt:
 
@@ -136,30 +136,30 @@ We wrote all analyzing data in text files, so let us familiarize the structure o
 
 **Projections data**  is a one-dimensional array of float numbers for each of the components. The components are written one after another, each line contains the projection value for a particular projection for a particular frame.
 
-### Data processing for visualizing results
+#### Step 3: Data processing for visualizing results
 
-* For visualizing the distribution of projections on proncipal components use program projdist:
+* The distribution of projections on principal components can be visualized using projdist:
     
-    $ python3 pcalipids.py projdist -p <projection_file> -first <number of the first projection> -last <... last projection>
+    $ python3 pcalipids.py projdist -p \<projection_file> -first \<number of the first projection> -last \<... last projection>
 
-Output is a picture of probability distribution density:
+The output is a png plot with the distribution:
 ![Probability distribution density of projections on the first principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC1_dist.png)
 ![Probability distribution density of projections on the second principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC2_dist.png)
 
-* Also you could analyze the difference between two different trajectories be using progarams "pearson" and "eigevecdot":
+* Two different trajectories can be compared using a single number - Pearson correlation coefficient of the respective covariance matrices - using progarams "pearson" and "eigevecdot":
 
-    $ python3 pcalipids.py pearson -cov1 <first file with covariance matrix> -cov2 <second file with cov. matrix>
+    $ python3 pcalipids.py pearson -cov1 \<first file with covariance matrix> -cov2 \<second file with cov. matrix>
 
-This command wil compare conformational ensembles obtained in different simulations.
+* The principal components obtained in different simulations can be compared using dot products of the respective eigenvectors:
 
-    $ python pcalipids.py eigenvecdot -evec <first file with eigevector> <second file>
+    $ python pcalipids.py eigenvecdot -evec \<first file with eigevector> \<second file>
 
-Output is a with scalar projections (values in range (-1; +1) -> (dark blue; yellow)):
+The output plot is the dot product matrix (values in range (-1; +1) -> (dark blue; yellow)):
 ![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenveccomp.png)
 
-* To vizualize the conformational space and lipid motions along different components yuo could use programs - "conspace" and "motion":
+* Individual conformations can be visualized using "conspace" and "motion":
 
-    $ python3 pcalipids.py conspace -f <trajectory file> -t <average structure>
+    $ python3 pcalipids.py conspace -f \<trajectory file> -t \<average structure>
 
 ![Example of comformational space with average structure](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1b.png)
 
