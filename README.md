@@ -141,11 +141,11 @@ We wrote all analyzing data in text files, so let us familiarize the structure o
 
 ## Contributing
 
-Please read [CONTRIBUTING.txt](CONTRIBUTING.txt) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.txt](https://github.com/membrane-systems/PCAlipids/blob/master/CONTRIBUTING.txt) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-Look for [VERSION.txt](VERSION.txt)
+Look for [VERSION.txt](https://github.com/membrane-systems/PCAlipids/blob/master/VERSION.txt)
 
 ## Contacts
 
