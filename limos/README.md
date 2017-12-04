@@ -10,10 +10,10 @@ The current tutorial is the step-by-step instruction for using LIMOS program pac
 
 Before doing this tutorial you should install Python interpreter on your working machine. Also if you wish to do the examples in this tutorial, you must have some python modules installed on your computer. Below are the modules that you need to install for the correct work of LIMOS, you can also click on to find tutorials on installing these packages and more useful information:
 
-[Interpreter of Python 3.x](https://www.python.org/download/releases/3.0/)
-[Numpy](http://www.numpy.org/) - helpful module for linear algebra
-[Scipy](https://www.scipy.org/) - module for scientific calculations
-[Mdtraj](http://mdtraj.org/1.9.0/) - reading, writing and analyzing MD trajectories 
+* [Interpreter of Python 3.x](https://www.python.org/download/releases/3.0/)
+* [Numpy](http://www.numpy.org/) - helpful module for linear algebra
+* [Scipy](https://www.scipy.org/) - module for scientific calculations
+* [Mdtraj](http://mdtraj.org/1.9.0/) - reading, writing and analyzing MD trajectories 
 
 If you have already installed the above modules on your computer we suggest you go directly to the LIMOS tutorial. 
 
@@ -109,6 +109,9 @@ We wrote all analyzing data in text files, so let us familiarize the structure o
 ### Data processing for visualizing results
 
 
+## Scientific base
+
+[]
 
 ## Contributing
 
