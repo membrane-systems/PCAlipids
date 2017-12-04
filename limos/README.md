@@ -112,11 +112,11 @@ We wrote all analyzing data in text files, so let us familiarize the structure o
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/membrane-systems) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.txt](https://github.com/KhalidMustafin/ScAns/blob/master/limos/CONTRIBUTING.txt) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+Look for [VERSION.txt](https://github.com/KhalidMustafin/ScAns/blob/master/limos/VERSION.txt)
 
 ## Authors
 
@@ -124,7 +124,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 * **Pavel Buslaev** - *Developer, initial idea*
 * **Khalid Mustafin** - *Developer*
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/membrane-systems) who participated in this project.
 
 ## License
 
