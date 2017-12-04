@@ -161,7 +161,7 @@ Output is a with scalar projections (values in range (-1; +1) -> (dark blue; yel
 
     $ python3 pcalipids.py conspace -f <trajectory file> -t <average structure>
 
-
+![Example of comformational space with average structure](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1b.png)
 
 ## Contributing
 
