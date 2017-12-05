@@ -22,7 +22,7 @@ def get_nearest_value(iterable, value):
     return idx
 
 
-def calc(filename, N_lips):
+def calc(filename, N_lips, timestep):
 	file = open(filename, 'r')
 	data = []
 	for line in file:
@@ -40,13 +40,13 @@ def calc(filename, N_lips):
 	R /= N_lips
 	T = []
 	for i in range(1, len(R) + 1):
-	    T.append(0.01 * i)
+	    T.append(timestep * i)
 	print(filename + ' - processed')
 	return T, R
 
 
-def main(filenames, N_lips, file_out = 'autocorr_relaxtime_vs_PC.xvg'):
-	input_data = [(filename, N_lips) for filename in filenames]
+def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg'):
+	input_data = [(filename, N_lips, timestep) for filename in filenames]
 	with Pool(8) as p:
 		data = p.starmap(calc, input_data)
 	for idx, obj in enumerate(data):
@@ -112,14 +112,14 @@ def main(filenames, N_lips, file_out = 'autocorr_relaxtime_vs_PC.xvg'):
 
 if __name__ == '__main__':
 	args = sys.argv[1:]
-	if '-p' in args and '-ln' in args and '-o' in args and '-pr' not in args:
+	if '-p' in args and '-ln' in args and '-dt' in args and '-o' in args and '-pr' not in args:
 		filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
-		main(filenames, int(args[args.index('-ln') + 1]), args[args.index('-o') + 1])
-	elif '-p' in args and '-ln' in args and '-o' not in args and '-pr' not in args:
+		main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
+	elif '-p' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-pr' not in args:
 		print('No output file supplied. Data will be written in "autocorr_relaxtime_vs_PC.xvg"')
 		filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
-		main(filenames, int(args[args.index('-ln') + 1]))
-	elif '-pr' in args and '-ln' in args and '-o' in args and '-p' not in args:
+		main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
+	elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' in args and '-p' not in args:
 		files = args[args.index('-pr') + 1]
 		file_start = files[:files.find('-')]
 		file_end = files[files.find('-') + 1:]
@@ -127,8 +127,8 @@ if __name__ == '__main__':
 		end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
 		file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
 		filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-		main(filenames, int(args[args.index('-ln') + 1]), args[args.index('-o') + 1])
-	elif '-pr' in args and '-ln' in args and '-o' not in args and '-p' not in args: 
+		main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
+	elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
 		files = args[args.index('-pr') + 1]
 		file_start = files[:files.find('-')]
 		file_end = files[files.find('-') + 1:]
@@ -136,7 +136,7 @@ if __name__ == '__main__':
 		end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
 		file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
 		filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-		main(filenames, int(args[args.index('-ln') + 1]))
+		main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
 	elif '-h' not in args:
 		print('Missing parameters, try -h for flags\n')
 	else:

@@ -107,7 +107,7 @@ def grid_len(N_samples, max_power):
     return [1.5 ** i  for i in range(2, int(max_power))]
 
 
-def calc(filename, N_lip):     #, N_lip, N_bins, N_samples, cutoff = 0):
+def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0):
     N_lip = 128
     N_bins = 51
     N_samples = 24
@@ -128,7 +128,7 @@ def calc(filename, N_lip):     #, N_lip, N_bins, N_samples, cutoff = 0):
         buff_KSS += KSS(cum_ideal, cum_an)
     KSS_time.append(buff_KSS / N_lip)
     buff_KSS = 0.0
-    T.append(len(data[0]) * 0.01)
+    T.append(len(data[0]) * timestep)
     for tau in grid_len(N_samples, max_power):
         for data_ in data:
             data_an, N_chunks, L_tau = split_data_by_chunks(data_, tau)
@@ -143,7 +143,7 @@ def calc(filename, N_lip):     #, N_lip, N_bins, N_samples, cutoff = 0):
                     buff_KSS += KSS_for_step(cum_ideal, cum_an, bin_idx)
         KSS_time.append(buff_KSS / N_lip / N_chunks)
         buff_KSS = 0.0
-        T.append(L_tau * 0.01)
+        T.append(L_tau * timestep)
 
     
     data = load_data(filename)
@@ -157,16 +157,16 @@ def calc(filename, N_lip):     #, N_lip, N_bins, N_samples, cutoff = 0):
             cum_an = cum_dist(dist_an)
             buff_KSS += KSS_for_step(cum_ideal, cum_an, bin_idx)
     KSS_time.append(buff_KSS / gN)
-    T.append(0.01)
+    T.append(timestep)
 
 
     print(filename + ' - processed')    
     return KSS_time, T
 
-def main(filenames, N_lipids, fileout = None):
+def main(filenames, N_lipids, timestep, fileout = None):
     input_data = []
     for i in range(len(filenames)):
-        input_data.append((filenames[i], N_lipids))
+        input_data.append((filenames[i], N_lipids, timestep))
 
     with Pool(8) as p:
         data = p.starmap(calc, input_data)
@@ -243,16 +243,16 @@ def main(filenames, N_lipids, fileout = None):
 
 if __name__ == '__main__':
     args = sys.argv[1:]
-    if '-p' in args and '-ln' in args and '-o' in args and '-pr' not in args:
+    if '-p' in args and '-ln' in args and '-dt' in args and '-o' in args and '-pr' not in args:
         start = args.index('-p')
         end = min(args.index('-o'), args.index('-ln'))
         filenames = [args[i] for i in range(start + 1, end)]
-        main(filenames, int(args[args.index('-ln') + 1]), args[args.index('-o') + 1])
-    elif '-p' in args and '-ln' in args and '-o' not in args and '-pr' not in args:
+        main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
+    elif '-p' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-pr' not in args:
         print('No output file supplied. Data will be written in "autocorr_relaxtime_vs_PC.xvg"')
         filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
-        main(filenames, int(args[args.index('-ln') + 1]))
-    elif '-pr' in args and '-ln' in args and '-o' in args and '-p' not in args:
+        main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
+    elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' in args and '-p' not in args:
         files = args[args.index('-pr') + 1]
         file_start = files[:files.find('-')]
         file_end = files[files.find('-') + 1:]
@@ -260,8 +260,8 @@ if __name__ == '__main__':
         end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
         file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
         filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-        main(filenames, int(args[args.index('-ln') + 1]), args[args.index('-o') + 1])
-    elif '-pr' in args and '-ln' in args and '-o' not in args and '-p' not in args: 
+        main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
+    elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
         files = args[args.index('-pr') + 1]
         file_start = files[:files.find('-')]
         file_end = files[files.find('-') + 1:]
@@ -269,7 +269,7 @@ if __name__ == '__main__':
         end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
         file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
         filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-        main(filenames, int(args[args.index('-ln') + 1]))
+        main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
     elif '-h' not in args:
         print('Missing parameters, try -h for flags\n')
     else:

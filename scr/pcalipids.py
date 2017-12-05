@@ -96,16 +96,16 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 	
 	elif args[0] == 'ksst':
 		main = kss_time_scale.main
-		if '-p' in args and '-ln' in args and '-o' in args and '-pr' not in args:
+		if '-p' in args and '-ln' in args and '-dt' in args and '-o' in args and '-pr' not in args:
 			start = args.index('-p')
 			end = min(args.index('-o'), args.index('-ln'))
 			filenames = [args[i] for i in range(start + 1, end)]
-			main(filenames, int(args[args.index('-ln') + 1]), args[args.index('-o') + 1])
-		elif '-p' in args and '-ln' in args and '-o' not in args and '-pr' not in args:
-			print('No output file supplied. Data will be written in "KSS_relaxtime_vs_PC.xvg"')
+			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
+		elif '-p' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-pr' not in args:
+			print('No output file supplied. Data will be written in "autocorr_relaxtime_vs_PC.xvg"')
 			filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
-			main(filenames, int(args[args.index('-ln') + 1]))
-		elif '-pr' in args and '-ln' in args and '-o' in args and '-p' not in args:
+			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
+		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' in args and '-p' not in args:
 			files = args[args.index('-pr') + 1]
 			file_start = files[:files.find('-')]
 			file_end = files[files.find('-') + 1:]
@@ -113,8 +113,8 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
 			file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
 			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-			main(filenames, int(args[args.index('-ln') + 1]), args[args.index('-o') + 1])
-		elif '-pr' in args and '-ln' in args and '-o' not in args and '-p' not in args: 
+			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
+		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
 			files = args[args.index('-pr') + 1]
 			file_start = files[:files.find('-')]
 			file_end = files[files.find('-') + 1:]
@@ -122,7 +122,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
 			file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
 			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-			main(filenames, int(args[args.index('-ln') + 1]))
+			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
@@ -132,14 +132,14 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 
 	elif args[0] == 'autot':
 		main = autocorr.main
-		if '-p' in args and '-ln' in args and '-o' in args and '-pr' not in args:
+		if '-p' in args and '-ln' in args and '-dt' in args and '-o' in args and '-pr' not in args:
 			filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
-			main(filenames, int(args[args.index('-ln') + 1]), args[args.index('-o') + 1])
-		elif '-p' in args and '-ln' in args and '-o' not in args and '-pr' not in args:
+			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
+		elif '-p' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-pr' not in args:
 			print('No output file supplied. Data will be written in "autocorr_relaxtime_vs_PC.xvg"')
 			filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
-			main(filenames, int(args[args.index('-ln') + 1]))
-		elif '-pr' in args and '-ln' in args and '-o' in args and '-p' not in args:
+			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
+		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' in args and '-p' not in args:
 			files = args[args.index('-pr') + 1]
 			file_start = files[:files.find('-')]
 			file_end = files[files.find('-') + 1:]
@@ -147,8 +147,8 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
 			file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
 			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-			main(filenames, int(args[args.index('-ln') + 1]), args[args.index('-o') + 1])
-		elif '-pr' in args and '-ln' in args and '-o' not in args and '-p' not in args: 
+			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
+		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
 			files = args[args.index('-pr') + 1]
 			file_start = files[:files.find('-')]
 			file_end = files[files.find('-') + 1:]
@@ -156,7 +156,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
 			file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
 			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-			main(filenames, int(args[args.index('-ln') + 1]))
+			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
