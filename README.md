@@ -184,11 +184,11 @@ $ pcalipids motion -p \<projection file> -npc \<principal component> -aver \<ave
 
 * The equilibration of your lipid system can be easily examined by "ksst" and "autot" programs:
 ```bash 
-$ pcalipids autot -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 0.01
+$ pcalipids autot -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 1
 ```
 and
 ```bash    
-$ pcalipids ksst -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 0.01
+$ pcalipids ksst -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 1
 ```
 
 **KSS-timesalces:**
