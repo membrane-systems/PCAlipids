@@ -110,9 +110,9 @@ You need to place the PCAlipids script file in the folder that contains the traj
 #### Step 2: Performing PCA
 
 Now you are ready to move on to the next step. Run in the command prompt:
-
+```bash 
     $ pcalipids covar -f concatenated.xtc -t average.pdb
-
+```
 **Description**: Carry out the PCA of the concatenated trajectory.
 
 **Input**: Concatenated trajectory file and structure file. Optional: two positive integers to defining the range of principal components for the analysis.
@@ -152,34 +152,34 @@ We wrote all analyzing data in text files, so let us familiarize the structure o
 #### Step 3: Data processing for visualizing results
 
 * The distribution of projections on principal components can be visualized using projdist:
-    
-    $ pcalipids projdist -p \<projection_file> -first \<number of the first projection> -last \<... last projection>
-
+```bash 
+$ pcalipids projdist -p \<projection_file> -first \<number of the first projection> -last \<... last projection>
+```
 The output is a png plot with the distribution:
 ![Probability distribution density of projections on the first principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC1_dist.png)
 ![Probability distribution density of projections on the second principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC2_dist.png)
 
 * Two different trajectories can be compared using a single number - Pearson correlation coefficient of the respective covariance matrices - using programs "pearson" and "eigevecdot":
-
-    $ pcalipids pearson -cov1 \<first file with covariance matrix> -cov2 \<second file with cov. matrix>
-
+```bash 
+$ pcalipids pearson -cov1 \<first file with covariance matrix> -cov2 \<second file with cov. matrix>
+```
 * The principal components obtained in different simulations can be compared using dot products of the respective eigenvectors:
-
-    $ pcalipids eigenvecdot -evec \<first file with eigevector> \<second file>
-
+```bash 
+$ pcalipids eigenvecdot -evec \<first file with eigevector> \<second file>
+```
 The output plot is the dot product matrix (values in range (-1; +1) -> (dark blue; yellow)):
 ![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenveccomp.png)
 
 * Individual conformations can be visualized using "conspace" and "motion":
-
-    $ pcalipids conspace -f \<concatenated trajectory file> -t \<average structure>
-
+```bash 
+$ pcalipids conspace -f \<concatenated trajectory file> -t \<average structure>
+```
 ![Example of comformational space with average structure](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1b.png)
 
 * Single lipid motion along principal component can be vizualized using "motion":
-
-    $ pcalipids motion -p \<projection file> -npc \<principal component> -aver \<average structure> -e \<file with eigenvectors>
-
+```bash 
+$ pcalipids motion -p \<projection file> -npc \<principal component> -aver \<average structure> -e \<file with eigenvectors>
+```
 ![Example of single lipid motions](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/omegaasdasd.png)
 
 * The equilibration of your lipid system can be easily examined by "ksst" and "autot" programs:
@@ -190,6 +190,8 @@ and
 ```bash    
 $ pcalipids ksst -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 0.01
 ```
+
+
 
 ## Contributing
 
