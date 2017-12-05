@@ -103,8 +103,8 @@ def KSS_for_step(dist_ideal, dist_an, bin_idx):
     return max_
 
 
-def grid_len(N_samples, cutoff):
-    return [1.5 ** i  for i in [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 18, 20, 21, 22, 23]][cutoff:]
+def grid_len(N_samples, max_power):
+    return [1.5 ** i  for i in range(2, int(max_power))]
 
 
 def calc(filename, N_lip):     #, N_lip, N_bins, N_samples, cutoff = 0):
@@ -117,6 +117,8 @@ def calc(filename, N_lip):     #, N_lip, N_bins, N_samples, cutoff = 0):
     dist_ideal = KDE(data, y)
     cum_ideal = cum_dist(dist_ideal)
     data = split_data_by_lip(data, N_lip) # Разделение по липидам
+    max_power = math.log(len(data[0]), 1.5)
+    # print(max_power)
     KSS_time = []
     T = []
     buff_KSS = 0.
@@ -127,7 +129,7 @@ def calc(filename, N_lip):     #, N_lip, N_bins, N_samples, cutoff = 0):
     KSS_time.append(buff_KSS / N_lip)
     buff_KSS = 0.0
     T.append(len(data[0]) * 0.01)
-    for tau in grid_len(N_samples, cutoff):
+    for tau in grid_len(N_samples, max_power):
         for data_ in data:
             data_an, N_chunks, L_tau = split_data_by_chunks(data_, tau)
             for data_an_ in data_an:
@@ -142,7 +144,6 @@ def calc(filename, N_lip):     #, N_lip, N_bins, N_samples, cutoff = 0):
         KSS_time.append(buff_KSS / N_lip / N_chunks)
         buff_KSS = 0.0
         T.append(L_tau * 0.01)
-    print(filename + ' - processed')
 
     
     data = load_data(filename)
@@ -159,7 +160,7 @@ def calc(filename, N_lip):     #, N_lip, N_bins, N_samples, cutoff = 0):
     T.append(0.01)
 
 
-    print(filename)
+    print(filename + ' - processed')    
     return KSS_time, T
 
 def main(filenames, N_lipids, fileout = None):
