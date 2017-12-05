@@ -190,7 +190,7 @@ and
 ```bash    
 $ pcalipids ksst -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 0.01
 ```
-![Examples of convergence of the distributions of the projections on principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS_tut.png)
+![Examples of convergence of the distributions of the projections on principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS_tut.png "Examples of convergence of the distributions of the projections on principal components")
 ![Examples of convergence of the distributions of the projections on principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS_tut_relax.png)
 
 ## Contributing
