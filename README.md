@@ -111,7 +111,7 @@ You need to place the PCAlipids script file in the folder that contains the traj
 
 Now you are ready to move on to the next step. Run in the command prompt:
 ```bash 
-    $ pcalipids covar -f concatenated.xtc -t average.pdb
+$ pcalipids covar -f concatenated.xtc -t average.pdb
 ```
 **Description**: Carry out the PCA of the concatenated trajectory.
 
