@@ -176,6 +176,10 @@ The output plot is the dot product matrix (values in range (-1; +1) -> (dark blu
 
 ![Example of comformational space with average structure](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1b.png)
 
+* Single lipid motion along principal component can be vizualized using "motion":
+
+![Example of single lipid motions](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/omegaasdasd.png)
+
 ## Contributing
 
 Please read [CONTRIBUTING.txt](CONTRIBUTING.txt) for details on our code of conduct, and the process for submitting pull requests to us.
