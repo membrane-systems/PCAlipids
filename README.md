@@ -183,13 +183,13 @@ The output plot is the dot product matrix (values in range (-1; +1) -> (dark blu
 ![Example of single lipid motions](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/omegaasdasd.png)
 
 * The equilibration of your lipid system can be easily examined by "ksst" and "autot" programs:
-
-    $ pcalipids autot -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 0.01
-
+```bash 
+$ pcalipids autot -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 0.01
+```
 and
-    
-    $ pcalipids ksst -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 0.01
-
+```bash    
+$ pcalipids ksst -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 0.01
+```
 
 ## Contributing
 
