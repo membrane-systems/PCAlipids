@@ -79,7 +79,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			print('Missing parameters, try -h for flags\n')
 		else:
 			print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC> \n -oeval <output file with eigenvalues>\n\
-				-oevec <output file with eigenvectors>\n -ocov <output file with covariance matrix>\n -op <output file with projections>.')
+-oevec <output file with eigenvectors>\n -ocov <output file with covariance matrix>\n -op <output file with projections>.')
 
 	
 	elif args[0] == 'projdist':
@@ -126,20 +126,20 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
-			print('-p <sequence of projection files> - this param must be the first\n -pr <range of files: "proj1.xvg-proj100.xvg">\n-t <topology file> (any file with topology)\n -ln <number of lipids>\n-r <reference traj file> (any file with 1 ref frame). If not supplied, \
-				the first frame of trajectory will be used for alignment.')
+			print('-p <sequence of projection files> - this param must be the first\n -pr <range of files: "proj1.xvg-proj100.xvg">\n-o <timescales file> (*.xvg)\n\
+-ln <number of lipids>\n')
 
 
 	elif args[0] == 'autot':
 		main = autocorr.main
-		if '-p' in args and '-o' in args and '-pr' not in args:
+		if '-p' in args and '-ln' in args and '-o' in args and '-pr' not in args:
 			filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
-			main(filenames, args[args.index('-o') + 1])
-		elif '-p' in args and '-o' not in args and '-pr' not in args:
+			main(filenames, int(args[args.index('-ln') + 1]), args[args.index('-o') + 1])
+		elif '-p' in args and '-ln' in args and '-o' not in args and '-pr' not in args:
 			print('No output file supplied. Data will be written in "autocorr_relaxtime_vs_PC.xvg"')
 			filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
-			main(filenames)
-		elif '-pr' in args and '-o' in args and '-p' not in args:
+			main(filenames, int(args[args.index('-ln') + 1]))
+		elif '-pr' in args and '-ln' in args and '-o' in args and '-p' not in args:
 			files = args[args.index('-pr') + 1]
 			file_start = files[:files.find('-')]
 			file_end = files[files.find('-') + 1:]
@@ -147,8 +147,8 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
 			file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
 			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-			main(filenames, args[args.index('-o') + 1])
-		elif '-pr' in args and '-o' not in args and '-p' not in args: 
+			main(filenames, int(args[args.index('-ln') + 1]), args[args.index('-o') + 1])
+		elif '-pr' in args and '-ln' in args and '-o' not in args and '-p' not in args: 
 			files = args[args.index('-pr') + 1]
 			file_start = files[:files.find('-')]
 			file_end = files[files.find('-') + 1:]
@@ -156,12 +156,12 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
 			file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
 			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-			main(filenames)
+			main(filenames, int(args[args.index('-ln') + 1]))
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
-			print('-p <sequence of projection files>\n -pr <range of files: "proj1.xvg-proj100.xvg">\n-t <topology file> (any file with topology)\n-r <reference traj file> (any file with 1 ref frame). If not supplied, \
-				the first frame of trajectory will be used for alignment.')
+			print('-p <sequence of projection files> - this param must be the first\n -pr <range of files: "proj1.xvg-proj100.xvg">\n-o <timescales file> (*.xvg)\n\
+-ln <number of lipids>\n')
 
 	elif args[0] == 'eigenvecdot':
 		main = eigenvecdot.main
@@ -231,12 +231,13 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 	elif args[0] == 'help' or args[0] == '-h' or args[0] == '-help':
 		print("'concat' - create concatenated trajectory\n\
 'covar' - principal component analysis\n\
+'projdist' - probability density\n\
 'ksst' - Kolmogorov-Smirnov convergence\n\
 'autot' - Autocorrelation decay\n\
-'eigenvecdot' - scalar product of eigenvectors from different trajectories\
-'conspace' - conformational space of lipids in trajectory\
-'pearson' - Pearson coefficient for covariance matrices from different trajectories\
-'splitproj - split files with all projections into files with projections for single PC\
+'eigenvecdot' - scalar product of eigenvectors from different trajectories\n\
+'conspace' - conformational space of lipids in trajectory\n\
+'pearson' - Pearson coefficient for covariance matrices from different trajectories\n\
+'splitproj' - split files with all projections into files with projections for single PC\n\
 'motion' - demonstrates the motion along PC.\n\
 Use any of this options.")
 
