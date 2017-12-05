@@ -139,9 +139,12 @@ def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0
                     cum_an = cum_dist(dist_an)
                     buff_KSS += KSS(cum_ideal, cum_an)
                 else:
-                    dist_an, bin_idx = KDE_for_step(data_an_, y)
+                    # dist_an, bin_idx = KDE_for_step(data_an_, y)
+                    # cum_an = cum_dist(dist_an)
+                    # buff_KSS += KSS_for_step(cum_ideal, cum_an, bin_idx)
+                    dist_an = KDE(data_an_, y)
                     cum_an = cum_dist(dist_an)
-                    buff_KSS += KSS_for_step(cum_ideal, cum_an, bin_idx)
+                    buff_KSS += KSS(cum_ideal, cum_an)
         KSS_time.append(buff_KSS / N_lip / N_chunks)
         buff_KSS = 0.0
         T.append(L_tau * timestep)
