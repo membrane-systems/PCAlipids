@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import PCA
+import PCA_old
 import con_traj
 import sys
 import kss_time_scale
@@ -55,7 +55,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 
 	
 	elif args[0] == 'covar':
-		main = PCA.main
+		main = PCA_old.main
 		if '-oeval' in args:
 			val_file = args[args.index('-oeval') + 1]
 		else:
