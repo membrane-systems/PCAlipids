@@ -47,6 +47,7 @@ def main(file_1, file_2, stride, sf, out_traj, out_top, file_3 = None, lipid_res
 		trajs_[i] = 0
 	if file_3 != None:
 		ref_traj = md.load(file_3)
+		print('The trajectory was aligned, reference = %s.' % file_3)
 	else:
 		ref_traj = traj[0]
 		print('The trajectory was aligned, reference = first frame.')

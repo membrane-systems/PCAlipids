@@ -33,16 +33,21 @@ def main(args):
 		else:
 			out_top = None
 		if '-f' in args and '-t' in args and '-r' in args and '-l' in args:
-			main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-r') + 1], lipid_resname = args[args.index('-l') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
+			main(args[args.index('-f') + 1], args[args.index('-t') + 1], file_3 = args[args.index('-r') + 1], lipid_resname = args[args.index('-l') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
+		
 		elif '-f' in args and '-t' in args and '-l' in args and '-r' not in args:
 			print('No reference file supplied. The first frame of trajectory will be used for alignment.')
 			main(args[args.index('-f') + 1], args[args.index('-t') + 1], lipid_resname = args[args.index('-l') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
-		elif '-f' in args and '-t' in args and '-r' in args and '-l' not in args:
-			main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-r') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
-		elif '-f' in args and '-t' in args and '-r' not in args and '-l' not in args:
-			main(args[args.index('-f') + 1], args[args.index('-t') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
+		
+		# elif '-f' in args and '-t' in args and '-r' in args and '-l' not in args:
+		# 	main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-r') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
+		
+		# elif '-f' in args and '-t' in args and '-r' not in args and '-l' not in args:
+		# 	main(args[args.index('-f') + 1], args[args.index('-t') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
+		
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
+		
 		else:
 			print(' -f <trajectory file> (file format *.xtc, *trr)\n -t <topology file> (any file with topology)\n -r <reference traj file> (any topology file). If not supplied, \
 the first frame of trajectory will be used for alignment\n -l <lipid type> (example: -l DPPC)\n -stride <positive integer; step of reading frames>\n \
