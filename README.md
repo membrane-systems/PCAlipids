@@ -115,9 +115,9 @@ $ pcalipids covar -f concatenated.xtc -t average.pdb
 ```
 **Description**: Carry out the PCA of the concatenated trajectory.
 
-**Input**: Concatenated trajectory file and structure file. Optional: two positive integers to defining the range of principal components for the analysis.
+**Input**: Concatenated trajectory file and structure file.
 
-**Output**: Files with eigenvalues, eigenvectors, covariance matrix and projections.
+**Output**: Files with eigenvalues, eigenvectors and covariance matrix.
 
 **Parameters**:
 
@@ -126,18 +126,39 @@ $ pcalipids covar -f concatenated.xtc -t average.pdb
 * -t \<input topology file>
 
 **Optional**:
-* -first \<number of the first principal component> 
-* -last \<number of the last principal component>
 * -oeval \<output file with eigenvalues>
 * -oevec \<output file with eigenvectors>
 * -ocov \<output file with covariance matrix> 
-* -op \<output file with projections>
 
 **Files**:
 * covar.dat - covariance matrix
 * eigenval.xvg - eigenvalues
 * eigenvec.xvg - eigenvectors
-* projection.xvg - projections of trajectory on principal components
+
+```bash 
+$ pcalipids project -f concatenated.xtc -t average.pdb -ia ref_struct.pdb -ievec eigenvec.xvg - first 1 -last 10 - op proj.xvg
+```
+**Description**: Calculates projections.
+
+**Input**: Concatenated trajectory file, structure file, average structure and eigenvectors. Optional: two positive integers to defining the range of principal components for the analysis.
+
+**Output**: File with projections.
+
+**Parameters**:
+
+**Required**:
+* -f \<input trajectory file> 
+* -t \<input topology file>
+* -ia \<input average structure>
+* -ievec \<input eigenvectors>
+
+**Optional**:
+* -first \<number of the first principal component> 
+* -last \<number of the last principal component>
+* -op \<output file with projections>
+
+**Files**:
+* proj.xvg - projections of trajectory on principal components
 
 We wrote all analyzing data in text files, so let us familiarize the structure of this files.
 
