@@ -11,6 +11,8 @@ import proj_dist_s
 import pearson
 import proj_parse
 import visualizing
+import PCA
+import project
 
 
 def main(args):
@@ -55,7 +57,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 
 	
 	elif args[0] == 'covar':
-		main = PCA_old.main
+		main = PCA.main
 		if '-oeval' in args:
 			val_file = args[args.index('-oeval') + 1]
 		else:
@@ -68,23 +70,40 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			cov_file = args[args.index('-ocov') + 1]
 		else:
 			cov_file = None
-		if '-op' in args:
-			proj_file = args[args.index('-op') + 1]
-		else:
-			proj_file = None
-		if '-f' in args and '-t' in args and '-first' in args and '-last' in args:
-			main(args[args.index('-f') + 1], args[args.index('-t') + 1], first_PC = args[args.index('-first') + 1], last_PC = args[args.index('-last') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file, proj_file = proj_file)
-		elif '-f' in args and '-t' in args and '-first' not in args and '-last' not in args:
-			main(args[args.index('-f') + 1], args[args.index('-t') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file, proj_file = proj_file, first_PC = None, last_PC = None)
-		elif '-f' in args and '-t' in args and '-first' in args and '-last' not in args:
-			main(args[args.index('-f') + 1], args[args.index('-t') + 1], first_PC = args[args.index('-first') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file, proj_file = proj_file, last_PC = None)
-		elif '-f' in args and '-t' in args and '-first' not in args and '-last' in args:
-			main(args[args.index('-f') + 1], args[args.index('-t') + 1], last_PC = args[args.index('-last') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file, proj_file = proj_file, first_PC =None)
+		if '-f' in args and '-t' in args:
+			main(args[args.index('-f') + 1], args[args.index('-t') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file)
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
 			print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC> \n -oeval <output file with eigenvalues>\n\
 -oevec <output file with eigenvectors>\n -ocov <output file with covariance matrix>\n -op <output file with projections>.')
+
+
+	elif args[0] == 'project':
+		main = project.main
+		if '-ia' in args and '-f' in args and '-t' in args and '-ievec' in args:
+			if '-first' in args:
+				first_PC = int(args[args.index('-first') + 1])
+			else:
+				first_PC = None
+			if '-last' in args:
+				last_PC = int(args[args.index('-last') + 1])
+			else:
+				last_PC = None
+			if '-op' in args:
+				proj_file = args[args.index('-op') + 1]
+			else:
+				proj_file = None
+			traj_file = args[args.index('-f') + 1]
+			top_file = args[args.index('-t') + 1]
+			aver = args[args.index('-ia') + 1]
+			evecs = args[args.index('-ievec') + 1]
+			main(traj_file = traj_file, top_file = top_file, aver = aver, evecs = evecs, first_PC = first_PC, last_PC = last_PC, proj_file = proj_file)
+		elif '-h' in args or '-help' in args:
+			print('-f <trajectory file> (file format *.xtc, *trr, etc.)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC> \n -ievec <input file with eigenvectors>\n\
+-ia <input file with average structure>\n -op <output file with projections>.')
+		else:
+			print('Missing parameters, try -h for flags\n')
 
 	
 	elif args[0] == 'projdist':
@@ -132,7 +151,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			print('Missing parameters, try -h for flags\n')
 		else:
 			print('-p <sequence of projection files> - this param must be the first\n -pr <range of files: "proj1.xvg-proj100.xvg">\n-o <timescales file> (*.xvg)\n\
--ln <number of lipids>\n')
+-ln <number of lipids>\n -dt <timestep in (ns)>')
 
 
 	elif args[0] == 'autot':
@@ -236,6 +255,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 	elif args[0] == 'help' or args[0] == '-h' or args[0] == '-help':
 		print("'concat' - create concatenated trajectory\n\
 'covar' - principal component analysis\n\
+'project' - calculating projections\n\
 'projdist' - probability density\n\
 'ksst' - Kolmogorov-Smirnov convergence\n\
 'autot' - Autocorrelation decay\n\
