@@ -13,10 +13,17 @@ def load_traj(traj_file, traj_top, lipid_resname, stride, sf, max_frames = None)
 		traj = md.load(traj_file, top = traj_top, stride = stride)[sf:]
 	print('Removing solvent..')
 	if lipid_resname == None:
-		traj = traj.atom_slice(traj.topology.select('not water and not type W H Hs'))
+		traj = traj.remove_solvent()
+		traj = traj.atom_slice(traj.topology.select('not water and not type W H Hs WT4'))
 	else:
-		traj = traj.atom_slice(traj.topology.select('not water and not type W H Hs and resname %s' % lipid_resname))
-	return traj
+		traj = traj.remove_solvent()
+		traj = traj.atom_slice(traj.topology.select('not water and not type W H Hs WT4 and resname %s' % lipid_resname))
+	table, bonds  = traj.topology.to_dataframe()
+	table.loc[:, ('chainID')] = 0
+	table.loc[:, ('segmentID')] = 'A'
+	topology = md.Topology.from_dataframe(table, bonds)
+	new_traj = md.Trajectory(traj.xyz.astype(np.float64), topology = topology)
+	return new_traj
 
 
 def concat(traj, lipid):
