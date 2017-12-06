@@ -25,10 +25,9 @@ def load_evecs(evecs):
 
 def get_proj(traj, first_PC, last_PC, aver, evecs):
 	ref_aver_str = md.load(aver)
-	# traj = traj.superpose(ref_aver_str)
+	traj = traj.superpose(ref_aver_str)
 	mean_vec = ref_aver_str.xyz.astype(np.float64)
 	x_std = traj.xyz.astype(np.float64).reshape(traj.n_frames,traj.n_atoms*3).T
-	mean_vec = np.mean(x_std.T,axis=0,dtype=np.float64)
 	x_std = x_std - np.array([mean_vec.reshape(traj.n_atoms*3, )]).T
 	eigenvecs = load_evecs(evecs)
 	if first_PC == None and last_PC == None:
