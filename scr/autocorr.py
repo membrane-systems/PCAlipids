@@ -16,10 +16,15 @@ def estimated_autocorrelation(x):
 
 
 def get_nearest_value(iterable, value):
-    for idx, x in enumerate(iterable):
-        if x < value:
-            break
-    return idx
+	for idx, x in enumerate(iterable):
+		if x < value:
+			break
+	B = idx
+	if idx - 1 == -1:
+		A = idx + 1
+	else:
+		A = idx - 1
+	return A, B
 
 
 def calc(filename, N_lips, timestep):
@@ -70,9 +75,12 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	for i, value in enumerate(data):
 		T = value[0]
 		R = value[1]
-		idx = get_nearest_value(R, math.e ** (-2))
+		A,B = get_nearest_value(R,math.e ** (-2))
+		a = (T[B] - T[A]) / (R[B] - R[A])
+		b = T[A] - a * R[A]
+		t_relax = a * math.e ** (-2) + b
 		PC.append(i + 1)
-		T_relax.append(T[idx])
+		T_relax.append(t_relax)
 
 	p = plt.loglog(PC, T_relax, label = r'$\tau_2 = 1/e^2$', color = 'blue', linestyle = '--')
 	handle, = p 
@@ -89,9 +97,12 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	for i, value in enumerate(data):
 		T = value[0]
 		R = value[1]
-		idx = get_nearest_value(R, math.e ** (-1))
+		A, B = get_nearest_value(R, math.e ** (-1))
+		a = (T[B] - T[A]) / (R[B] - R[A])
+		b = T[A] - a * R[A]
+		t_relax = a * math.e ** (-1) + b
 		PC.append(i + 1)
-		T_relax.append(T[idx])
+		T_relax.append(t_relax)
 
 
 	file.write('E**1\n')

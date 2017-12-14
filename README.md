@@ -215,12 +215,12 @@ $ pcalipids ksst -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 1
 **KSS-timesalces:**
 
 ![Examples of convergence of the distributions of the projections on principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS_tut.png "Examples of convergence of the distributions of the projections on principal components")
-![Timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS_tut_relax.png "Characteristic distribution convergence timescales")
+![Timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS_tut_relax_true.png "Characteristic distribution convergence timescales")
 
 **Autrocorrelation-timescales:**
 
 ![Autocorrelation of the projections on differrent principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/autot_tut.png "Autocorrelation of the projections on differrent principal components")
-![Characteristic autocorrelation decay timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/autot_tut_relax.png "Characteristic autocorrelation decay timescales")
+![Characteristic autocorrelation decay timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/autot_tut_relax_true.png "Characteristic autocorrelation decay timescales")
 
 ## Contributing
 
