@@ -26,6 +26,10 @@ def main(args):
 			sf = int(args[args.index('-sf') + 1])
 		else:
 			sf = None
+		if '-ef' in args:
+			ef = int(args[args.index('-ef') + 1])
+		else:
+			ef = None
 		if '-oc' in args:
 			out_traj = args[args.index('-oc') + 1]
 		else:
@@ -35,11 +39,11 @@ def main(args):
 		else:
 			out_top = None
 		if '-f' in args and '-t' in args and '-r' in args and '-l' in args:
-			main(args[args.index('-f') + 1], args[args.index('-t') + 1], file_3 = args[args.index('-r') + 1], lipid_resname = args[args.index('-l') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
+			main(args[args.index('-f') + 1], args[args.index('-t') + 1], file_3 = args[args.index('-r') + 1], lipid_resname = args[args.index('-l') + 1], stride = stride, sf = sf, ef = ef, out_traj = out_traj, out_top = out_top)
 		
 		elif '-f' in args and '-t' in args and '-l' in args and '-r' not in args:
 			print('No reference file supplied. The first frame of trajectory will be used for alignment.')
-			main(args[args.index('-f') + 1], args[args.index('-t') + 1], lipid_resname = args[args.index('-l') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
+			main(args[args.index('-f') + 1], args[args.index('-t') + 1], lipid_resname = args[args.index('-l') + 1], stride = stride, sf = sf, ef = ef, out_traj = out_traj, out_top = out_top)
 		
 		# elif '-f' in args and '-t' in args and '-r' in args and '-l' not in args:
 		# 	main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-r') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
@@ -53,7 +57,7 @@ def main(args):
 		else:
 			print(' -f <trajectory file> (file format *.xtc, *trr)\n -t <topology file> (any file with topology)\n -r <reference traj file> (any topology file). If not supplied, \
 the first frame of trajectory will be used for alignment\n -l <lipid type> (example: -l DPPC)\n -stride <positive integer; step of reading frames>\n \
--sf <time in ps; number to determine from which frame to read the trajectory>\n -oc <output trajectory file>\n -oa <output topology file>\n')
+-sf <time in ps; number to determine from which frame to read the trajectory>\n -ef <time in ps; number to determine to which frame to read the trajectory>\n -oc <output trajectory file>\n -oa <output topology file>\n')
 
 	
 	elif args[0] == 'covar':
@@ -70,8 +74,16 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			cov_file = args[args.index('-ocov') + 1]
 		else:
 			cov_file = None
+		if '-invertPC1' in args:
+			invert = args[args.index('-invertPC1') + 1]
+			if invert == 'False' or invert == '0':
+				invert = False
+			else:
+				invert = True
+		else:
+			invert = False
 		if '-f' in args and '-t' in args:
-			main(args[args.index('-f') + 1], args[args.index('-t') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file)
+			main(args[args.index('-f') + 1], args[args.index('-t') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file, invert = invert)
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:

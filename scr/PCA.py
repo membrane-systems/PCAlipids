@@ -24,7 +24,7 @@ def PCA(traj):
 	return eig_vals, eig_vecs, cov_mat
 
 
-def main(traj_file, top_file, val_file, vec_file, cov_file, first_PC = None, last_PC = None):
+def main(traj_file, top_file, val_file, vec_file, cov_file, invert, first_PC = None, last_PC = None):
 	PATH = os.getcwd() + '/'
 	eig_vals, eig_vecs, cov_mat = PCA(load_traj(PATH + traj_file, PATH + top_file))
 	
@@ -58,10 +58,14 @@ def main(traj_file, top_file, val_file, vec_file, cov_file, first_PC = None, las
 		file_out = 'eigenvec.xvg'
 	else:
 		file_out = vec_file
+	if invert:
+		invert = -1.
+	else:
+		invert = 1.
 	with open(PATH + file_out, 'w') as file:
 		for i in range(len(eig_vecs)):
 			for j in range(len(eig_vecs[:,i])):
-				file.write(str(eig_vecs[:,i][j]) + ' ')
+				file.write(str(invert * eig_vecs[:,i][j]) + ' ')
 			file.write('\n')
 	print('Wrote eigenvectors in "%s"' % file_out)
 	return 

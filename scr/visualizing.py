@@ -39,7 +39,7 @@ def get_eigvec(eigvec_file, PC):
 		i = 1
 		line = file.readline()
 		while i < int(PC):
-			line = file.realdine()
+			line = file.readline()
 			i += 1
 		eigvec = []
 		for i in range(len(line.split())):
