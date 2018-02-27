@@ -109,7 +109,7 @@ def KSS_for_step(dist_ideal, dist_an, bin_idx):
 
 
 def grid_len(N_samples, max_power):
-    return [1.5 ** i  for i in range(2, int(max_power))]
+    return [1.5 ** i  for i in range(2, int(max_power) - 1)]
 
 
 def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0):
@@ -118,6 +118,7 @@ def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0
     N_samples = 24
     cutoff = 0
     data = load_data(filename)
+    gN = len(data)
     y = linspace(min(data), max(data), N_bins)
     dist_ideal = KDE(data, y)
     cum_ideal = cum_dist(dist_ideal)
@@ -155,9 +156,10 @@ def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0
         T.append(L_tau * timestep)
 
     
-    data = load_data(filename)
-    gN = len(data)
-    data = split_data_by_lip(data, N_lip)
+    # data = load_data(filename)
+    # gN = len(data)
+    # print(gN)
+    # data = split_data_by_lip(data, N_lip)
 
     buff_KSS = 0.
     for data_lip in data:
@@ -165,11 +167,15 @@ def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0
             dist_an, bin_idx = KDE_for_step(data_lip[i], y)
             cum_an = cum_dist(dist_an)
             buff_KSS += KSS_for_step(cum_ideal, cum_an, bin_idx)
-    KSS_time.append(buff_KSS / gN)
+    if buff_KSS > 0.75:
+        KSS_time.append(0.75)
+    else:
+        KSS_time.append(buff_KSS / gN)
     T.append(timestep)
 
 
-    print(filename + ' - processed')    
+    print(filename + ' - processed')   
+    # print(KSS_time, T) 
     return KSS_time, T
 
 def main(filenames, N_lipids, timestep, fileout = None):
@@ -179,11 +185,11 @@ def main(filenames, N_lipids, timestep, fileout = None):
 
     with Pool(8) as p:
         data = p.starmap(calc, input_data)
-        for idx, obj in  enumerate(data):
+        for idx, obj in  enumerate(data[:100]):
             T = obj[1]
             KSS_time = obj[0]
             plt.loglog(T, KSS_time, color = [0, 0, 1 - idx / len(data)])
-    plt.ylim([0.005, 0.8])
+    plt.ylim([0.005, 0.75])
     plt.xlabel('Time (ns)')
     plt.ylabel('K-S statistics')
     plt.show()
@@ -207,7 +213,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
     PC = []
     T_relax = []
 
-    for i, value in enumerate(data):
+    for i, value in enumerate(data[:100]):
         T = value[1]
         KSS = value[0]
         A,B = get_nearest_value(KSS, 0.75 * math.e ** (-2))
@@ -229,7 +235,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
     PC = []
     T_relax = []
 
-    for i, value in enumerate(data):
+    for i, value in enumerate(data[:100]):
         T = value[1]
         KSS = value[0]
         A, B = get_nearest_value(KSS, 0.75 * math.e ** (-1))
@@ -250,6 +256,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
     handle, = p
 
     handles.append(handle)
+    plt.ylim([0.1, 10**4])
     plt.ylabel('Relaxation time (ns)')
     plt.xlabel('Component')
     plt.legend(handles = handles)

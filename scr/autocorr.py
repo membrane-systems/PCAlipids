@@ -115,6 +115,7 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	p = plt.loglog(PC, T_relax, label = r'$\tau_1 = 1/e$', color = 'blue', linestyle = '-')
 	handle, = p
 	handles.append(handle)
+	plt.ylim([0.01, 10 ** 3])
 	plt.ylabel('Relaxation time (ns)')
 	plt.xlabel('Component')
 	plt.legend(handles = handles)
