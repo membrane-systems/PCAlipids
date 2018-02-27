@@ -13,6 +13,7 @@ import proj_parse
 import visualizing
 import PCA
 import project
+import projdistm
 
 
 def main(args):
@@ -263,6 +264,12 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 		else:
 			print('-p - projection file\n -npc - number of principal component\n -aver - average structure\n -e - file with eigenvectors')
 
+	elif args[0] == '-projdistm':
+		main = projdistm.main
+		if '-p' in args:
+			main(args[args.index('-p') + 1:])
+		else:
+			print('-p - projection file\n')
 
 	elif args[0] == 'help' or args[0] == '-h' or args[0] == '-help':
 		print("'concat' - create concatenated trajectory\n\
