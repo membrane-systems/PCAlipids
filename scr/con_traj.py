@@ -5,7 +5,7 @@ import sys
 import os
 
 
-def load_traj(traj_file, traj_top, lipid_resname, stride, sf, max_frames = None):
+def load_traj(traj_file, traj_top, lipid_resname, stride, sf, ef, max_frames = None):
 	print('Loading trajectory..')
 	if sf == None:
 		traj = md.load(traj_file, top = traj_top, stride = stride)
