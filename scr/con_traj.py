@@ -10,7 +10,7 @@ def load_traj(traj_file, traj_top, lipid_resname, stride, sf, ef, max_frames = N
 	if sf == None:
 		traj = md.load(traj_file, top = traj_top, stride = stride)
 	else:
-		traj = md.load(traj_file, top = traj_top, stride = stride)[sf:]
+		traj = md.load(traj_file, top = traj_top, stride = stride)[sf:ef]
 	print('Removing solvent..')
 	if lipid_resname == None:
 		traj = traj.remove_solvent()
@@ -38,7 +38,7 @@ def average_structure(traj):
 	return avg_traj
 
 
-def main(file_1, file_2, stride, sf, out_traj, out_top, file_3 = None, lipid_resname = None):
+def main(file_1, file_2, stride, sf, ef, out_traj, out_top, file_3 = None, lipid_resname = None):
 	PATH = os.getcwd() + '/'
 	traj = load_traj(PATH + file_1, PATH + file_2, lipid_resname = lipid_resname, stride = stride, sf = sf)
 	N = traj[0].n_residues
