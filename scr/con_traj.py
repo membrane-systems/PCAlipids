@@ -14,10 +14,10 @@ def load_traj(traj_file, traj_top, lipid_resname, stride, sf, ef, max_frames = N
 	print('Removing solvent..')
 	if lipid_resname == None:
 		traj = traj.remove_solvent()
-		traj = traj.atom_slice(traj.topology.select('not water and not type W H Hs WT4 NaW KW CLW MgW'))
+		traj = traj.atom_slice(traj.topology.select('not water and not type W and not type H and not type Hs and not type WT4 and not type NaW and not type KW and not type CLW and not type MgW'))
 	else:
 		traj = traj.remove_solvent()
-		traj = traj.atom_slice(traj.topology.select('not water and not type W H Hs WT4 NaW KW CLW MgW and resname %s' % lipid_resname))
+		traj = traj.atom_slice(traj.topology.select('not water and not type W and not type H and not type Hs and not type WT4 and not type NaW and not type KW and not type CLW and not type MgW and resname %s' % lipid_resname))
 	table, bonds  = traj.topology.to_dataframe()
 	table.loc[:, ('chainID')] = 0
 	table.loc[:, ('segmentID')] = 'A'
