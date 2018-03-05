@@ -23,6 +23,7 @@ def load_traj(traj_file, traj_top, lipid_resname, stride, sf, ef, max_frames = N
 	table.loc[:, ('segmentID')] = 'A'
 	topology = md.Topology.from_dataframe(table, bonds)
 	new_traj = md.Trajectory(traj.xyz.astype(np.float64), topology = topology)
+	traj = 0
 	return new_traj
 
 
