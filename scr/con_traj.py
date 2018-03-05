@@ -40,7 +40,7 @@ def average_structure(traj):
 
 def main(file_1, file_2, stride, sf, ef, out_traj, out_top, file_3 = None, lipid_resname = None):
 	PATH = os.getcwd() + '/'
-	traj = load_traj(PATH + file_1, PATH + file_2, lipid_resname = lipid_resname, stride = stride, sf = sf)
+	traj = load_traj(PATH + file_1, PATH + file_2, lipid_resname = lipid_resname, stride = stride, sf = sf, ef = ef)
 	N = traj[0].n_residues
 	#lipids = [(traj,i)  for i in range(N)]
 	#with Pool(2) as p:
