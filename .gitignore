@@ -1,1 +1,3 @@
-scr/__pycache__
+scr/__pycache__/
+*.pyx
+*.pyc
