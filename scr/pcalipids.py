@@ -264,7 +264,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 		else:
 			print('-p - projection file\n -npc - number of principal component\n -aver - average structure\n -e - file with eigenvectors')
 
-	elif args[0] == '-projdistm':
+	elif args[0] == 'projdistm':
 		main = projdistm.main
 		if '-p' in args:
 			main(args[args.index('-p') + 1:])
