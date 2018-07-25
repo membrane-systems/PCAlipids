@@ -31,10 +31,10 @@ def main(file1, file2):
 	eigenvecs1 = np.array(eigenvecs1)
 	eigenvecs2 = np.array(eigenvecs2)
 
-	matrix = [[0.0] * len(eigenvecs1) for i in range(len(eigenvecs1))]
+	matrix = [[0.0] * 100 for i in range(100)]
 
-	for i in range(len(eigenvecs1)):
-		for j in range(len(eigenvecs1)):
+	for i in range(100):
+		for j in range(100):
 			matrix[i][j] = abs(np.dot(eigenvecs1[i], eigenvecs2[j]))
 
 	plt.imshow(matrix, interpolation='nearest', origin='lower', cmap='gray_r')

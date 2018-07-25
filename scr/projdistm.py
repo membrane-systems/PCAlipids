@@ -34,25 +34,30 @@ def get_data_from_file(file_name):
 	return np.array(data)
 
 
-def PDFs(y, data, label, col, style = '-'):
+def PDFs(y, data, label, col, flag, style = '-'):
 	KDEpdf = gaussian_kde(data)
 	max_ = np.amax(data)
 	min_ = np.amin(data)
 	K = KDEpdf(y)
-	p= plt.plot( - y, KDEpdf(y), 'r', label = label, color = col) 
+	if flag == False:
+		p = plt.plot( - y, KDEpdf(y), 'r', label = label, color = col) 
+	else:
+		p = plt.plot(y, KDEpdf(y), 'r', label = label, color = col) 
 	return p
 
 def main(file_seq):
-	y = np.linspace(-5, 5, 51)
+	y = np.linspace(-2, 2, 51)
 	handles = []
+	flag = False
 	for file in file_seq:
-		line1, = PDFs(y, get_data_from_file(file),file[:file.find('.')], (np.random.random_sample(),np.random.random_sample(), np.random.random_sample()), style = '-')
+		line1, = PDFs(y, get_data_from_file(file),file[:file.find('.')], (np.random.random_sample(),np.random.random_sample(), np.random.random_sample()),flag, style = '-')
+		flag = True
 		handles.append(line1)
 		
 	plt.xlabel('PC projection value (A)')
 	plt.ylabel('Probability density (a.u.)')
-	plt.ylim([0,0.63])
-	plt.xlim([-4,4.1])
+	plt.ylim([0,1])
+	plt.xlim([-2,2.1])
 	plt.legend(handles = handles, ncol = 2)
 	plt.show()
 

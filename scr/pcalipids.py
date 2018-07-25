@@ -89,7 +89,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			print('Missing parameters, try -h for flags\n')
 		else:
 			print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC> \n -oeval <output file with eigenvalues>\n\
--oevec <output file with eigenvectors>\n -ocov <output file with covariance matrix>\n -op <output file with projections>.')
+-oevec <output file with eigenvectors>\n -ocov <output file with covariance matrix>\n -invertPC1 <invert PC1>')
 
 
 	elif args[0] == 'project':

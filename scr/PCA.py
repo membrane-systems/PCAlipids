@@ -71,24 +71,24 @@ def main(traj_file, top_file, val_file, vec_file, cov_file, invert, first_PC = N
 	return 
 
 
-if __name__ == '__main__':
-	args = sys.argv[1:]
-	if '-oeval' in args:
-		val_file = args[args.index('-oeval') + 1]
-	else:
-		val_file = None
-	if '-oevec' in args:
-		vec_file = args[args.index('-oevec') + 1]
-	else:
-		vec_file = None
-	if '-ocov' in args:
-		cov_file = args[args.index('-ocov') + 1]
-	else:
-		cov_file = None
-	if '-f' in args and '-t' in args:
-		main(args[args.index('-f') + 1], args[args.index('-t') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file)
-	elif '-h' not in args:
-		print('Missing parameters, try -h for flags\n')
-	else:
-		print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC> \n -oeval <output file with eigenvalues>\n\
-			-oevec <output file with eigenvectors>\n -ocov <output file with covariance matrix>\n -op <output file with projections>.')
+# if __name__ == '__main__':
+# 	args = sys.argv[1:]
+# 	if '-oeval' in args:
+# 		val_file = args[args.index('-oeval') + 1]
+# 	else:
+# 		val_file = None
+# 	if '-oevec' in args:
+# 		vec_file = args[args.index('-oevec') + 1]
+# 	else:
+# 		vec_file = None
+# 	if '-ocov' in args:
+# 		cov_file = args[args.index('-ocov') + 1]
+# 	else:
+# 		cov_file = None
+# 	if '-f' in args and '-t' in args:
+# 		main(args[args.index('-f') + 1], args[args.index('-t') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file)
+# 	elif '-h' not in args:
+# 		print('Missing parameters, try -h for flags\n')
+# 	else:
+# 		print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC> \n -oeval <output file with eigenvalues>\n\
+# 			-oevec <output file with eigenvectors>\n -ocov <output file with covariance matrix>\n -op <output file with projections>.')

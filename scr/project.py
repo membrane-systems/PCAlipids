@@ -67,26 +67,26 @@ def main(traj_file, top_file, aver, evecs, first_PC = None, last_PC = None, proj
 	print('Wrote %s projections in "%s".' % (len(proj),file_out))
 
 
-if __name__ == '__main__':
-	args = sys.argv[1:]
-	if '-ia' in args and '-f' in args and '-t' in args and '-ievec' in args:
-		if '-first' in args:
-			first_PC = int(args[args.index('-first') + 1])
-		else:
-			first_PC = None
-		if '-last' in args:
-			last_PC = int(args[args.index('-last') + 1])
-		else:
-			last_PC = None
-		if '-op' in args:
-			proj_file = args[args.index('-op') + 1]
-		else:
-			proj_file = None
-		traj_file = args[args.index('-f') + 1]
-		top_file = args[args.index('-t') + 1]
-		aver = args[args.index('-ia') + 1]
-		evecs = args[args.index('-ievec') + 1]
-		main(traj_file = traj_file, top_file = top_file, aver = aver, evecs = evecs, first_PC = first_PC, last_PC = last_PC, proj_file = proj_file)
-	elif '-h' in args or '-help' in args:
-		print('-f <trajectory file> (file format *.xtc, *trr, etc.)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC> \n -ievec <input file with eigenvectors>\n\
--ia <input file with average structure>\n -op <output file with projections>.')
+# if __name__ == '__main__':
+# 	args = sys.argv[1:]
+# 	if '-ia' in args and '-f' in args and '-t' in args and '-ievec' in args:
+# 		if '-first' in args:
+# 			first_PC = int(args[args.index('-first') + 1])
+# 		else:
+# 			first_PC = None
+# 		if '-last' in args:
+# 			last_PC = int(args[args.index('-last') + 1])
+# 		else:
+# 			last_PC = None
+# 		if '-op' in args:
+# 			proj_file = args[args.index('-op') + 1]
+# 		else:
+# 			proj_file = None
+# 		traj_file = args[args.index('-f') + 1]
+# 		top_file = args[args.index('-t') + 1]
+# 		aver = args[args.index('-ia') + 1]
+# 		evecs = args[args.index('-ievec') + 1]
+# 		main(traj_file = traj_file, top_file = top_file, aver = aver, evecs = evecs, first_PC = first_PC, last_PC = last_PC, proj_file = proj_file)
+# 	elif '-h' in args or '-help' in args:
+# 		print('-f <trajectory file> (file format *.xtc, *trr, etc.)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC> \n -ievec <input file with eigenvectors>\n\
+# -ia <input file with average structure>\n -op <output file with projections>.')

@@ -15,6 +15,7 @@ def get_nearest_value(iterable, value):
         A = idx + 1
     else:
         A = idx - 1
+    # print(A,B)
     return A, B
 
 
@@ -124,7 +125,6 @@ def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0
     cum_ideal = cum_dist(dist_ideal)
     data = split_data_by_lip(data, N_lip) # Разделение по липидам
     max_power = math.log(len(data[0]), 1.5)
-    print(max_power)
     # print(max_power)
     KSS_time = []
     T = []
@@ -167,7 +167,7 @@ def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0
             dist_an, bin_idx = KDE_for_step(data_lip[i], y)
             cum_an = cum_dist(dist_an)
             buff_KSS += KSS_for_step(cum_ideal, cum_an, bin_idx)
-    if buff_KSS > 0.75:
+    if buff_KSS / gN > 0.75:
         KSS_time.append(0.75)
     else:
         KSS_time.append(buff_KSS / gN)
@@ -213,15 +213,15 @@ def main(filenames, N_lipids, timestep, fileout = None):
     PC = []
     T_relax = []
 
-    for i, value in enumerate(data[:100]):
-        T = value[1]
-        KSS = value[0]
-        A,B = get_nearest_value(KSS, 0.75 * math.e ** (-2))
+    for i, value in enumerate(data[:]):
+        T = np.log(value[1])
+        KSS = np.log(value[0])
+        A,B = get_nearest_value(KSS, np.log(0.75 * math.e ** (-2)))
         a = (T[B] - T[A]) / (KSS[B] - KSS[A])
         b = T[A] - a * KSS[A]
-        t_relax = a * 0.75 * math.e ** (-2) + b
+        t_relax = a * np.log(0.75 * math.e ** (-2)) + b
         PC.append(i + 1)
-        T_relax.append(t_relax)
+        T_relax.append(math.e ** t_relax)
 
     p = plt.loglog(PC, T_relax, label = r'$\tau_2$', color = 'blue', linestyle = '--')
     handle, = p 
@@ -235,15 +235,15 @@ def main(filenames, N_lipids, timestep, fileout = None):
     PC = []
     T_relax = []
 
-    for i, value in enumerate(data[:100]):
-        T = value[1]
-        KSS = value[0]
-        A, B = get_nearest_value(KSS, 0.75 * math.e ** (-1))
+    for i, value in enumerate(data[:]):
+        T = np.log(value[1])
+        KSS = np.log(value[0])
+        A, B = get_nearest_value(KSS, np.log(0.75 * math.e ** (-1)))
         a = (T[B] - T[A]) / (KSS[B] - KSS[A])
         b = T[A] - a * KSS[A]
-        t_relax = a * 0.75 * math.e ** (-1) + b
+        t_relax = a * np.log(0.75 * math.e ** (-1)) + b
         PC.append(i + 1)
-        T_relax.append(t_relax)
+        T_relax.append(math.e ** t_relax)
 
     file.write('E**1\n')
     for i in range(len(PC)):
@@ -263,37 +263,37 @@ def main(filenames, N_lipids, timestep, fileout = None):
     plt.show()
 
 
-if __name__ == '__main__':
-    args = sys.argv[1:]
-    if '-p' in args and '-ln' in args and '-dt' in args and '-o' in args and '-pr' not in args:
-        start = args.index('-p')
-        end = min(args.index('-o'), args.index('-ln'))
-        filenames = [args[i] for i in range(start + 1, end)]
-        main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
-    elif '-p' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-pr' not in args:
-        print('No output file supplied. Data will be written in "autocorr_relaxtime_vs_PC.xvg"')
-        filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
-        main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
-    elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' in args and '-p' not in args:
-        files = args[args.index('-pr') + 1]
-        file_start = files[:files.find('-')]
-        file_end = files[files.find('-') + 1:]
-        start = int(''.join(filter(lambda x: x.isdigit(), file_start)))
-        end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
-        file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
-        filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-        main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
-    elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
-        files = args[args.index('-pr') + 1]
-        file_start = files[:files.find('-')]
-        file_end = files[files.find('-') + 1:]
-        start = int(''.join(filter(lambda x: x.isdigit(), file_start)))
-        end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
-        file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
-        filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-        main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
-    elif '-h' not in args:
-        print('Missing parameters, try -h for flags\n')
-    else:
-        print('-p <sequence of projection files> - this param must be the first\n -pr <range of files: "proj1.xvg-proj100.xvg">\n-t <topology file> (any file with topology)\n -ln <number of lipids>\n-r <reference traj file> (any file with 1 ref frame). If not supplied, \
-            the first frame of trajectory will be used for alignment.')
+# if __name__ == '__main__':
+#     args = sys.argv[1:]
+#     if '-p' in args and '-ln' in args and '-dt' in args and '-o' in args and '-pr' not in args:
+#         start = args.index('-p')
+#         end = min(args.index('-o'), args.index('-ln'))
+#         filenames = [args[i] for i in range(start + 1, end)]
+#         main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
+#     elif '-p' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-pr' not in args:
+#         print('No output file supplied. Data will be written in "autocorr_relaxtime_vs_PC.xvg"')
+#         filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
+#         main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
+#     elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' in args and '-p' not in args:
+#         files = args[args.index('-pr') + 1]
+#         file_start = files[:files.find('-')]
+#         file_end = files[files.find('-') + 1:]
+#         start = int(''.join(filter(lambda x: x.isdigit(), file_start)))
+#         end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
+#         file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
+#         filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
+#         main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
+#     elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
+#         files = args[args.index('-pr') + 1]
+#         file_start = files[:files.find('-')]
+#         file_end = files[files.find('-') + 1:]
+#         start = int(''.join(filter(lambda x: x.isdigit(), file_start)))
+#         end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
+#         file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
+#         filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
+#         main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
+#     elif '-h' not in args:
+#         print('Missing parameters, try -h for flags\n')
+#     else:
+#         print('-p <sequence of projection files> - this param must be the first\n -pr <range of files: "proj1.xvg-proj100.xvg">\n-t <topology file> (any file with topology)\n -ln <number of lipids>\n-r <reference traj file> (any file with 1 ref frame). If not supplied, \
+#             the first frame of trajectory will be used for alignment.')
