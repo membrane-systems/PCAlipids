@@ -112,12 +112,14 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	for i, value in enumerate(data):
 		T = value[0]
 		R = value[1]
-		T_pic = np.array([T[i] for i in POINTS])
-		R_pic = np.array([R[i] for i in POINTS])
+		T_pic = np.array([T[i] for i in POINTS if R[i] > 0.])
+		R_pic = np.array([R[i] for i in POINTS if R[i] > 0.])
 		R_log = np.log(R_pic[:])
 		T_log = np.log(T_pic[:])
-		A,B = get_nearest_value(R_log,-2)
+		A,B = get_nearest_value(R_log, -2)
 		a = (T_log[B] - T_log[A]) / (R_log[B] - R_log[A])
+		print(T_log[B], T_log[A], R_log[B], R_log[A])
+		print(A)
 		b = T_log[A] - a * R_log[A]
 		t_relax = a * -2 + b
 		PC.append(i + 1)
@@ -138,8 +140,8 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	for i, value in enumerate(data):
 		T = value[0]
 		R = value[1]
-		T_pic = np.array([T[i] for i in POINTS])
-		R_pic = np.array([R[i] for i in POINTS])
+		T_pic = np.array([T[i] for i in POINTS if R[i] > 0.])
+		R_pic = np.array([R[i] for i in POINTS if R[i] > 0.])
 		R_log = np.log(R_pic[:])
 		T_log = np.log(T_pic[:])
 		A,B = get_nearest_value(R_log,-1)
@@ -157,7 +159,7 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	file.close()
 
 
-	p = plt.loglog(PC, T_relax, label = r'$\tau_1 = 1/e$', color = 'blue', linestyle = '-')
+	p = plt.loglog(PC[:100], T_relax[:100], label = r'$\tau_1 = 1/e$', color = 'blue', linestyle = '-')
 	handle, = p
 	handles.append(handle)
 	plt.ylim([0.01, 10 ** 3])
