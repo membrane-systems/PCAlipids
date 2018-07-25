@@ -24,7 +24,7 @@ def PCA(traj):
 	return eig_vals, eig_vecs, cov_mat
 
 
-def main(traj_file, top_file, val_file, vec_file, cov_file, invert, first_PC = None, last_PC = None):
+def main(traj_file, top_file, val_file, vec_file, cov_file, invert):
 	PATH = os.getcwd() + '/'
 	eig_vals, eig_vecs, cov_mat = PCA(load_traj(PATH + traj_file, PATH + top_file))
 	
