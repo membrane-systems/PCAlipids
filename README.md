@@ -191,7 +191,7 @@ $ pcalipids pearson -cov1 \<first file with covariance matrix> -cov2 \<second fi
 ```bash 
 $ pcalipids eigenvecdot -evec \<first file with eigevector> \<second file>
 ```
-The output plot is the dot product matrix (values in range (-1; +1) -> (dark blue; yellow)):
+The output plot is the dot product matrix (values in range (0; 1) -> (white; black)):
 ![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenveccomp.png)
 
 * Individual conformations can be visualized using "conspace" and "motion":
