@@ -125,7 +125,7 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 		PC.append(i + 1)
 		T_relax.append(math.e ** t_relax)
 
-	p = plt.loglog(PC, T_relax, label = r'$\tau_2 = 1/e^2$', color = 'blue', linestyle = '--')
+	p = plt.loglog(PC[:100], T_relax[:100], label = r'$\tau_2 = 1/e^2$', color = 'blue', linestyle = '--')
 	handle, = p 
 	handles.append(handle)
 
