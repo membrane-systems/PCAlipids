@@ -89,12 +89,12 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 		POINTS.append(j)
 		j = int(1.5 * j) + 1
 	# print(POINTS)
-	for idx, obj in enumerate(data):
+	for idx, obj in enumerate(data[:100]):
 		T = obj[0]
 		R = obj[1]
 		T_pic = [T[i] for i in POINTS]
 		R_pic = [R[i] for i in POINTS]
-		plt.loglog(T_pic, R_pic, color = [0, 0, 1 - idx / len(data)])
+		plt.loglog(T_pic, R_pic, color = [0, 0, 1 - idx / 100])
 	plt.ylim([0.001, 1])
 	plt.xlabel('Time (ns)')
 	plt.ylabel('Autocorrelation')

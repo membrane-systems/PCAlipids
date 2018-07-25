@@ -188,7 +188,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
         for idx, obj in  enumerate(data[:100]):
             T = obj[1]
             KSS_time = obj[0]
-            plt.loglog(T, KSS_time, color = [0, 0, 1 - idx / len(data)])
+            plt.loglog(T, KSS_time, color = [0, 0, 1 - idx / 100])
     plt.ylim([0.005, 0.75])
     plt.xlabel('Time (ns)')
     plt.ylabel('K-S statistics')
