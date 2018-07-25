@@ -106,6 +106,9 @@ You need to place the PCAlipids script file in the folder that contains the traj
 * -dt \<time in ps; number to determine from which frame to read the trajectory>
 * -oc \<output trajectory file> - concatenated trajectory
 * -oa \<output topology file> - average structure calculated from the concatenated trajectory
+* -sf \<time in ps> - start frame for reading the trajectory
+* -ef \<time in ps> - end frame for reading the trajectory
+
 
 #### Step 2: Performing PCA
 
