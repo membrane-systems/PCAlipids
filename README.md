@@ -1,28 +1,26 @@
 # PCAlipids
 
-PCAlipids is a software to analyze the conformations and dynamics of flexible molecules using PCA in cartesian space. The approach was successefully used to describe the conformations of lipid molecules. You could find all the information on the analysis in the following paper:
+Principal components analysis a standart tool to study the conformational changes in molecule kinetics. Usually it is applied for the systems with several metastable states (local minimas of free energy landscapes) and helps to develop the possible transitions between this states and corresponding transition rates. But it also can be usefull to study the conformations of flexible molecules (the free energy lanscape has only 1 sharp local minima). PCAlipids is a python based software that enables to perform deep quantitative analysis of conformations and dynamics of flexible molecules. All the information about the approach could be found in the following papers:
+
 * [Principal Component Analysis of Lipid Molecule Conformational Changes in Molecular Dynamics Simulations, Buslaev et al., JCTC 2016](doi.org/10.1021/acs.jctc.5b01106)
 * [Effects of Coarse Graining and Saturation of Hydrocarbon Chains on Structure and Dynamics of Simulated Lipid Molecules, Buslaev & Gushchin, Sci. Rep. 2017](doi.org/10.1038/s41598-017-11761-5)
 
-The software uses the approaches and terminology similar to GROMACS covar and anaeig utilities.
+Below you could find the brief tutorial on using the software. The tutorial is organized as follows:
+* Installation
+* Analysing of single trajectory
+* Comparing two different simulations
 
-## Info
-
-Please find below a step-by-step tutorial on using the software. Overall, the process is as follows:
-* Trajectories of individual lipids are extracted from the input trajectory and are concatenated in a single trajectory
-* The resulting trajectory is subjected to PCA. Covariance matrix, eigenvalues, eigenvectors and projections of the trajectory on eigenvectors are calculated.
-* Projections of the trajectory on PCA eigenvectors are analyzed by calculating the projection distribution and characteristic relaxation times.
-
-**NOTE**: Exemplary trajectory from the test_input directory can be used for tutorial.
+## Installation
 
 ### Prerequisites
 
-The software requires a Python interpreter and some other modules that you need to install:
+PCALipids is a Python3 based software. To use it please install the following packages and programms:
 
-* [Interpreter of Python 3.x](https://www.python.org/download/releases/3.0/)
-* [Numpy](http://www.numpy.org/) - helpful module for linear algebra
+* [Python 3.x](https://www.python.org/download/releases/3.0/)
+* [Numpy](http://www.numpy.org/) - module for linear algebra
 * [Scipy](https://www.scipy.org/) - module for scientific calculations
-* [MDTraj](http://mdtraj.org/1.9.0/) - reading, writing and analyzing MD trajectories 
+* [Matplotlib](https://matplotlib.org/) - module for creating plots
+* [MDTraj](http://mdtraj.org/1.9.0/) - module for MD trajectories routines
 
 ### Installing Python
 
@@ -79,6 +77,16 @@ Let’s follow the advice and enter the following command in prompt:
 
 This command displays information about the functions that are implemented in the PCAlipids.
 Let's try to analyze the trajectory using it!
+
+
+
+
+Please find below a step-by-step tutorial on using the software. Overall, the process is as follows:
+* Trajectories of individual lipids are extracted from the input trajectory and are concatenated in a single trajectory
+* The resulting trajectory is subjected to PCA. Covariance matrix, eigenvalues, eigenvectors and projections of the trajectory on eigenvectors are calculated.
+* Projections of the trajectory on PCA eigenvectors are analyzed by calculating the projection distribution and characteristic relaxation times.
+
+**NOTE**: Exemplary trajectory from the test_input directory can be used for tutorial.
 
 **ANALYSIS**:
 
