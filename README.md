@@ -1,4 +1,4 @@
-# PCAlipids
+# PCALipids
 
 Principal components analysis a standart tool to study the conformational changes in molecule kinetics. Usually it is applied for the systems with several metastable states (local minimas of free energy landscapes) and helps to develop the possible transitions between this states and corresponding transition rates. But it also can be usefull to study the conformations of flexible molecules (the free energy lanscape has only 1 sharp local minima). PCAlipids is a python based software that enables to perform deep quantitative analysis of conformations and dynamics of flexible molecules. All the information about the approach could be found in the following papers:
 
@@ -17,69 +17,44 @@ Below you could find the brief tutorial on using the software. The tutorial is o
 PCALipids is a Python3 based software. To use it please install the following packages and programms:
 
 * [Python 3.x](https://www.python.org/download/releases/3.0/)
-* [Numpy](http://www.numpy.org/) - module for linear algebra
-* [Scipy](https://www.scipy.org/) - module for scientific calculations
+* [Cython]
+* [Numpy](http://www.numpy.org/) - module for linear algebra (version >= 1.13.3)
+* [Scipy](https://www.scipy.org/) - module for scientific calculations (version >= 0.19.1)
 * [Matplotlib](https://matplotlib.org/) - module for creating plots
-* [MDTraj](http://mdtraj.org/1.9.0/) - module for MD trajectories routines
+* [MDTraj](http://mdtraj.org/1.9.0/) - module for MD trajectories routines (version >= 1.9.1)
+* [Nose]
 
-### Installing Python
+The usefull information on installing Python and it's packages could be found here:
+* https://wiki.python.org/moin/BeginnersGuide/Download
+* https://packaging.python.org/tutorials/installing-packages/
 
-It is advisable to install the modules in the correct order, so you will avoid subsequent difficulties. 
+We reccomend to install packages in the mentioned order to overcome possible issues.
 
-First of all you need to install the Python interpreter version 3.x. If you are using Ubuntu 14.10 or newer, then you can install Python (recommended 3.5+) using the following commands in command prompt:
+### Welcome to PCALipids 
 
-    $ sudo apt update
-    $ sudo apt install python3
+PCAlipids software is ready to use. You only need to download *scr* directory from the ripository. To run the software from any folder, you can add the path to the PCALipids on your machine to the PATH environmental variable:
 
-To see which version of Python you have installed run next command:
+   PATH=<path to PCALipids dir>:${PATH} 
 
-    $ python3 --version
+where <path to PCALipids dir> has to be replaced with the path to PCALipids directory on your machine.
 
-To launch the Python 3 interpreter run:
-
-    $ python3
-
-To execute python script (script.py) run:
-
-    $ python3 script.py
-
-**NOTE**: Third-party python modules and module packages can be downloaded and installed using *pip*. Python 3.4 and later versions include pip by default, so to check if pip installed, open command prompt and run:
-    
-    $ pip -V 
-
-It is important that *pip* package belongs to Python interpreter version 3.x. If this is not the case, please install python3-pip. Then you can go to the downloaded PCAlipids directory and run:
-
-    $ sudo pip install -r requirements.txt
-
-### Installing PCAlipids
-
-PCAlipids does not require installation. You can download the files and use them as is. To run the software from any folder, add the path to the software directory to the PATH global variable in ~/.bashrc as follows:
-
-   PATH=/path/to/your/pcalipids/directory:${PATH} 
-
-where /path/to/your/pcalipids/directory has to be replaced with your path to your pcalipids directory
-
-### PCAlipids basics:
-
-To run the software on your computer open command prompt and run:
+To run the software simply type in command prompt:
 
     $ pcalipids
 
-The following output line will appear:
+The following output line should appear:
 
     $ Use -h or -help for more information
 
-Let’s follow the advice and enter the following command in prompt:
+To get the information on usage type:
 
     $ pcalipids -h
     or
     $ pcalipids -help
 
-This command displays information about the functions that are implemented in the PCAlipids.
-Let's try to analyze the trajectory using it!
+You will get all the information about PCALipids functionality and usage. You could also find all the infromation here[https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt]. **Need to add result of -h version to manual file**
 
-
-
+**ANALYSIS**:
 
 Please find below a step-by-step tutorial on using the software. Overall, the process is as follows:
 * Trajectories of individual lipids are extracted from the input trajectory and are concatenated in a single trajectory
@@ -87,8 +62,6 @@ Please find below a step-by-step tutorial on using the software. Overall, the pr
 * Projections of the trajectory on PCA eigenvectors are analyzed by calculating the projection distribution and characteristic relaxation times.
 
 **NOTE**: Exemplary trajectory from the test_input directory can be used for tutorial.
-
-**ANALYSIS**:
 
 #### Step 1: Creating concatenated trajectory
 
