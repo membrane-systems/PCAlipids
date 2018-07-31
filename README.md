@@ -10,6 +10,8 @@ Below you could find the brief tutorial on using the software. The tutorial is o
 * Analysing of single trajectory
 * Comparing two different simulations
 
+All the files needed to perform the tutorial could be downloaded [here](https://github.com/membrane-systems/PCAlipids/tree/master/tutorial/).
+
 ## Installation
 
 ### Prerequisites
@@ -17,12 +19,12 @@ Below you could find the brief tutorial on using the software. The tutorial is o
 PCALipids is a Python3 based software. To use it please install the following packages and programms:
 
 * [Python 3.x](https://www.python.org/download/releases/3.0/)
-* [Cython]
+* [Cython](http://cython.org/) - c-extensions for python (version >= 0.26.1)
 * [Numpy](http://www.numpy.org/) - module for linear algebra (version >= 1.13.3)
 * [Scipy](https://www.scipy.org/) - module for scientific calculations (version >= 0.19.1)
-* [Matplotlib](https://matplotlib.org/) - module for creating plots
+* [Matplotlib](https://matplotlib.org/) - module for creating plots (version >= )
 * [MDTraj](http://mdtraj.org/1.9.0/) - module for MD trajectories routines (version >= 1.9.1)
-* [Nose]
+* [Nose](http://nose.readthedocs.io/en/latest/) - module for python unittests (version >= 1.3.7)
 
 The usefull information on installing Python and it's packages could be found here:
 * https://wiki.python.org/moin/BeginnersGuide/Download
@@ -34,7 +36,7 @@ We reccomend to install packages in the mentioned order to overcome possible iss
 
 PCAlipids software is ready to use. You only need to download *scr* directory from the ripository. To run the software from any folder, you can add the path to the PCALipids on your machine to the PATH environmental variable:
 
-   PATH=<path to PCALipids dir>:${PATH} 
+   $ PATH=<path to PCALipids dir>:${PATH} 
 
 where <path to PCALipids dir> has to be replaced with the path to PCALipids directory on your machine.
 
@@ -52,9 +54,13 @@ To get the information on usage type:
     or
     $ pcalipids -help
 
-You will get all the information about PCALipids functionality and usage. You could also find all the infromation here[https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt]. **Need to add result of -h version to manual file**
+You will get all the information about PCALipids functionality and usage. You could also find all the infromation here[https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt]. 
 
-**ANALYSIS**:
+# Analysis of single trajectory
+
+In this part of the tutorial we will work with the trajectories of DOPC lipid molecules. The prepared DOPC bilayer trajectory could be found in the directory:
+
+$ 
 
 Please find below a step-by-step tutorial on using the software. Overall, the process is as follows:
 * Trajectories of individual lipids are extracted from the input trajectory and are concatenated in a single trajectory
@@ -67,7 +73,7 @@ Please find below a step-by-step tutorial on using the software. Overall, the pr
 
 You need to place the PCAlipids script file in the folder that contains the trajectory (.xtc, .trr, etc.) and structure  (.pdb) files for your system. In our case, the names of the trajectory and structure files are “trajectory.xtc” and “structure.pdb”, respectively. The concatenated trajectory is produced by running:
 
-    $ pcalipids concat -f trajectory.xtc -t structure.pdb
+    $ pcalipids concat -f trajectory.xtc -t structure.pdb -l DOPC
 
 **Description**: Creates a concatenated trajectory.
 
