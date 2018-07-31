@@ -1,1 +1,12 @@
-
+'concat' - create concatenated trajectory
+'covar' - principal component analysis
+'project' - calculating projections
+'projdist' - probability density
+'ksst' - Kolmogorov-Smirnov convergence
+'autot' - Autocorrelation decay
+'eigenvecdot' - scalar product of eigenvectors from different trajectories
+'conspace' - conformational space of lipids in trajectory
+'pearson' - Pearson coefficient for covariance matrices from different trajectories
+'splitproj' - split files with all projections into files with projections for single PC
+'motion' - demonstrates the motion along PC.
+Use any of this options.
