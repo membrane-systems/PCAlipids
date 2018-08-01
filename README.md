@@ -108,7 +108,7 @@ or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/man
 This will calculate the covarience matrix, its eigenvectors and eigenvalues. You could visualize eigenvalues using any graphical package (matplotlib is great for python). You should get something similat to what you see below for eigenvalues and cumulitive eigenvalues:
 
 ![Eigenvalues of the covariance matrix](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenvalues.png)
-![Cumulitive eigenvalues of the covariance matrix](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenvalues_cumulitive.png)
+![Cumulative eigenvalues of the covariance matrix](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenvalues_cumulative.png)
 
 When the eigenvectors are calculated, we can project the trajectory on them:
 
