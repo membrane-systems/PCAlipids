@@ -36,7 +36,7 @@ We reccomend to install packages in the mentioned order to overcome possible iss
 
 PCAlipids software is ready to use. You only need to download *scr* directory from the ripository. To run the software from any folder, you can add the path to the PCALipids on your machine to the PATH environmental variable:
 
-   $ PATH=<path to PCALipids dir>:${PATH} 
+    $ PATH=<path to PCALipids dir>:${PATH} 
 
 where <path to PCALipids dir> has to be replaced with the path to PCALipids directory on your machine.
 
@@ -77,7 +77,7 @@ To get the information on *concat* procedure you can run
 
     $ pcalipids concat -h
     
-or adress [manual](ttps://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
 After concatinating the trajectories of individual molecules the trajectory (*concatenated.xtc*) and the average structure (*average.pdb*) files are produced. To visualize possible conformations run
 
@@ -87,7 +87,7 @@ To get the information on *conspace* procedure you can run
 
     $ pcalipids conspace -h
     
-or adress [manual](ttps://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
 As a result of *conspace* pruduces the *pdb* file with conformations of lipid molecule. The conformations could be visualized using PyMol or any graphical software you like. The example of lipid molecule conformations visualization is shown below.
 
@@ -101,15 +101,57 @@ Now we are ready to move on to the next step. To perform PCA on the lipid molecu
  
 To get the information on *covar* procedure you can run
 
-    $ pcalipids concat -h
+    $ pcalipids covar -h
     
-or adress [manual](ttps://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-This will calculate the covarience matrix, its eigenvectors and eigenvalues.
+This will calculate the covarience matrix, its eigenvectors and eigenvalues. You could visualize eigenvalues using 
 
-    $ pcalipids project -f concatenated.xtc -t average.pdb -ia ref_struct.pdb -ievec eigenvec.xvg - first 1 -last 10 - op proj.xvg
+** Need function to visualize eigenvalues. Need figure to present the result **
 
-We wrote all analyzing data in text files, so let us familiarize the structure of this files.
+When the eigenvectors are calculated, we can project the trajectory on them:
+
+    $ pcalipids project -f concatenated.xtc -t average.pdb -ia average.pdb -ievec eigenvec.xvg - first 1 -last 10 -op proj.xvg
+
+To get the information on *project* procedure you can run
+
+    $ pcalipids project -h
+    
+or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+
+We have just calculated the trajectory projections on first 10 principal components. To visualize the motion along specific principal component (here we visualize the 1st PC) run:
+
+    $ pcalipids motion -p proj.xvg -npc 1 -aver average.pdb -e eigenvec.xvg
+    
+To get the information on *motion* procedure you can run
+
+    $ pcalipids motion -h
+    
+or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+
+The *motion* produces 3 files:
+* extreme_1_min.pdb - the structure projected on the 1st PC with the minimal projection value
+* extreme_1_max.pdb - the structure projected on the 1st PC with the maximal projection value
+* extreme1.pdb - 20 intermidiate structures representing the movement along the 1st PC
+
+The movement along PC could be visualized using PyMol or any graphical software you like. The example of lipid molecule PC1 visualization is shown below.
+
+![Example of single lipid motions](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/omegaasdasd.png)
+
+The distribution of projections on principal components can be visualized using projdist:
+
+    $ pcalipids projdist -p proj.xvg -first 1 -last 5
+
+To get the information on *projdist* procedure you can run
+
+    $ pcalipids projdist -h
+    
+or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+
+*projdist* calculates the probability distribution functions for the projectoins of the trajectory on principal components. The resultiong PDFs are saved as *.png* files. See below the distributions for the first 2 PCs. 
+
+![Probability distribution density of projections on the first principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC1_dist.png)
+![Probability distribution density of projections on the second principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC2_dist.png)
 
 **Covariance matrix** is a square matrix with the number of dimensions equal to the number of degrees of freedom in the system, and consequently divisible by 3. For output, the matrix is converted into one-dimensional array and written in blocks of 3 values per line.
 
@@ -119,35 +161,11 @@ We wrote all analyzing data in text files, so let us familiarize the structure o
 
 **Projections data**  is a one-dimensional array of float numbers for each of the components. The components are written one after another, each line contains the projection value for a particular projection for a particular frame.
 
-#### Step 3: Data processing for visualizing results
+#### Step 3: Characteristic timescales
 
-* The distribution of projections on principal components can be visualized using projdist:
-```bash 
-$ pcalipids projdist -p \<projection_file> -first \<number of the first projection> -last \<... last projection>
-```
-The output is a png plot with the distribution:
-![Probability distribution density of projections on the first principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC1_dist.png)
-![Probability distribution density of projections on the second principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC2_dist.png)
+To describe the equilibration process of the molecule of interest we could calculate the autocorrelation decay of the trajectory projections on the PC, or to study the process of PDFs convergence using Kolmogorov-Smirnov statistics. PCALipids can perform both types of the analysis. 
 
-* Two different trajectories can be compared using a single number - Pearson correlation coefficient of the respective covariance matrices - using programs "pearson" and "eigevecdot":
-```bash 
-$ pcalipids pearson -cov1 \<first file with covariance matrix> -cov2 \<second file with cov. matrix>
-```
-* The principal components obtained in different simulations can be compared using dot products of the respective eigenvectors:
-```bash 
-$ pcalipids eigenvecdot -evec \<first file with eigevector> \<second file>
-```
-The output plot is the dot product matrix (values in range (0; 1) -> (white; black)):
-![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenveccomp.png)
-
-* Individual conformations can be visualized using "conspace" and "motion":
-
-
-* Single lipid motion along principal component can be vizualized using "motion":
-```bash 
-$ pcalipids motion -p \<projection file> -npc \<principal component> -aver \<average structure> -e \<file with eigenvectors>
-```
-![Example of single lipid motions](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/omegaasdasd.png)
+** Now the functions are not running. How to get proj_1.xvg,... files? **
 
 * The equilibration of your lipid system can be easily examined by "ksst" and "autot" programs:
 ```bash 
@@ -167,6 +185,19 @@ $ pcalipids ksst -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 1
 
 ![Autocorrelation of the projections on differrent principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/autot_tut.png "Autocorrelation of the projections on differrent principal components")
 ![Characteristic autocorrelation decay timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/autot_tut_relax_1.png "Characteristic autocorrelation decay timescales")
+
+# Comparing two different simulations
+
+* Two different trajectories can be compared using a single number - Pearson correlation coefficient of the respective covariance matrices - using programs "pearson" and "eigevecdot":
+```bash 
+$ pcalipids pearson -cov1 \<first file with covariance matrix> -cov2 \<second file with cov. matrix>
+```
+* The principal components obtained in different simulations can be compared using dot products of the respective eigenvectors:
+```bash 
+$ pcalipids eigenvecdot -evec \<first file with eigevector> \<second file>
+```
+The output plot is the dot product matrix (values in range (0; 1) -> (white; black)):
+![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenveccomp.png)
 
 ## Contributing
 
