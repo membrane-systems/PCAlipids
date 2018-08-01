@@ -105,9 +105,10 @@ To get the information on *covar* procedure you can run
     
 or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-This will calculate the covarience matrix, its eigenvectors and eigenvalues. You could visualize eigenvalues using 
+This will calculate the covarience matrix, its eigenvectors and eigenvalues. You could visualize eigenvalues using any graphical package (matplotlib is great for python). You should get something similat to what you see below for eigenvalues and cumulitive eigenvalues:
 
-** Need function to visualize eigenvalues. Need figure to present the result **
+![Eigenvalues of the covariance matrix](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenvalues.png)
+![Cumulitive eigenvalues of the covariance matrix](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenvalues_cumulitive.png)
 
 When the eigenvectors are calculated, we can project the trajectory on them:
 
@@ -191,8 +192,8 @@ This will produce 2 files and 2 png figures:
 
 You should get something similar to what you see below:
 
-![Autocorrelation decay of the partial projections on differrent principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/autot.png)
-![Characteristic autocorrelation decay timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/autot_TS.png)
+![Autocorrelation decay of the partial projections on differrent principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/auto.png)
+![Characteristic autocorrelation decay timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/auto_TS.png)
 
 To calculate the convergence of PDFs for the particular PC call *ksst* procedure:
 
