@@ -14,6 +14,8 @@ import visualizing
 import PCA
 import project
 import projdistm
+import eigenvalues
+import combtraj
 
 
 def main(args):
@@ -259,10 +261,10 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 
 	elif args[0] == 'motion':
 		main = visualizing.main
-		if '-p' in args and '-npc' in args and '-aver' in args and '-e' in args:
-			main(args[args.index('-p') + 1], args[args.index('-npc') + 1], args[args.index('-aver') + 1], args[args.index('-e') + 1])
+		if '-p' in args and '-npc' in args and '-aver' in args and '-ievec' in args:
+			main(args[args.index('-p') + 1], args[args.index('-npc') + 1], args[args.index('-aver') + 1], args[args.index('-ievec') + 1])
 		else:
-			print('-p - projection file\n -npc - number of principal component\n -aver - average structure\n -e - file with eigenvectors')
+			print('-p - projection file\n -npc - number of principal component\n -aver - average structure\n -ievec - file with eigenvectors')
 
 	elif args[0] == 'projdistm':
 		main = projdistm.main
@@ -270,6 +272,34 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			main(args[args.index('-p') + 1:])
 		else:
 			print('-p - projection file\n')
+
+
+	elif args[0] == 'combtrajs':
+		main = combtraj.main
+		if '-fs' in args:
+			i = args.index('-fs')
+			main([(args[i + 1], args[i + 2]),(args[i + 3], args[i + 4])])
+		elif '-h' not in args and '-help' not in args:
+			print('Missing parameters, try -h for flags\n')
+		else:
+			print('-fs - input files with trajectories and topologies in the right order: \n-fs concatenated_1.xtc average_1.pdb concatenated_2.xtc average_2.pdb')
+
+
+	elif args[0] == 'eigenvals':
+		main = eigenvalues.main
+		if '-cumulative' in args:
+			cumul = args[args.index('-cumulative') + 1]
+		if cumul == "True" or cumul == "1":
+			cumul = True
+		else:
+			cumul = False
+		if '-ieval' in args:
+			main(args[args.index('-ieval') + 1], cumul)
+		elif '-h' not in args and '-help' not in args:
+			print('Missing parameters, try -h for flags\n')
+		else:
+			print('-ieval - input file with eigevalues (file format *.xvg)\n-cumulative - cumulative sum of eigenvalues (optional <False>)')
+
 
 	elif args[0] == 'help' or args[0] == '-h' or args[0] == '-help':
 		print("'concat' - create concatenated trajectory\n\
@@ -283,7 +313,9 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 'pearson' - Pearson coefficient for covariance matrices from different trajectories\n\
 'splitproj' - split files with all projections into files with projections for single PC\n\
 'motion' - demonstrates the motion along PC.\n\
-Use any of this options.")
+'eigenvals' - picture of eigenvalues of covariance matrix or their cumulative sum\
+'combtrajs' - combine 2 concatenated trajectories into one associated trajectory\
+ Use any of this options.")
 
 	else:
 		print('Use -h or help for more information.')

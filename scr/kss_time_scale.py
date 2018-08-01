@@ -223,7 +223,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
         PC.append(i + 1)
         T_relax.append(math.e ** t_relax)
 
-    p = plt.loglog(PC, T_relax, label = r'$\tau_2$', color = 'blue', linestyle = '--')
+    p = plt.loglog(PC[:100], T_relax[:100], label = r'$\tau_2$', color = 'blue', linestyle = '--')
     handle, = p 
     handles.append(handle)
 
@@ -252,7 +252,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
     file.close()
 
 
-    p = plt.loglog(PC, T_relax, label = r'$\tau_1$', color = 'blue', linestyle = '-')
+    p = plt.loglog(PC[:100], T_relax[:100], label = r'$\tau_1$', color = 'blue', linestyle = '-')
     handle, = p
 
     handles.append(handle)

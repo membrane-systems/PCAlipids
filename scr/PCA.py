@@ -20,8 +20,8 @@ def PCA(traj):
 	for i in range(len(cov_mat)):
 		trace += cov_mat[i][i]
 	print('Trace of the covariance matrix: %s' % trace)
-	eig_vals, eig_vecs = np.linalg.eig(cov_mat)
-	return eig_vals, eig_vecs, cov_mat
+	eig_vals, eig_vecs = np.linalg.eigh(cov_mat)
+	return eig_vals[::-1], eig_vecs, cov_mat
 
 
 def main(traj_file, top_file, val_file, vec_file, cov_file, invert):
@@ -64,8 +64,8 @@ def main(traj_file, top_file, val_file, vec_file, cov_file, invert):
 		invert = 1.
 	with open(PATH + file_out, 'w') as file:
 		for i in range(len(eig_vecs)):
-			for j in range(len(eig_vecs[:,i])):
-				file.write(str(invert * eig_vecs[:,i][j]) + ' ')
+			for j in range(len(eig_vecs[:,len(eig_vecs) - 1 - i])):
+				file.write(str(invert * eig_vecs[:,len(eig_vecs) - 1 - i][j]) + ' ')
 			file.write('\n')
 	print('Wrote eigenvectors in "%s"' % file_out)
 	return 

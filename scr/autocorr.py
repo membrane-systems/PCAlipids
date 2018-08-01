@@ -30,11 +30,16 @@ def get_nearest_value(iterable, value):
 	for idx, x in enumerate(iterable):
 		if x < value:
 			break
-	B = idx
-	if idx - 1 == -1:
-		A = idx + 1
+	
+
+	A = idx
+	if idx == 0:
+		for idx, x in enumerate(iterable):
+			if x < iterable[A]:
+				break
+		B = idx
 	else:
-		A = idx - 1
+		B = idx - 1
 	# print(A,B)
 	return A, B
 
@@ -78,11 +83,12 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	# print(input_data)
 	with Pool(8) as p:
 		data = p.starmap(calc, input_data)
-	# for i in range(len(data)):
-	# 	file = open('AUTO_VS_T_%s.xvg' % str(i), 'w')
-	# 	for j in range(len(data[0][0])):
-	# 		file.write(str(data[i][0][j]) + ' ' + str(data[i][1][j]) + '\n')
-	# 	file.close()
+	file = open('AUTO_VS_T.xvg', 'w')
+	for value in data:
+		file.write(str(value[0]) + ' ' + str(value[1]))
+		file.write('\n')
+		file.write('\n')
+	file.close()
 	POINTS = []
 	j = 1
 	while j < len(data[0][0]):
@@ -118,8 +124,8 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 		T_log = np.log(T_pic[:])
 		A,B = get_nearest_value(R_log, -2)
 		a = (T_log[B] - T_log[A]) / (R_log[B] - R_log[A])
-		print(T_log[B], T_log[A], R_log[B], R_log[A])
-		print(A)
+		# print(T_log[B], T_log[A], R_log[B], R_log[A])
+		# print(A)
 		b = T_log[A] - a * R_log[A]
 		t_relax = a * -2 + b
 		PC.append(i + 1)
@@ -149,6 +155,7 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 		b = T_log[A] - a * R_log[A]
 		t_relax = a * -1 + b
 		PC.append(i + 1)
+		# print(math.e ** t_relax)
 		T_relax.append(math.e ** t_relax)
 
 
