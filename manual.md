@@ -76,7 +76,20 @@
 If not supplied, the first 3 projections will be analyzed.
 
 5. 'ksst' - Kolmogorov-Smirnov convergence
+
+-p <sequence of projection files> - this param must be the first
+ -pr <range of files: "proj1.xvg-proj100.xvg">
+-o <timescales file> (*.xvg)
+-ln <number of lipids>
+ -dt <timestep in (ns)>
+
 6. 'autot' - Autocorrelation decay
+
+-p <sequence of projection files> - this param must be the first
+ -pr <range of files: "proj1.xvg-proj100.xvg">
+-o <timescales file> (*.xvg)
+-ln <number of lipids>
+
 7. 'eigenvecdot' - scalar product of eigenvectors from different trajectories
 
 8. 'conspace' - conformational space of lipids in trajectory
