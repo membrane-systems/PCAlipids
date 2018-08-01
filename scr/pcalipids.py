@@ -16,6 +16,7 @@ import project
 import projdistm
 import eigenvalues
 import combtraj
+import reltime
 
 
 def main(args):
@@ -272,6 +273,16 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			main(args[args.index('-p') + 1:])
 		else:
 			print('-p - projection file\n')
+
+
+	elif args[0] == 'reltime':
+		main = reltime.main
+		if '-eval' in args and '-auto1' in args and '-auto2' in args:
+			main(args[args.index('-eval') + 1],args[args.index('-auto1') + 1],args[args.index('-auto2') + 1])
+		elif '-h' not in args and '-help' not in args:
+			print('Missing parameters, try -h for flags\n')
+		else:
+			print('-eval - file with eigenvalues \n-auto1 and -auto2 - 2 files related to different trajectories that contains relaxation time for autocorrelations')
 
 
 	elif args[0] == 'combtrajs':
