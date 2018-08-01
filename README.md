@@ -187,8 +187,8 @@ To get the information on *autot* procedure you can run
 or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
 This will produce 2 files and 2 png figures:
- * Computed autocorrelations for each principal component (*AUTO_VS_T.xvg* and **figure**)
- * Computed characteristic decay time for each principal component (*autocorr_relaxtime_vs_PC.xvg* and **figure**)
+ * Computed autocorrelations for each principal component (*AUTO_VS_T.xvg* and *autocorrelation.png*)
+ * Computed characteristic decay time for each principal component (*autocorr_relaxtime_vs_PC.xvg* and *autocorrelation_relax_time.png*)
 
 You should get something similar to what you see below:
 
@@ -206,8 +206,8 @@ To get the information on *ksst* procedure you can run
 or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
 This will produce 2 files and 2 png figures:
- * Computed KSS for each principal component (*KSS_vs_T.xvg* and **figure**)
- * Computed characteristic KSS convergence time for each principal component (*KSS_relaxtime_vs_PC.xvg* and **figure**)
+ * Computed KSS for each principal component (*KSS_vs_T.xvg* and *kss.png*)
+ * Computed characteristic KSS convergence time for each principal component (*KSS_relaxtime_vs_PC.xvg* and *kss_relax_time.png*)
 
 You should get something similar to what you see below:
 
