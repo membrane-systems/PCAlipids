@@ -1,4 +1,4 @@
-'concat' - create concatenated trajectory
+l. 'concat' - create concatenated trajectory
 
 **Description**: Creates a concatenated trajectory.
 
@@ -21,7 +21,7 @@
 * -sf \<time in ps> - start frame for reading the trajectory
 * -ef \<time in ps> - end frame for reading the trajectory
 
-'covar' - principal component analysis
+l. 'covar' - principal component analysis
 
 **Description**: Carry out the PCA of the concatenated trajectory.
 
@@ -45,7 +45,7 @@
 * eigenval.xvg - eigenvalues
 * eigenvec.xvg - eigenvectors
 
-'project' - calculating projections
+l. 'project' - calculating projections
 
 **Description**: Calculates projections.
 
@@ -69,30 +69,30 @@
 **Files**:
 * proj.xvg - projections of trajectory on principal components
 
-'projdist' - probability density
+l. 'projdist' - probability density
 
 -p <projection file> (file format *.xvg)
  -first <first projection> -last <last projection> (int format). 
 If not supplied, the first 3 projections will be analyzed.
 
-'ksst' - Kolmogorov-Smirnov convergence
-'autot' - Autocorrelation decay
-'eigenvecdot' - scalar product of eigenvectors from different trajectories
+l. 'ksst' - Kolmogorov-Smirnov convergence
+l. 'autot' - Autocorrelation decay
+l. 'eigenvecdot' - scalar product of eigenvectors from different trajectories
 
-'conspace' - conformational space of lipids in trajectory
+l. 'conspace' - conformational space of lipids in trajectory
 
 -f <trajectory file> (file format *.xtc)
 -t <topology file> (any file with topology)
  -stride <<positive integer; step of reading frames>
  -om <output file with conformations>
 
-'pearson' - Pearson coefficient for covariance matrices from different trajectories
+l. 'pearson' - Pearson coefficient for covariance matrices from different trajectories
 
-'splitproj' - split files with all projections into files with projections for single PC
+l. 'splitproj' - split files with all projections into files with projections for single PC
 
 -p - projection file
 
-'motion' - demonstrates the motion along PC
+l. 'motion' - demonstrates the motion along PC
 
 -p - projection file
  -npc - number of principal component
