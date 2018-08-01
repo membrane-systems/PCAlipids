@@ -54,101 +54,60 @@ To get the information on usage type:
     or
     $ pcalipids -help
 
-You will get all the information about PCALipids functionality and usage. You could also find all the infromation here[https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt]. 
+You will get all the information about PCALipids functionality and usage. You could also find all the infromation [here](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
 # Analysis of single trajectory
 
-In this part of the tutorial we will work with the trajectories of DOPC lipid molecules. The prepared DOPC bilayer trajectory could be found in the directory:
+In this part of the tutorial we will work with the trajectories of DOPC lipid molecules. The prepared DOPC bilayer trajectory and structure could be found in the directory:
 
-$ 
+    $ tutorial/1_analysis_single/
 
-Please find below a step-by-step tutorial on using the software. Overall, the process is as follows:
+Overall, the process is as follows:
 * Trajectories of individual lipids are extracted from the input trajectory and are concatenated in a single trajectory
 * The resulting trajectory is subjected to PCA. Covariance matrix, eigenvalues, eigenvectors and projections of the trajectory on eigenvectors are calculated.
-* Projections of the trajectory on PCA eigenvectors are analyzed by calculating the projection distribution and characteristic relaxation times.
+* Projections of the trajectory on PCA eigenvectors are analyzed by calculating the projection distribution and characteristic time scales.
 
-**NOTE**: Exemplary trajectory from the test_input directory can be used for tutorial.
+### Step 1: Creating concatenated trajectory
 
-#### Step 1: Creating concatenated trajectory
-
-You need to place the PCAlipids script file in the folder that contains the trajectory (.xtc, .trr, etc.) and structure  (.pdb) files for your system. In our case, the names of the trajectory and structure files are “trajectory.xtc” and “structure.pdb”, respectively. The concatenated trajectory is produced by running:
+When working with lipids (or other flexible molecules) usually we have several molecules of interest in the system simulated (e.g. in the lipid bilayer there each lipid is a molecule of interest). To study available conformations it is worth to concatenate the trajectories of individual molecules into the concatenated trajectory. Thus, all of the possible conformations will be represented in this concatenated trajectory. The concatenated trajectory is produced by running:
 
     $ pcalipids concat -f trajectory.xtc -t structure.pdb -l DOPC
 
-**Description**: Creates a concatenated trajectory.
+To get the information on *concat* procedure you can run
 
-**Input**: Trajectory file and structure file. Optional: reference structure for alignment, starting frame, frame step.
+    $ pcalipids concat -h
+    
+or adress [manual](ttps://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-**Output**: Trajectory file and topology file for single lipid molecule.
+After concatinating the trajectories of individual molecules the trajectory (*concatenated.xtc*) and the average structure (*average.pdb*) files are produced. To visualize possible conformations run
 
-**Parameters**:
+    $ pcalipids conspace -f concatenated.xtc -t average.pdb -stride 100
+   
+To get the information on *conspace* procedure you can run
 
-**Required**:
-* -f \<input trajectory file> 
-* -t \<input topology file> 
+    $ pcalipids conspace -h
+    
+or adress [manual](ttps://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-**Optional**:
-* -ref \<reference structure>
-* -stride \<positive integer; step of reading frames> 
-* -dt \<time in ps; number to determine from which frame to read the trajectory>
-* -oc \<output trajectory file> - concatenated trajectory
-* -oa \<output topology file> - average structure calculated from the concatenated trajectory
-* -sf \<time in ps> - start frame for reading the trajectory
-* -ef \<time in ps> - end frame for reading the trajectory
+As a result of *conspace* pruduces the *pdb* file with conformations of lipid molecule. The conformations could be visualized using PyMol or any graphical software you like. The example of lipid molecule conformations visualization is shown below.
 
+![Example of comformational space with average structure](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1b.png)
 
 #### Step 2: Performing PCA
 
-Now you are ready to move on to the next step. Run in the command prompt:
-```bash 
-$ pcalipids covar -f concatenated.xtc -t average.pdb
-```
-**Description**: Carry out the PCA of the concatenated trajectory.
+Now we are ready to move on to the next step. To perform PCA on the lipid molecule conformatoins run:
 
-**Input**: Concatenated trajectory file and structure file.
+    $ pcalipids covar -f concatenated.xtc -t average.pdb
+ 
+To get the information on *covar* procedure you can run
 
-**Output**: Files with eigenvalues, eigenvectors and covariance matrix.
+    $ pcalipids concat -h
+    
+or adress [manual](ttps://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-**Parameters**:
+This will calculate the covarience matrix, its eigenvectors and eigenvalues.
 
-**Required**:
-* -f \<input trajectory file> 
-* -t \<input topology file>
-
-**Optional**:
-* -oeval \<output file with eigenvalues>
-* -oevec \<output file with eigenvectors>
-* -ocov \<output file with covariance matrix> 
-
-**Files**:
-* covar.dat - covariance matrix
-* eigenval.xvg - eigenvalues
-* eigenvec.xvg - eigenvectors
-
-```bash 
-$ pcalipids project -f concatenated.xtc -t average.pdb -ia ref_struct.pdb -ievec eigenvec.xvg - first 1 -last 10 - op proj.xvg
-```
-**Description**: Calculates projections.
-
-**Input**: Concatenated trajectory file, structure file, average structure and eigenvectors. Optional: two positive integers to defining the range of principal components for the analysis.
-
-**Output**: File with projections.
-
-**Parameters**:
-
-**Required**:
-* -f \<input trajectory file> 
-* -t \<input topology file>
-* -ia \<input average structure>
-* -ievec \<input eigenvectors>
-
-**Optional**:
-* -first \<number of the first principal component> 
-* -last \<number of the last principal component>
-* -op \<output file with projections>
-
-**Files**:
-* proj.xvg - projections of trajectory on principal components
+    $ pcalipids project -f concatenated.xtc -t average.pdb -ia ref_struct.pdb -ievec eigenvec.xvg - first 1 -last 10 - op proj.xvg
 
 We wrote all analyzing data in text files, so let us familiarize the structure of this files.
 
@@ -182,10 +141,7 @@ The output plot is the dot product matrix (values in range (0; 1) -> (white; bla
 ![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenveccomp.png)
 
 * Individual conformations can be visualized using "conspace" and "motion":
-```bash 
-$ pcalipids conspace -f \<concatenated trajectory file> -t \<average structure>
-```
-![Example of comformational space with average structure](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1b.png)
+
 
 * Single lipid motion along principal component can be vizualized using "motion":
 ```bash 
