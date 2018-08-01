@@ -104,7 +104,8 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	plt.ylim([0.001, 1])
 	plt.xlabel('Time (ns)')
 	plt.ylabel('Autocorrelation')
-	plt.show()
+	plt.savefig('autocorrelation.png')
+	plt.clf()
 
 	file = open(file_out, 'w')
 	file.write('### Autocorr ###\n')
@@ -131,7 +132,7 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 		PC.append(i + 1)
 		T_relax.append(math.e ** t_relax)
 
-	p = plt.loglog(PC[:100], T_relax[:100], label = r'$\tau_2 = 1/e^2$', color = 'blue', linestyle = '--')
+	p = plt.loglog(PC[:10], T_relax[:10], label = r'$\tau_2 = 1/e^2$', color = 'blue', linestyle = '--')
 	handle, = p 
 	handles.append(handle)
 
@@ -166,14 +167,14 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	file.close()
 
 
-	p = plt.loglog(PC[:100], T_relax[:100], label = r'$\tau_1 = 1/e$', color = 'blue', linestyle = '-')
+	p = plt.loglog(PC[:10], T_relax[:10], label = r'$\tau_1 = 1/e$', color = 'blue', linestyle = '-')
 	handle, = p
 	handles.append(handle)
 	plt.ylim([0.01, 10 ** 3])
 	plt.ylabel('Relaxation time (ns)')
 	plt.xlabel('Component')
 	plt.legend(handles = handles)
-	plt.show()
+	plt.savefig('autocorrelation_relax_time.png')
 
 
 # if __name__ == '__main__':

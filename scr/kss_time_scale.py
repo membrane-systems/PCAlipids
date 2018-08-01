@@ -192,7 +192,8 @@ def main(filenames, N_lipids, timestep, fileout = None):
     plt.ylim([0.005, 0.75])
     plt.xlabel('Time (ns)')
     plt.ylabel('K-S statistics')
-    plt.show()
+    plt.savefig('kss.png')
+    plt.clf()
 
     file = open('KSS_vs_T.xvg', 'w')
     for value in data:
@@ -202,7 +203,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
     file.close()
 
     if fileout == None:
-        file = open("KSS_relaxation_time_vs_PC", 'w')
+        file = open("KSS_relaxation_time_vs_PC.xvg", 'w')
     else:
         file = open(fileout, 'w')
     file.write('### KSS ###\n')
@@ -223,7 +224,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
         PC.append(i + 1)
         T_relax.append(math.e ** t_relax)
 
-    p = plt.loglog(PC[:100], T_relax[:100], label = r'$\tau_2$', color = 'blue', linestyle = '--')
+    p = plt.loglog(PC[:10], T_relax[:10], label = r'$\tau_2$', color = 'blue', linestyle = '--')
     handle, = p 
     handles.append(handle)
 
@@ -252,7 +253,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
     file.close()
 
 
-    p = plt.loglog(PC[:100], T_relax[:100], label = r'$\tau_1$', color = 'blue', linestyle = '-')
+    p = plt.loglog(PC[:10], T_relax[:10], label = r'$\tau_1$', color = 'blue', linestyle = '-')
     handle, = p
 
     handles.append(handle)
@@ -260,7 +261,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
     plt.ylabel('Relaxation time (ns)')
     plt.xlabel('Component')
     plt.legend(handles = handles)
-    plt.show()
+    plt.savefig('kss_relax_time.png')
 
 
 # if __name__ == '__main__':
