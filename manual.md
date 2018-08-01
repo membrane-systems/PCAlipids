@@ -1,4 +1,4 @@
-l. 'concat' - create concatenated trajectory
+1. 'concat' - create concatenated trajectory
 
 **Description**: Creates a concatenated trajectory.
 
@@ -21,7 +21,7 @@ l. 'concat' - create concatenated trajectory
 * -sf \<time in ps> - start frame for reading the trajectory
 * -ef \<time in ps> - end frame for reading the trajectory
 
-l. 'covar' - principal component analysis
+2. 'covar' - principal component analysis
 
 **Description**: Carry out the PCA of the concatenated trajectory.
 
@@ -45,7 +45,7 @@ l. 'covar' - principal component analysis
 * eigenval.xvg - eigenvalues
 * eigenvec.xvg - eigenvectors
 
-l. 'project' - calculating projections
+3. 'project' - calculating projections
 
 **Description**: Calculates projections.
 
@@ -69,34 +69,33 @@ l. 'project' - calculating projections
 **Files**:
 * proj.xvg - projections of trajectory on principal components
 
-l. 'projdist' - probability density
+4. 'projdist' - probability density
 
 -p <projection file> (file format *.xvg)
  -first <first projection> -last <last projection> (int format). 
 If not supplied, the first 3 projections will be analyzed.
 
-l. 'ksst' - Kolmogorov-Smirnov convergence
-l. 'autot' - Autocorrelation decay
-l. 'eigenvecdot' - scalar product of eigenvectors from different trajectories
+5. 'ksst' - Kolmogorov-Smirnov convergence
+6. 'autot' - Autocorrelation decay
+7. 'eigenvecdot' - scalar product of eigenvectors from different trajectories
 
-l. 'conspace' - conformational space of lipids in trajectory
+8. 'conspace' - conformational space of lipids in trajectory
 
 -f <trajectory file> (file format *.xtc)
 -t <topology file> (any file with topology)
  -stride <<positive integer; step of reading frames>
  -om <output file with conformations>
 
-l. 'pearson' - Pearson coefficient for covariance matrices from different trajectories
+9. 'pearson' - Pearson coefficient for covariance matrices from different trajectories
 
-l. 'splitproj' - split files with all projections into files with projections for single PC
+10. 'splitproj' - split files with all projections into files with projections for single PC
 
 -p - projection file
 
-l. 'motion' - demonstrates the motion along PC
+11. 'motion' - demonstrates the motion along PC
 
 -p - projection file
  -npc - number of principal component
  -aver - average structure
  -e - file with eigenvectors
 
-Use any of this options.
