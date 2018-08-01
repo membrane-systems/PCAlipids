@@ -90,6 +90,8 @@ If not supplied, the first 3 projections will be analyzed.
 
 'splitproj' - split files with all projections into files with projections for single PC
 
+-p - projection file
+
 'motion' - demonstrates the motion along PC
 
 -p - projection file
