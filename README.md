@@ -91,7 +91,7 @@ or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/man
 
 As a result of *conspace* pruduces the *pdb* file with conformations of lipid molecule. The conformations could be visualized using PyMol or any graphical software you like. The example of lipid molecule conformations visualization is shown below.
 
-![Example of comformational space with average structure](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1b.png)
+![Example of comformational space with average structure](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/conform.png)
 
 #### Step 2: Performing PCA
 
@@ -136,7 +136,7 @@ The *motion* produces 3 files:
 
 The movement along PC could be visualized using PyMol or any graphical software you like. The example of lipid molecule PC1 visualization is shown below.
 
-![Example of single lipid motions](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/omegaasdasd.png)
+![Example of single lipid motions](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/motion_PC_1.png)
 
 The distribution of projections on principal components can be visualized using projdist:
 
@@ -165,26 +165,53 @@ or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/man
 
 To describe the equilibration process of the molecule of interest we could calculate the autocorrelation decay of the trajectory projections on the PC, or to study the process of PDFs convergence using Kolmogorov-Smirnov statistics. PCALipids can perform both types of the analysis. 
 
-** Now the functions are not running. How to get proj_1.xvg,... files? **
+First, we need to split the projection file into the files, where only the projections on the specific PC will be:
 
-* The equilibration of your lipid system can be easily examined by "ksst" and "autot" programs:
-```bash 
-$ pcalipids autot -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 1
-```
-and
-```bash    
-$ pcalipids ksst -pr proj_1.xvg-proj_100.xvg -ln 128 -dt 1
-```
+    $ pcalipids splitproj -p proj.xvg
+    
+To get the information on *splitproj* procedure you can run
 
-**KSS-timesalces:**
+    $ pcalipids splitproj -h
+    
+or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-![Examples of convergence of the distributions of the projections on principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS_tut.png "Examples of convergence of the distributions of the projections on principal components")
-![Timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS_tut_relax_true.png "Characteristic distribution convergence timescales")
+This will produce 10 projection files *proj_i.xvg*. To calculate the autocorrelation decay times of the projections call *autot* procedure:
 
-**Autrocorrelation-timescales:**
+    $ pcalipids autot -pr proj_1.xvg-proj_10.xvg -ln 128 -dt 1
 
-![Autocorrelation of the projections on differrent principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/autot_tut.png "Autocorrelation of the projections on differrent principal components")
-![Characteristic autocorrelation decay timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/autot_tut_relax_1.png "Characteristic autocorrelation decay timescales")
+To get the information on *autot* procedure you can run
+
+    $ pcalipids autot -h
+    
+or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+
+This will produce 2 files and 2 png figures:
+ * Computed autocorrelations for each principal component (**Names of files**)
+ * Computed characteristic decay time for each principal component (**Names of files**)
+
+You should get something similar to what you see below:
+
+![Autocorrelation decay of the partial projections on differrent principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/autot.png)
+![Characteristic autocorrelation decay timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/autot_TS.png)
+
+To calculate the convergence of PDFs for the particular PC call *ksst* procedure:
+
+    $ pcalipids ksst -pr proj_1.xvg-proj_10.xvg -ln 128 -dt 1
+
+To get the information on *ksst* procedure you can run
+
+    $ pcalipids ksst -h
+    
+or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+
+This will produce 2 files and 2 png figures:
+ * Computed KSS for each principal component (**Names of files**)
+ * Computed characteristic KSS convergence time for each principal component (**Names of files**)
+
+You should get something similar to what you see below:
+
+![Examples of convergence of the distributions of the projections on principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS.png)
+![Timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS_TS.png)
 
 # Comparing two different simulations
 
