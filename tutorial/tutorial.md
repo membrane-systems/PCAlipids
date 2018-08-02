@@ -80,7 +80,7 @@ To get the information on *conspace* procedure you can run
 
     $ pcalipids conspace -h
     
-or adress [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
 As a result, *conspace* pruduces the *pdb* file with conformations of lipid molecule. The conformations can be visualized using PyMol or any graphical software you like. The example of lipid molecule conformations visualization is shown below.
 
