@@ -180,6 +180,7 @@ def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0
 
 def main(filenames, N_lipids, timestep, fileout = None):
     input_data = []
+    name = filenames[0].split('_')[0]
     for i in range(len(filenames)):
         input_data.append((filenames[i], N_lipids, timestep))
 
@@ -195,7 +196,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
     plt.savefig('kss.png')
     plt.clf()
 
-    file = open('KSS_vs_T.xvg', 'w')
+    file = open('%s_KSS_vs_T.xvg' % name, 'w')
     for value in data:
         file.write(str(value[0]) + ' ' + str(value[1]))
         file.write('\n')
@@ -203,7 +204,7 @@ def main(filenames, N_lipids, timestep, fileout = None):
     file.close()
 
     if fileout == None:
-        file = open("KSS_relaxation_time_vs_PC.xvg", 'w')
+        file = open("%s_KSS_relaxation_time_vs_PC.xvg" % name, 'w')
     else:
         file = open(fileout, 'w')
     file.write('### KSS ###\n')

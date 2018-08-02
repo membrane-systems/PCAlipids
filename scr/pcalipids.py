@@ -142,8 +142,8 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			filenames = [args[i] for i in range(start + 1, end)]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
 		elif '-p' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-pr' not in args:
-			print('No output file supplied. Data will be written in "autocorr_relaxtime_vs_PC.xvg"')
-			filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
+			# print('No output file supplied. Data will be written in "KSS_relaxtime_vs_PC.xvg"')
+			filenames = [args[i] for i in range(args.index('-p') + 1, min(args.index('-dt'), args.index('-ln')))]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
 		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' in args and '-p' not in args:
 			files = args[args.index('-pr') + 1]
@@ -176,8 +176,8 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
 		elif '-p' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-pr' not in args:
-			print('No output file supplied. Data will be written in "autocorr_relaxtime_vs_PC.xvg"')
-			filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
+			# print('No output file supplied. Data will be written in "autocorr_relaxtime_vs_PC.xvg"')
+			filenames = [args[i] for i in range(args.index('-p') + 1, min(args.index('-dt'), args.index('-ln')))]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
 		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' in args and '-p' not in args:
 			files = args[args.index('-pr') + 1]

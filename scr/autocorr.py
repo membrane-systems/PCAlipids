@@ -80,10 +80,11 @@ def calc(filename, N_lips, timestep):
 
 def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg'):
 	input_data = [(filename, N_lips, timestep) for filename in filenames]
+	name = filenames[0].split('_')[0]
 	# print(input_data)
 	with Pool(8) as p:
 		data = p.starmap(calc, input_data)
-	file = open('AUTO_VS_T.xvg', 'w')
+	file = open('%s_AUTO_VS_T.xvg' % name, 'w')
 	for value in data:
 		file.write(str(value[0]) + ' ' + str(value[1]))
 		file.write('\n')
@@ -107,7 +108,7 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	plt.savefig('autocorrelation.png')
 	plt.clf()
 
-	file = open(file_out, 'w')
+	file = open('%s_' % name + file_out, 'w')
 	file.write('### Autocorr ###\n')
 	file.write('E**2\n')
 
