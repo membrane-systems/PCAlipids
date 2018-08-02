@@ -73,7 +73,7 @@ def main(file1, file2):
 	plt.ylabel('PCALipids eigenvectors for first trajectory')
 	plt.xlabel('PCALipids eigenvectors for second trajectory')
 	plt.savefig('eigenvecdot.png')
-	print('Picture saved in "eigenvecdot.png"')
+	print('Picture saved as "eigenvecdot.png"')
 
 # if __name__ == '__main__':
 # 	args = sys.argv[1:]
