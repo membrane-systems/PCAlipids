@@ -14,6 +14,6 @@ If you have any questions about using the PCALipids, please contact:
 
 * **Khalid Mustafin** - khalid.mustafin@phystech.edu *developer of PCAlipids; code-related questions*
 * **Pavel Buslaev** - pbuslaev@phystech.edu *applying PCAlipids*
-* **Ivan Gushchin** - ivan.gushchin@phystech.edu *general questions*
+* **Ivan Gushchin** - ivan.gushchin@phystech.edu *general questions & supervision*
 
 
