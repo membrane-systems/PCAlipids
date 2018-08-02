@@ -49,7 +49,7 @@ To get the information on usage type:
 
 You will get all the information about PCALipids functionality and usage. You could also find all the information [here](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-# Analysis of single trajectory
+# Analysis of a single trajectory
 
 In this part of the tutorial we will work with a trajectory containing DOPC lipid molecules. The files (trajectory and structure) can be found in the directory:
 
