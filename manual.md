@@ -92,6 +92,8 @@ If not supplied, the first 3 projections will be analyzed.
 
 7. 'eigenvecdot' - scalar product of eigenvectors from different trajectories
 
+-evec <two files with eigenvectors (example: -evec eigenvec1.xvg eigenvec2.xvg)>
+
 8. 'conspace' - conformational space of lipids in trajectory
 
 -f <trajectory file> (file format *.xtc)
@@ -100,6 +102,8 @@ If not supplied, the first 3 projections will be analyzed.
  -om <output file with conformations>
 
 9. 'pearson' - Pearson coefficient for covariance matrices from different trajectories
+
+-cov1, -cov2 - 2 files with covariance matrices
 
 10. 'splitproj' - split files with all projections into files with projections for single PC
 
@@ -111,4 +115,8 @@ If not supplied, the first 3 projections will be analyzed.
  -npc - number of principal component
  -aver - average structure
  -e - file with eigenvectors
+ 
+ 12. 'combtrajs' - concatenate different trajectories to perform the comparison in the united basis
+ -fs - input files with trajectories and topologies in the right order: 
+-fs concatenated_1.xtc average_1.pdb concatenated_2.xtc average_2.pdb
 
