@@ -216,16 +216,82 @@ You should get something similar to what you see below:
 
 # Comparing two different simulations
 
-* Two different trajectories can be compared using a single number - Pearson correlation coefficient of the respective covariance matrices - using programs "pearson" and "eigevecdot":
-```bash 
-$ pcalipids pearson -cov1 \<first file with covariance matrix> -cov2 \<second file with cov. matrix>
-```
-* The principal components obtained in different simulations can be compared using dot products of the respective eigenvectors:
-```bash 
-$ pcalipids eigenvecdot -evec \<first file with eigevector> \<second file>
-```
-The output plot is the dot product matrix (values in range (0; 1) -> (white; black)):
-![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenveccomp.png)
+In this part of the tutorial we will compare the simulations of DOPC lipid molecules conducted at different temperatures (310K & 338K). All the files for this work could be found in the directory
+    
+    $ tutorial/2_compare_simulations/
+
+#### Step1: Preparing trajectories
+
+First, we need to concatenate the trajectories for lipids in each simulation. You can use *concat* procedure for it, as done in the first part of the tutorial. It is important to save the resulting concatenated trajectories and average structures for each simulation in different files. Use optoins *-oc* and *-oa* to do it. To get more information on *concat* call
+
+    $ pcalipids concat -h
+    
+or adress the [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt). You should get 2 different files with concatenated trajectories (*concatenated1.xtc* & *concatenated2.xtc*) and 2 different average structures (*average1.pdb* & *average2.pdb*).
+
+To directly compare different simulations we need to compare them in the same basis. Thus, we first neen to concatenate different trajectories:
+
+    $ pcalipids combtrajs -fs concatenated1.xtc average1.pdb concatenated2.xtc average2.pdb
+    
+To get more information of *combtrajs* call
+
+    $ pcalipids combtrajs -h
+    
+or adress the [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+
+After combining the trajectories you should get the following files:
+1. united.xtc - the united trajectory of two concatenated trajectories for different simulations
+2. average.pdb - the average structure for the united trajectory
+3. concatenated1_FALL.xtc - trajectory corresponding to the first simulation
+4. average1_FALL.pdb - average structure for concatenated1_FALL.xtc
+5. concatenated2_FALL.xtc - trajectory corresponding to the second simulation
+6. average2_FALL.pdb - average structure for concatenated2_FALL.xtc
+
+Now we are ready to perform PCA analysis on the united trajectory and compare the simulations.
+
+#### Step2: Comparing the conformational spaces for different simulations
+
+To compare the available conformations for different simulations we could apply different kinds of analysis:
+* Direct comparison of covariance matrices
+* Comparison of the sets of eigenvectors
+* Comparison of the PDFs of the trajectory projections on the PCs
+
+Two perform two first comparisons, we have to analyze the trajectories in their own basis. For the last comparison it is important to perform the analysis in the common basis.
+
+##### Comparison of covariance matrices
+
+To directly compare the covariance matrices we can use Pearson correlation coefficient. But first we need to calculate the covariance matrices for the concatenated trajectories of each simulation. You can do this by applying the *covar* procedure on *concatenated1_FALL.xtx* and *concatenated2_FALL.xtc* as it was done in the first part of the tutorial. Note, that you need to use respective average structure for the concatenated trajectory. Save the resulting covariance matrices, eigenvalues and eigenvectors to distinct files for each simulation (eg *cov1.dat*, *eigenval1.xvg* and *eigenvec1.xvg* for the first simulation; *cov2.dat*, *eigenval2.xvg* and *eigenvec2.xvg* for the second simulation). To get information on *procedure* call
+
+    $ pcalipids covar -h
+    
+or adress the [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+
+Next, we can calculate the Pearson correlation coefficient of obtained covarience matrices:
+
+    $ pcalipids pearson -cov1 cov1.dat -cov2 cov2.dat
+    
+To get more information on *pearson* procedure call
+
+    $ pcalipids pearson -h
+    
+or adress the [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+    
+You should get the number in terminal close to **0.99916**. That means, that the available conformations of the lipid molecules at different temperatures are almost identical.
+
+##### Comparison of sets of eigenvectors
+
+To compare sets of eigenvectors for each simulation we can calculate the dot product matrix of two sets:
+
+    $ pcalipids eigenvecdot -evec eigenvec1.xvg eigenvec2.xvg 
+
+To get more information on *eigenvecdot* procedure call
+
+    $ pcalipids eigenvecdot -h
+    
+or adress the [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+
+You should get the **FILENAME** and **FIGURE NAME** with the resulting dot product matrix. It should be similar to what you see below
+
+![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1_vs_2/dot.png)
 
 ## Contributing
 
