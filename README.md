@@ -293,6 +293,47 @@ You should get the **FILENAME** and **FIGURE NAME** with the resulting dot produ
 
 ![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1_vs_2/dot.png)
 
+##### Comparison of simulations in common basis
+
+To compare the PDFs of the trajectory projections on PCs we need to perform PCA on united trajectory. Use the *covar* procedure to do it. We get the covariance matrix (covar.dat), eigenvalues (eigenval.dat) and eigenvalues (eigenvec.dat). Then we need to project each concatenated trajectory on the common basis. For this, we can use *project* procedure applied to respective concatenated trajectories. You can find more on the *project* procedure in the first part of the tutorial. Note, that it is important to provide *project* with the eigenvectors obtained for the united trajectory. Finaly, we obtain a projection files for each concatenated trajectory (*proj1.xvg* and *proj2.xvg*). You can chose the PCs for which you want to perform the following analysis using options (*-first* and *-last*). We consider only first 10 modes for the following analysis.
+
+Now we can plot the PDFs for the first PC for different simulations. First, we need to split each projection file into single projeciton files using *splitproj* procedure like we did in the first part of the tutorial. Then we can plot the PDF of the projections on the first PC
+
+    $ pcalipids projdistm -file1 proj1_1.xvg -file2 proj2_1.xvg
+    
+To get more information on *projdistm* call
+
+    $ pcalipids projdistm -h
+    
+or adress the [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+
+You should get the PNG figure with 2 PDFs for different simulations similar to what you see below
+
+![PDFs for PC1 for different simulations analysed in common basis](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1_vs_2/Distributions_in_general_basis.png)
+
+#### Step3: Comparing timescales
+
+To compare the timescales we will use procedures *autot* and *ksst* like we did in the first part of the tutorial. To plot the characteristic timescales for different simulations at the same plot use 
+
+    $ pcalipids timescalespic -file1 autocorr_relaxtime_vs_PC_proj1.xvg -file2 autocorr_relaxtime_vs_PC_proj1.xvg -type auto -t t2
+    
+    $ pcalipids timescalespic -file1 KSS_relaxation_time_vs_PC_proj1.xvg -file2 KSS_relaxation_time_vs_PC_proj1.xvg -type kss -t t2
+
+You shoul get the figures similar to what you see below
+
+![Autocorrelation decay times for different simulations analysed in common basis](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1_vs_2/Autocorrelation_relaxation_2_traj.png)
+
+![KSS convergence times for different simulations analysed in common basis](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1_vs_2/KSS_relaxation_2_traj.png)
+
+To directly compare the timescales we can use *reltime* procedure
+
+    $ pcalipids reltime -evec eigenval.xvg -time1 autocorr_relaxtime_vs_PC_proj1.xvg -time2 autocorr_relaxtime_vs_PC_proj2.xvg
+    
+    $ pcalipids reltime -evec eigenval.xvg -time1 KSS_relaxation_time_vs_PC_proj1.xvg -time2 aKSS_relaxation_time_vs_PC_proj2.xvg
+    
+For autocorrelations you should get something close to **NUMBER** and for KSS **NUMBER**. Thus at higher temperatures the dynamics is speeded up by **NUMBER**.
+    
+
 ## Contributing
 
 Please read [CONTRIBUTING.txt](CONTRIBUTING.txt) for details on our code of conduct, and the process for submitting pull requests to us.
