@@ -17,7 +17,7 @@ import projdistm
 import eigenvalues
 import combtraj
 import reltime
-
+import timescalespic
 
 def main(args):
 	if  args[0] == 'concat':
@@ -269,10 +269,12 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 
 	elif args[0] == 'projdistm':
 		main = projdistm.main
-		if '-p' in args:
-			main(args[args.index('-p') + 1:])
+		if '-file1' in args and '-file2' in args:
+			main(args[args.index('-file1') + 1],args[args.index('-file2') + 1])
+		elif '-h' not in args and '-help' not in args:
+			print('Missing parameters, try -h for flags\n')
 		else:
-			print('-p - projection file\n')
+			print('-file1 and -file2 - input files with projections of interest')
 
 
 	elif args[0] == 'reltime':
@@ -296,6 +298,16 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			print('-fs - input files with trajectories and topologies in the right order: \n-fs concatenated_1.xtc average_1.pdb concatenated_2.xtc average_2.pdb')
 
 
+	elif args[0] == 'timescalespic':
+		main = timescalespic.main
+		if '-file1' in args and '-file2' in args and '-type' in args and '-time' in args:
+			main(args[args.index('-file1') + 1],args[args.index('-file2') + 1],args[args.index('-type') + 1],args[args.index('-time') + 1])
+		elif '-h' not in args and '-help' not in args:
+			print('Missing parameters, try -h for flags\n')
+		else:
+			print('-file1 and -file2 - input files with timescales\n-type "kss" or "auto" for kss or autocorrelation data\n-time "t1" or "t2" for decreasing in e or e^2 times)')
+
+
 	elif args[0] == 'eigenvals':
 		main = eigenvalues.main
 		if '-cumulative' in args:
@@ -316,7 +328,8 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 		print("'concat' - create concatenated trajectory\n\
 'covar' - principal component analysis\n\
 'project' - calculating projections\n\
-'projdist' - probability density of single trajectory\n\
+'projdist' - probability density of single trajectory projection\n\
+'projdistm' - probability density of two trajectories projections\n\
 'ksst' - Kolmogorov-Smirnov convergence\n\
 'autot' - Autocorrelation decay\n\
 'eigenvecdot' - scalar product of eigenvectors from different trajectories\n\
@@ -327,6 +340,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 'eigenvals' - picture of eigenvalues of covariance matrix or their cumulative sum\n\
 'combtrajs' - combine 2 concatenated trajectories into one associated trajectory\n\
 'reltime' - comparison of the characteristic timescales for KSS or autocorrelation\n\
+'timescalespic' - picture for joint analysis of the timescales of two trajectories\n\
  Use any of this options.")
 
 	else:
