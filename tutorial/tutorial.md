@@ -31,7 +31,7 @@ PCAlipids software is ready to use. You only need to download *scr* directory fr
 
     $ PATH=<path to PCALipids dir>:${PATH} 
 
-where *<path to PCALipids dir>* has to be replaced with the path to PCALipids directory on your machine.
+where `<path to PCALipids dir>` has to be replaced with the path to PCALipids directory on your machine.
 
 To run the software simply type in command prompt:
 
