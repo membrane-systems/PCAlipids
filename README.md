@@ -289,7 +289,7 @@ To get more information on *eigenvecdot* procedure call
     
 or adress the [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-You should get the **FILENAME** and **FIGURE NAME** with the resulting dot product matrix. It should be similar to what you see below
+You should get the *eigenvecdot.dat* and *eigenvecdot.png* with the resulting dot product matrix. It should be similar to what you see below
 
 ![Scalar projections of evigenvectors from different trajectiories](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1_vs_2/dot.png)
 
@@ -331,7 +331,7 @@ To directly compare the timescales we can use *reltime* procedure
     
     $ pcalipids reltime -evec eigenval.xvg -time1 KSS_relaxation_time_vs_PC_proj1.xvg -time2 aKSS_relaxation_time_vs_PC_proj2.xvg
     
-For autocorrelations you should get something close to **NUMBER** and for KSS **NUMBER**. Thus at higher temperatures the dynamics is speeded up by **NUMBER**.
+For autocorrelations you should get something close to **0.3374** and for KSS **0.59468**. Thus at higher temperatures the dynamics is speeded up by **NUMBER**.
     
 
 ## Contributing
