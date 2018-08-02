@@ -331,7 +331,7 @@ To directly compare the timescales we can use *reltime* procedure
     
     $ pcalipids reltime -evec eigenval.xvg -time1 proj1_KSS_relaxation_time_vs_PC.xvg -time2 proj2_KSS_relaxation_time_vs_PC.xvg
     
-For autocorrelations you should get something close to **0.3374** and for KSS **0.59468**. Thus at higher temperatures the dynamics is speeded up by **1.6815**.
+For autocorrelations you should get something close to **0.3374** and for KSS **0.59468**. Thus at higher temperatures the dynamics is speeded up by **~1.7**.
     
 
 ## Contributing
