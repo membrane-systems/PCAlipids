@@ -15,7 +15,7 @@ PCALipids is a Python3 based software. To use it please install the following pa
 * [Cython](http://cython.org/) - c-extensions for python (version >= 0.26.1)
 * [Numpy](http://www.numpy.org/) - module for linear algebra (version >= 1.13.3)
 * [Scipy](https://www.scipy.org/) - module for scientific calculations (version >= 0.19.1)
-* [Matplotlib](https://matplotlib.org/) - module for creating plots (version >= )
+* [Matplotlib](https://matplotlib.org/) - module for creating plots (version >= 2.0.2)
 * [MDTraj](http://mdtraj.org/1.9.0/) - module for MD trajectories routines (version >= 1.9.1)
 * [Nose](http://nose.readthedocs.io/en/latest/) - module for python unittests (version >= 1.3.7)
 
