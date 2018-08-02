@@ -34,11 +34,14 @@ def f(data_1, data_2, eigvals):
   R = 0.
   for i in range(162):
     R += beta * eigvals[i] * math.log(data_1[i]/data_2[i])
+  file = open('comparison of timescales.dat', 'w')
+  file.write(str(math.exp(R)) + ' ' + str(1 / math.exp(R)))
+  file.close()
   return math.exp(R)
 
 
 def main(file_eigvals, file1, file2):
   data_1 = get_data_from_file(file1)
   data_2 = get_data_from_file(file2)
-  eigvals = get_data_from_file1(file_eigvals)
-  print(f(data_1, data_2, eigvals))
+  eigvals = get_data_from_file_1(file_eigvals)
+  print('Comparison value : ' + str(f(data_1, data_2, eigvals)))

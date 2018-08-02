@@ -277,12 +277,12 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 
 	elif args[0] == 'reltime':
 		main = reltime.main
-		if '-eval' in args and '-auto1' in args and '-auto2' in args:
-			main(args[args.index('-eval') + 1],args[args.index('-auto1') + 1],args[args.index('-auto2') + 1])
+		if '-eval' in args and '-time1' in args and '-time2' in args:
+			main(args[args.index('-eval') + 1],args[args.index('-time1') + 1],args[args.index('-time2') + 1])
 		elif '-h' not in args and '-help' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
-			print('-eval - file with eigenvalues \n-auto1 and -auto2 - 2 files related to different trajectories that contains relaxation time for autocorrelations')
+			print('-eval - file with eigenvalues \n-time1 and -time2 - 2 files related to different trajectories that contains relaxation time for autocorrelations')
 
 
 	elif args[0] == 'combtrajs':
@@ -316,7 +316,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 		print("'concat' - create concatenated trajectory\n\
 'covar' - principal component analysis\n\
 'project' - calculating projections\n\
-'projdist' - probability density\n\
+'projdist' - probability density of single trajectory\n\
 'ksst' - Kolmogorov-Smirnov convergence\n\
 'autot' - Autocorrelation decay\n\
 'eigenvecdot' - scalar product of eigenvectors from different trajectories\n\
@@ -324,8 +324,9 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 'pearson' - Pearson coefficient for covariance matrices from different trajectories\n\
 'splitproj' - split files with all projections into files with projections for single PC\n\
 'motion' - demonstrates the motion along PC.\n\
-'eigenvals' - picture of eigenvalues of covariance matrix or their cumulative sum\
-'combtrajs' - combine 2 concatenated trajectories into one associated trajectory\
+'eigenvals' - picture of eigenvalues of covariance matrix or their cumulative sum\n\
+'combtrajs' - combine 2 concatenated trajectories into one associated trajectory\n\
+'reltime' - comparison of the characteristic timescales for KSS or autocorrelation\n\
  Use any of this options.")
 
 	else:
