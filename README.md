@@ -13,7 +13,7 @@ You could find the information on installation and a brief tutorial [here](https
 If you have any questions about using the PCALipids, please contact us:
 
 * **Khalid Mustafin** - khalid.mustafin@phystech.edu *developer of PCAlipids; code-related questions*
-* **Pavel Buslaev** - pbuslaev@phystech.edu *applying PCAlipids to study lipids*
+* **Pavel Buslaev** - pbuslaev@phystech.edu *applying PCAlipids*
 * **Ivan Gushchin** - ivan.gushchin@phystech.edu *general questions*
 
 
