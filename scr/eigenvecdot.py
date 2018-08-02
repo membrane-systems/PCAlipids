@@ -47,6 +47,17 @@ def main(file1, file2):
 	ax1.set_yticks([0,9,19,29,39,49,59,69,79,89,99]);
 	ax1.set_xticklabels([1,10,20,30,40,50,60,70,80,90,100]);
 	ax1.set_yticklabels([1,10,20,30,40,50,60,70,80,90,100]);
+	with open('eigenvecdot.dat', 'w') as file:
+		flag = 0
+		for i in range(len(matrix)):
+			for j in range(len(matrix)):
+				file.write(str(matrix[i][j]) + ' ')
+				flag += 1
+				if flag == 3:
+					flag = 0
+					file.write('\n')
+	print('Wrote eigevectors dot product matrix in "eigenvecdot.dat"')
+
 	matrix = [[0.0] * 10 for i in range(10)]
 
 	for i in range(10):
@@ -61,7 +72,8 @@ def main(file1, file2):
 	plt.sca(ax1)
 	plt.ylabel('PCALipids eigenvectors for first trajectory')
 	plt.xlabel('PCALipids eigenvectors for second trajectory')
-	plt.show()
+	plt.savefig('eigenvecdot.png')
+	print('Picture saved in "eigenvecdot.png"')
 
 # if __name__ == '__main__':
 # 	args = sys.argv[1:]
