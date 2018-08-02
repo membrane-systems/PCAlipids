@@ -315,9 +315,9 @@ You should get the PNG figure with 2 PDFs for different simulations similar to w
 
 To compare the timescales we will use procedures *autot* and *ksst* like we did in the first part of the tutorial. To plot the characteristic timescales for different simulations at the same plot use 
 
-    $ pcalipids timescalespic -file1 autocorr_relaxtime_vs_PC_proj1.xvg -file2 autocorr_relaxtime_vs_PC_proj1.xvg -type auto -t t2
+    $ pcalipids timescalespic -file1 proj1_autocorr_relaxtime_vs_PC_proj1.xvg -file2 proj2_autocorr_relaxtime_vs_PC_proj1.xvg -type auto -t t2
     
-    $ pcalipids timescalespic -file1 KSS_relaxation_time_vs_PC_proj1.xvg -file2 KSS_relaxation_time_vs_PC_proj1.xvg -type kss -t t2
+    $ pcalipids timescalespic -file1 proj1_KSS_relaxation_time_vs_PC.xvg -file2 proj2_KSS_relaxation_time_vs_PC.xvg -type kss -t t2
 
 You shoul get the figures similar to what you see below
 
@@ -327,9 +327,9 @@ You shoul get the figures similar to what you see below
 
 To directly compare the timescales we can use *reltime* procedure
 
-    $ pcalipids reltime -evec eigenval.xvg -time1 autocorr_relaxtime_vs_PC_proj1.xvg -time2 autocorr_relaxtime_vs_PC_proj2.xvg
+    $ pcalipids reltime -evec eigenval.xvg -time1 proj1_autocorr_relaxtime_vs_PC.xvg -time2 proj2_autocorr_relaxtime_vs_PC.xvg
     
-    $ pcalipids reltime -evec eigenval.xvg -time1 KSS_relaxation_time_vs_PC_proj1.xvg -time2 aKSS_relaxation_time_vs_PC_proj2.xvg
+    $ pcalipids reltime -evec eigenval.xvg -time1 proj1_KSS_relaxation_time_vs_PC.xvg -time2 proj2_KSS_relaxation_time_vs_PC.xvg
     
 For autocorrelations you should get something close to **0.3374** and for KSS **0.59468**. Thus at higher temperatures the dynamics is speeded up by **NUMBER**.
     
