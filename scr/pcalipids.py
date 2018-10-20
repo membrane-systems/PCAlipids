@@ -153,18 +153,18 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			files = args[args.index('-pr') + 1]
 			file_start = files[:files.find('-')]
 			file_end = files[files.find('-') + 1:]
-			start = int(''.join(filter(lambda x: x.isdigit(), file_start)))
-			end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
-			file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
+			start = int(file_start[file_start.rfind('_') + 1:file_start.rfind('.')])
+			end = int(file_end[file_end.rfind('_') + 1:file_end.rfind('.')])
+			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
 			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
 		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
 			files = args[args.index('-pr') + 1]
 			file_start = files[:files.find('-')]
 			file_end = files[files.find('-') + 1:]
-			start = int(''.join(filter(lambda x: x.isdigit(), file_start)))
-			end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
-			file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
+			start = int(file_start[file_start.rfind('_') + 1:file_start.rfind('.')])
+			end = int(file_end[file_end.rfind('_') + 1:file_end.rfind('.')])
+			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
 			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
 		elif '-h' not in args:
@@ -187,18 +187,18 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			files = args[args.index('-pr') + 1]
 			file_start = files[:files.find('-')]
 			file_end = files[files.find('-') + 1:]
-			start = int(''.join(filter(lambda x: x.isdigit(), file_start)))
-			end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
-			file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
+			start = int(file_start[file_start.rfind('_') + 1:file_start.rfind('.')])
+			end = int(file_end[file_end.rfind('_') + 1:file_end.rfind('.')])
+			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
 			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
 		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
 			files = args[args.index('-pr') + 1]
 			file_start = files[:files.find('-')]
 			file_end = files[files.find('-') + 1:]
-			start = int(''.join(filter(lambda x: x.isdigit(), file_start)))
-			end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
-			file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
+			start = int(file_start[file_start.rfind('_') + 1:file_start.rfind('.')])
+			end = int(file_end[file_end.rfind('_') + 1:file_end.rfind('.')])
+			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
 			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
 		elif '-h' not in args:
