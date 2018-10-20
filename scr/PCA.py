@@ -27,16 +27,15 @@ def PCA_mem(traj, top):
 	flag = False
 	N = 0
 	for frame in md.iterload(traj, top = top, chunk = 100000):
-	    N += frame.n_frames
-	    if not flag:
-	        X_1 = np.array([0.0] * frame.n_atoms * 3,dtype = np.float64)
-	        X_X = np.array([[0.0] * frame.n_atoms * 3 for i in range(frame.n_atoms * 3)],dtype = np.float64)
-	        flag = True
+		N += frame.n_frames
+		if not flag:
+			X_1 = np.array([0.0] * frame.n_atoms * 3,dtype = np.float64)
+			X_X = np.array([[0.0] * frame.n_atoms * 3 for i in range(frame.n_atoms * 3)],dtype = np.float64)
+			flag = True
 
-	    X = frame.xyz.astype(np.float64).reshape(frame.n_frames, frame.n_atoms * 3)
-	    for x in X:
-	        X_1 += x
-	        X_X += np.multiply.outer(x, x)
+		X = frame.xyz.astype(np.float64).reshape(frame.n_frames, frame.n_atoms * 3)
+		X_1 += X.sum(axis=0)
+		X_X += np.tensordot(X, X, axes=(0,0))
 	cov_mat = np.empty((len(X_1), len(X_1)), dtype = np.float64)
 	cov_mat = (X_X - np.dot(X_1.reshape(len(X_1),1), (X_1.reshape(len(X_1),1)).T) / N) / (N - 1)
 	print("Covariance matrix calculated (%s,%s)" % cov_mat.shape)
