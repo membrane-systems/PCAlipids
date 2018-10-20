@@ -86,13 +86,17 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 				invert = True
 		else:
 			invert = False
+		if '-emem' in args:
+			memory_flag = True
+		else:
+			memory_flag = False
 		if '-f' in args and '-t' in args:
-			main(args[args.index('-f') + 1], args[args.index('-t') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file, invert = invert)
+			main(args[args.index('-f') + 1], args[args.index('-t') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file, invert = invert, memory_flag = memory_flag)
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
 			print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC> \n -oeval <output file with eigenvalues>\n\
--oevec <output file with eigenvectors>\n -ocov <output file with covariance matrix>\n -invertPC1 <invert PC1>')
+-oevec <output file with eigenvectors>\n -ocov <output file with covariance matrix>\n -invertPC1 <invert PC1>\n -emem <memory economy>')
 
 
 	elif args[0] == 'project':

@@ -16,18 +16,42 @@ def PCA(traj):
 	x_std = x_std-np.array([mean_vec]).T
 	cov_mat = np.cov(x_std)
 	print("Covariance matrix calculated (%s,%s)" % cov_mat.shape)
-	trace = 0.
-	for i in range(len(cov_mat)):
-		trace += cov_mat[i][i]
+	trace = np.matrix.trace(cov_mat)
 	print('Trace of the covariance matrix: %s' % trace)
 	eig_vals, eig_vecs = np.linalg.eigh(cov_mat)
 	return eig_vals[::-1], eig_vecs, cov_mat
 
 
-def main(traj_file, top_file, val_file, vec_file, cov_file, invert):
+def PCA_mem(traj, top):
+	print("The PCA is performed while saving memory, it may take some time.")
+	flag = False
+	N = 0
+	for frame in md.iterload(traj, top = top, chunk = 100000):
+	    N += frame.n_frames
+	    if not flag:
+	        X_1 = np.array([0.0] * frame.n_atoms * 3,dtype = np.float64)
+	        X_X = np.array([[0.0] * frame.n_atoms * 3 for i in range(frame.n_atoms * 3)],dtype = np.float64)
+	        flag = True
+
+	    X = frame.xyz.astype(np.float64).reshape(frame.n_frames, frame.n_atoms * 3)
+	    for x in X:
+	        X_1 += x
+	        X_X += np.multiply.outer(x, x)
+	cov_mat = np.empty((len(X_1), len(X_1)), dtype = np.float64)
+	cov_mat = (X_X - np.dot(X_1.reshape(len(X_1),1), (X_1.reshape(len(X_1),1)).T) / N) / (N - 1)
+	print("Covariance matrix calculated (%s,%s)" % cov_mat.shape)
+	trace = np.matrix.trace(cov_mat)
+	print('Trace of the covariance matrix: %s' % trace)
+	eig_vals, eig_vecs = np.linalg.eigh(cov_mat)
+	return eig_vals[::-1], eig_vecs, cov_mat
+
+
+def main(traj_file, top_file, val_file, vec_file, cov_file, invert, memory_flag):
 	PATH = os.getcwd() + '/'
-	eig_vals, eig_vecs, cov_mat = PCA(load_traj(PATH + traj_file, PATH + top_file))
-	
+	if memory_flag == False:
+		eig_vals, eig_vecs, cov_mat = PCA(load_traj(PATH + traj_file, PATH + top_file))
+	else:
+		eig_vals, eig_vecs, cov_mat = PCA_mem(PATH + traj_file, PATH + top_file)
 	if val_file == None:
 		file_out = 'eigenval.xvg'
 	else:
