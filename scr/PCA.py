@@ -26,14 +26,15 @@ def PCA_mem(traj, top):
 	print("The PCA is performed while saving memory, it may take some time.")
 	flag = False
 	N = 0
+	mean_str = md.load(top)
+	mean_vec = mean_str.xyz.astype(np.float64).reshape(1, mean_str.n_atoms * 3)
 	for frame in md.iterload(traj, top = top, chunk = 100000):
 		N += frame.n_frames
 		if not flag:
 			X_1 = np.array([0.0] * frame.n_atoms * 3,dtype = np.float64)
 			X_X = np.array([[0.0] * frame.n_atoms * 3 for i in range(frame.n_atoms * 3)],dtype = np.float64)
 			flag = True
-
-		X = frame.xyz.astype(np.float64).reshape(frame.n_frames, frame.n_atoms * 3)
+		X = frame.xyz.astype(np.float64).reshape(frame.n_frames, frame.n_atoms * 3) - mean_vec
 		X_1 += X.sum(axis=0)
 		X_X += np.tensordot(X, X, axes=(0,0))
 	cov_mat = np.empty((len(X_1), len(X_1)), dtype = np.float64)
