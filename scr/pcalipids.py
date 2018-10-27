@@ -114,14 +114,18 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 				proj_file = args[args.index('-op') + 1]
 			else:
 				proj_file = None
+			if '-emem' in args:
+				memory_flag = True
+			else:
+				memory_flag = False
 			traj_file = args[args.index('-f') + 1]
 			top_file = args[args.index('-t') + 1]
 			aver = args[args.index('-ia') + 1]
 			evecs = args[args.index('-ievec') + 1]
-			main(traj_file = traj_file, top_file = top_file, aver = aver, evecs = evecs, first_PC = first_PC, last_PC = last_PC, proj_file = proj_file)
+			main(traj_file = traj_file, top_file = top_file, aver = aver, evecs = evecs, memory_flag = memory_flag, first_PC = first_PC, last_PC = last_PC, proj_file = proj_file)
 		elif '-h' in args or '-help' in args:
 			print('-f <trajectory file> (file format *.xtc, *trr, etc.)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC> \n -ievec <input file with eigenvectors>\n\
--ia <input file with average structure>\n -op <output file with projections>.')
+-ia <input file with average structure>\n -op <output file with projections>\n -emem <memory economy>.')
 		else:
 			print('Missing parameters, try -h for flags\n')
 

@@ -48,9 +48,40 @@ def get_proj(traj, first_PC, last_PC, aver, evecs):
 	return proj, first_PC, last_PC
 
 
-def main(traj_file, top_file, aver, evecs, first_PC = None, last_PC = None, proj_file = None):
+def get_proj_mem(traj, top, first_PC, last_PC, aver, evecs):
+	flag = False
+	print("Projections are calculated while saving memory, it may take some time.")
+	ref_aver_str = md.load(aver)
+	eigenvecs = load_evecs(evecs)
+	mean_vec = ref_aver_str.xyz.astype(np.float64).reshape(1, ref_aver_str.n_atoms * 3)
+	if first_PC == None and last_PC == None:
+		first_PC = 1
+		last_PC = len(eigenvecs)
+	elif first_PC == None:
+		first_PC = 1
+		last_PC = int(last_PC)
+	elif last_PC == None:
+		first_PC = int(first_PC)
+		last_PC = len(eigenvecs)
+	else:
+		first_PC = int(first_PC)
+		last_PC = int(last_PC)
+	for frame in md.iterload(traj, top = top, chunk = 100000):
+		X = frame.superpose(ref_aver_str).xyz.astype(np.float64).reshape(frame.n_frames, frame.n_atoms * 3) - mean_vec
+		if flag == False:
+			proj = np.tensordot(X,eigenvecs[first_PC - 1:last_PC],axes = (1,1)).T
+			flag = True
+		else:
+			proj = np.append(proj,np.tensordot(X,eigenvecs[first_PC - 1:last_PC],axes = (1,1)).T,axis = 1)
+	return proj, first_PC, last_PC
+
+
+def main(traj_file, top_file, aver, evecs, memory_flag, first_PC = None, last_PC = None, proj_file = None):
 	PATH = os.getcwd() + '/'
-	proj, first_PC, last_PC = get_proj(load_traj(traj_file, top_file), aver = aver, evecs = evecs, first_PC = first_PC, last_PC = last_PC)
+	if memory_flag == False:
+		proj, first_PC, last_PC = get_proj(load_traj(traj_file, top_file), aver = aver, evecs = evecs, first_PC = first_PC, last_PC = last_PC)
+	else:
+		proj, first_PC, last_PC = get_proj_mem(traj_file, top_file, aver = aver, evecs = evecs, first_PC = first_PC, last_PC = last_PC)
 	if proj_file == None:
 		file_out = 'projection.xvg'
 	else:
