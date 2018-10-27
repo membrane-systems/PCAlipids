@@ -123,7 +123,7 @@ def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0
     y = linspace(min(data), max(data), N_bins)
     dist_ideal = KDE(data, y)
     cum_ideal = cum_dist(dist_ideal)
-    data = split_data_by_lip(data, N_lip) # Разделение по липидам
+    data = split_data_by_lip(data, N_lip)
     max_power = math.log(len(data[0]), 1.5)
     # print(max_power)
     KSS_time = []

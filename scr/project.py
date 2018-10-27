@@ -23,7 +23,7 @@ def load_evecs(evecs):
 	return eigenvecs
 
 
-def get_proj(traj, first_PC, last_PC, aver, evecs):
+def get_proj(traj, first_PC, last_PC, aver, evecs, filename):
 	ref_aver_str = md.load(aver)
 	traj = traj.superpose(ref_aver_str)
 	mean_vec = ref_aver_str.xyz.astype(np.float64)
@@ -42,14 +42,21 @@ def get_proj(traj, first_PC, last_PC, aver, evecs):
 	else:
 		first_PC = int(first_PC)
 		last_PC = int(last_PC)
-	proj = []
+	files = []
+	for i in range(first_PC,last_PC + 1):
+		file = open(filename[:filename.rfind('.')]+'_'+str(i)+filename[filename.rfind('.'):],'w')
+		file.write('@    title "Projection %s"\n' % (i))
+		files.append(file)
 	for i in range(first_PC - 1, last_PC):
-		proj.append((x_std).T.dot(eigenvecs[i]))
-	return proj, first_PC, last_PC
+		proj = (x_std).T.dot(eigenvecs[i])
+		files[i].write(''.join(('     ' + str(proj[j]) + '\n') for j in range(len(proj))))
+	for i in range(len(files)):
+		files[i].write('&\n')
+		files[i].close
+	print('Wrote %s projections in "%s".' % (len(files), files[0].name[:files[0].name.rfind('.')] + "*"))
 
 
-def get_proj_mem(traj, top, first_PC, last_PC, aver, evecs):
-	flag = False
+def get_proj_mem(traj, top, first_PC, last_PC, aver, evecs, filename):
 	print("Projections are calculated while saving memory, it may take some time.")
 	ref_aver_str = md.load(aver)
 	eigenvecs = load_evecs(evecs)
@@ -66,37 +73,32 @@ def get_proj_mem(traj, top, first_PC, last_PC, aver, evecs):
 	else:
 		first_PC = int(first_PC)
 		last_PC = int(last_PC)
+	files = []
+	for i in range(first_PC,last_PC + 1):
+		file = open(filename[:filename.rfind('.')]+'_'+str(i)+filename[filename.rfind('.'):],'w')
+		file.write('@    title "Projection %s"\n' % (i))
+		files.append(file)
 	for frame in md.iterload(traj, top = top, chunk = 100000):
 		X = frame.superpose(ref_aver_str).xyz.astype(np.float64).reshape(frame.n_frames, frame.n_atoms * 3) - mean_vec
-		if flag == False:
-			proj = np.tensordot(X,eigenvecs[first_PC - 1:last_PC],axes = (1,1)).T
-			flag = True
-		else:
-			proj = np.append(proj,np.tensordot(X,eigenvecs[first_PC - 1:last_PC],axes = (1,1)).T,axis = 1)
-	return proj, first_PC, last_PC
+		proj = np.tensordot(X,eigenvecs[first_PC - 1:last_PC],axes = (1,1)).T
+		for i in range(len(files)):
+			files[i].write(''.join(('     ' + str(proj[i][j]) + '\n') for j in range(len(proj[i]))))
+	for i in range(len(files)):
+		files[i].write('&\n')
+		files[i].close
+	print('Wrote %s projections in "%s".' % (len(files), files[0].name[:files[0].name.rfind('.')] + "*"))
 
 
 def main(traj_file, top_file, aver, evecs, memory_flag, first_PC = None, last_PC = None, proj_file = None):
 	PATH = os.getcwd() + '/'
-	if memory_flag == False:
-		proj, first_PC, last_PC = get_proj(load_traj(traj_file, top_file), aver = aver, evecs = evecs, first_PC = first_PC, last_PC = last_PC)
-	else:
-		proj, first_PC, last_PC = get_proj_mem(traj_file, top_file, aver = aver, evecs = evecs, first_PC = first_PC, last_PC = last_PC)
 	if proj_file == None:
 		file_out = 'projection.xvg'
 	else:
 		file_out = proj_file
-	with open(PATH + file_out, 'w') as file:
-		file.write('@    Number of projections: %s\n' % len(proj))
-		for i in range(len(proj)):
-			# print(i)
-			file.write('@    title "Projection %s\n' % (first_PC + i))
-			file.write(''.join((str(j * 0.1) + '     ' + str(proj[i][j]) + '\n') for j in range(len(proj[i]))))
-			# for j in range(len(proj[i])):
-			# 	file.write(str(proj[i][j]) + '\n')
-			file.write('&\n')
-	print('Wrote %s projections in "%s".' % (len(proj),file_out))
-
+	if memory_flag == False:
+		get_proj(load_traj(traj_file, top_file), aver = aver, evecs = evecs, first_PC = first_PC, last_PC = last_PC, filename = PATH + file_out)
+	else:
+		get_proj_mem(traj_file, top_file, aver = aver, evecs = evecs, first_PC = first_PC, last_PC = last_PC, filename = PATH + file_out)
 
 # if __name__ == '__main__':
 # 	args = sys.argv[1:]
