@@ -53,7 +53,7 @@ def get_proj(traj, first_PC, last_PC, aver, evecs, filename):
 	for i in range(len(files)):
 		files[i].write('&\n')
 		files[i].close
-	print('Wrote %s projections in "%s".' % (len(files), files[0].name[:files[0].name.rfind('.')] + "*"))
+	print('Wrote %s projections in "%s".' % (len(files), files[0].name[:files[0].name.rfind('_')] + "*"))
 
 
 def get_proj_mem(traj, top, first_PC, last_PC, aver, evecs, filename):
@@ -86,7 +86,7 @@ def get_proj_mem(traj, top, first_PC, last_PC, aver, evecs, filename):
 	for i in range(len(files)):
 		files[i].write('&\n')
 		files[i].close
-	print('Wrote %s projections in "%s".' % (len(files), files[0].name[:files[0].name.rfind('.')] + "*"))
+	print('Wrote %s projections in "%s".' % (len(files), files[0].name[:files[0].name.rfind('_')] + "*"))
 
 
 def main(traj_file, top_file, aver, evecs, memory_flag, first_PC = None, last_PC = None, proj_file = None):
