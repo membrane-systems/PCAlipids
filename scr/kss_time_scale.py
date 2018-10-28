@@ -1,6 +1,8 @@
 import math
 import numpy as np
 from scipy.stats import ks_2samp, gaussian_kde
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from multiprocessing import Pool
 import sys
