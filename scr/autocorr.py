@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy import signal
 from multiprocessing import Pool
 import sys
 import math
@@ -10,7 +11,7 @@ def estimated_autocorrelation(x, variance, mean):
 	# variance = x.var()
 	# print(variance)
 	x = x-mean
-	r = np.correlate(x, x, mode = 'full')[-n:]
+	r = signal.fftconvolve(x, x[::-1], mode="full")[-n:]
 	# assert np.allclose(r, np.array([(x[:n-k]*x[-(n-k):]).sum() for k in range(n)]))
 	result = r/(variance*(np.arange(n, 0, -1)))
 	return result

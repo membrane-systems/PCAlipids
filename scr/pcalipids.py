@@ -160,7 +160,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			start = int(file_start[file_start.rfind('_') + 1:file_start.rfind('.')])
 			end = int(file_end[file_end.rfind('_') + 1:file_end.rfind('.')])
 			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
-			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
+			filenames = [file_mask[:file_mask.find('.')] + "_" + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
 		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
 			files = args[args.index('-pr') + 1]
@@ -169,7 +169,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			start = int(file_start[file_start.rfind('_') + 1:file_start.rfind('.')])
 			end = int(file_end[file_end.rfind('_') + 1:file_end.rfind('.')])
 			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
-			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
+			filenames = [file_mask[:file_mask.find('.')] + "_" + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
@@ -194,7 +194,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			start = int(file_start[file_start.rfind('_') + 1:file_start.rfind('.')])
 			end = int(file_end[file_end.rfind('_') + 1:file_end.rfind('.')])
 			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
-			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
+			filenames = [file_mask[:file_mask.find('.')] + "_" + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
 		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
 			files = args[args.index('-pr') + 1]
@@ -203,13 +203,13 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			start = int(file_start[file_start.rfind('_') + 1:file_start.rfind('.')])
 			end = int(file_end[file_end.rfind('_') + 1:file_end.rfind('.')])
 			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
-			filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
+			filenames = [file_mask[:file_mask.find('.')] + "_" + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
 			print('-p <sequence of projection files> - this param must be the first\n -pr <range of files: "proj1.xvg-proj100.xvg">\n-o <timescales file> (*.xvg)\n\
--ln <number of lipids>\n')
+-ln <number of lipids>\n-dt <timestep in (ns)>')
 
 	elif args[0] == 'eigenvecdot':
 		main = eigenvecdot.main
