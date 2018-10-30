@@ -301,7 +301,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			i = args.index('-fs')
 			length = len(args[(i+1):])
 			omaewa = []
-			for j in range(i+1, length, 2):
+			for j in range(i+1, len(args), 2):
 				omaewa.append((args[j], args[j + 1]))
 			main(omaewa)
 		elif '-h' not in args and '-help' not in args:
