@@ -299,7 +299,11 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 		main = combtraj.main
 		if '-fs' in args:
 			i = args.index('-fs')
-			main([(args[i + 1], args[i + 2]),(args[i + 3], args[i + 4])])
+			length = len(args[(i+1):])
+			omaewa = []
+			for j in range(i+1, length, 2):
+				omaewa.append((args[j], args[j + 1]))
+			main(omaewa)
 		elif '-h' not in args and '-help' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
