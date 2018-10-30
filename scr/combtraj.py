@@ -19,7 +19,7 @@ def main(data):
 	with Pool(2) as p:
 		trajs = p.starmap(load_traj, data)
 	traj = trajs[0]
-	length = [len(trajs[0]), len(trajs[1])]
+	length = [len(trajs[i]) for i in range(len(trajs))]
 	for i in range(1, len(trajs)):
 		traj = traj.join(trajs[i])
 		trajs[i] = 0
@@ -28,8 +28,13 @@ def main(data):
 	traj = traj.superpose(avg_str, parallel = True)
 	traj[:length[0]].save_xtc('concatenated1_FALL.xtc')
 	average_structure(traj[:length[0]]).save('average1_FALL.pdb')
-	traj[length[0]:].save_xtc('concatenated2_FALL.xtc')
-	average_structure(traj[length[0]:]).save('average2_FALL.pdb')
+	start_ = length[0]
+	end_ = length[0]
+	for i in range(1, len(length)):
+		traj[start_:end_ + length[i]].save_xtc('concatenated%s_FALL.xtc' % str(i + 1))
+		average_structure(traj[start_:end_ + length[i]]).save('average%s_FALL.pdb' % str(i + 1))
+		start_ += length[i]
+		end_ += length[i]
 	avg_str = average_structure(traj)
 	traj.save_xtc('united.xtc')
 	avg_str.save('average.pdb')
