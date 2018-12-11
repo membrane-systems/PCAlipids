@@ -182,7 +182,7 @@ def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0
 
 def main(filenames, N_lipids, timestep, fileout = None):
     input_data = []
-    name = filenames[0].split('_')[0]
+    name = filenames[0][:filenames[0].rfind('_')]
     for i in range(len(filenames)):
         input_data.append((filenames[i], N_lipids, timestep))
 
