@@ -83,7 +83,7 @@ def calc(filename, N_lips, timestep):
 
 def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg'):
 	input_data = [(filename, N_lips, timestep) for filename in filenames]
-	name = filenames[0].split('_')[0]
+	name = filenames[0][:filenames[0].rfind('_')]
 	# print(input_data)
 	with Pool(8) as p:
 		data = p.starmap(calc, input_data)
