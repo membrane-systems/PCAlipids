@@ -89,7 +89,7 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 		data = p.starmap(calc, input_data)
 	file = open('%s_AUTO_VS_T.xvg' % name, 'w')
 	for value in data:
-		file.write(str(value[0]) + ' ' + str(value[1]))
+		file.write(str(list(value[0])) + ' ' + str(list(value[1])))
 		file.write('\n')
 		file.write('\n')
 	file.close()
