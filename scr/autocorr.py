@@ -88,9 +88,12 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	with Pool(8) as p:
 		data = p.starmap(calc, input_data)
 	file = open('%s_AUTO_VS_T.xvg' % name, 'w')
-	for value in data:
-		file.write(str(list(value[0])) + ' ' + str(list(value[1])))
-		file.write('\n')
+	for j in range(len(data[0][0])):
+		for i in range(len(data)):
+			if i == 0:
+				file.write(str(data[i][0][j]) + ' ' + str(str(data[i][1][j])))
+			else:
+				file.write(' ' + str(str(data[i][1][j])))
 		file.write('\n')
 	file.close()
 	POINTS = []
