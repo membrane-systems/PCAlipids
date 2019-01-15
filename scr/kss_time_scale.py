@@ -178,7 +178,7 @@ def calc(filename, N_lip, timestep):     #, N_lip, N_bins, N_samples, cutoff = 0
 
     print(filename + ' - processed')   
     # print(KSS_time, T) 
-    return KSS_time, T
+    return T, KSS_time
 
 def main(filenames, N_lipids, timestep, fileout = None):
     input_data = []
