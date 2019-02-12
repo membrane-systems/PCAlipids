@@ -6,8 +6,11 @@ def get_data_from_file(file_name, time):
 	file_ = open(file_name, 'r')
 	lines = file_.readlines()
 	file_.close()
-	data_1 = lines[2:12]
-	data_2 = lines[166:176]
+	for line in lines:
+		if line.find('E**2') != -1:
+			data_1 = lines[lines.index(line) + 1:lines.index(line)+ 11]
+		if line.find('E**1')!=-1:
+			data_2 = lines[lines.index(line) + 1:lines.index(line)+ 11]
 	if time == 't2':
 		return [float(line.split()[1]) for line in data_1] 
 	elif time == 't1':
