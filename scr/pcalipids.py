@@ -132,14 +132,12 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 	
 	elif args[0] == 'projdist':
 		main = proj_dist_s.main
-		if '-p' in args and '-first' in args and '-last' in args:
-			main(args[args.index('-p') + 1], args[args.index('-first') + 1], args[args.index('-last') + 1])
-		elif '-p' in args and '-first' not in args and '-last' not in args:
-			main(args[args.index('-p') + 1], 1, 3)
+		if '-p' in args and '-npc' in args:
+			main(args[args.index('-p') + 1],args[args.index('-npc') + 1])
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
-			print('-p <projection file> (file format *.xvg)\n -first <first projection> -last <last projection> (int format). \nIf not supplied, the first 3 projections will be analyzed.')
+			print('-p <projection file> (file format *.xvg)\n-npc - number of component')
 
 	
 	elif args[0] == 'ksst':
