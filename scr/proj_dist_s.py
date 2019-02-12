@@ -6,33 +6,21 @@ import sys
 import os
 
 
-def get_data_from_file(file_name, first_PC, last_PC):
+def get_data_from_file(file_name):
 	file = open(file_name, 'r')
+	proj = []
 	line = file.readline()
-	i = 1
-	projs = []
-	while i < first_PC:
+	while line.find('&') == -1:
+		if line.find('@') == -1:
+			proj.append(float(line.split()[0]))
 		line = file.readline()
-		if line.find('&') != -1:
-			i += 1
-	line = file.readline()
-	while i <= last_PC:
-		proj = []
-		while line.find('&') == -1:
-			if line.find('@') == -1:
-				proj.append(float(line.split()[1]))
-			line = file.readline()
-		proj.append(i)
-		i += 1
-		line = file.readline()
-		projs.append(proj)
 	file.close()
-	return projs
+	return proj
 
 
-def plot_dist(data, PATH):
-	N = data[len(data) - 1]
-	data = np.array(data[:len(data) - 1])
+def plot_dist(data, PATH, PC):
+	N = PC
+	data = np.array(data)
 	KDEpf = gaussian_kde(data)
 	x = np.linspace(np.amin(data), np.amax(data), 100)
 	plt.ylabel('Probability density (a.u.)')
@@ -43,22 +31,9 @@ def plot_dist(data, PATH):
 	plt.clf()
 
 
-def main(file_name, first_PC, last_PC):
+def main(file_name, PC):
 	PATH = os.getcwd() + '/'
-	projs = get_data_from_file(PATH + file_name, int(first_PC), int(last_PC))
-	for i in range(len(projs)):
-		projs[i] = (projs[i], PATH)
+	proj = get_data_from_file(PATH + file_name)
+	proj = [(proj,PATH,PC)]
 	with Pool(2) as p:
-		p.starmap(plot_dist, projs)
-
-
-if __name__ == '__main__':
- 	args = sys.argv[1:]
- 	if '-p' in args and '-first' in args and '-last' in args:
- 		main(args[args.index('-p') + 1], args[args.index('-first') + 1], args[args.index('-last') + 1])
- 	elif '-p' in args and '-first' not in args and '-last' not in args:
- 		main(args[args.index('-p') + 1], 1, 3)
- 	elif '-h' not in args:
- 		print('Missing parameters, try -h for flags\n')
- 	else:
- 		print('-p <projection file> (file format *.xvg)\n -fisrt <first projection> -last <last projection> (int format). \nIf not supplied, the first 3 projections will be analyzed.')
+		p.starmap(plot_dist, proj)
