@@ -49,7 +49,8 @@ def PCA_mem(traj, top):
 def main(traj_file, top_file, val_file, vec_file, cov_file, invert, memory_flag):
 	PATH = os.getcwd() + '/'
 	if memory_flag == False:
-		eig_vals, eig_vecs, cov_mat = PCA(load_traj(PATH + traj_file, PATH + top_file))
+# 		eig_vals, eig_vecs, cov_mat = PCA(load_traj(PATH + traj_file, PATH + top_file))
+		eig_vals, eig_vecs, cov_mat = PCA_mem(PATH + traj_file, PATH + top_file)
 	else:
 		eig_vals, eig_vecs, cov_mat = PCA_mem(PATH + traj_file, PATH + top_file)
 	if val_file == None:
