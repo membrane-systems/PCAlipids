@@ -19,6 +19,7 @@ def load_traj(traj_file, traj_top, lipid_resname, stride, sf, ef = None, max_fra
 	else:
 		traj = traj.remove_solvent()
 		traj = traj.atom_slice(traj.topology.select('not water and not type W H Hs WT4 NaW KW CLW MgW and resname %s' % lipid_resname))
+	print(traj)
 	# # table, bonds  = traj.topology.to_dataframe()
 	# table.loc[:, ('chainID')] = 0
 	# table.loc[:, ('segmentID')] = 'A'
@@ -48,9 +49,16 @@ def main(file_1, file_2, stride, sf, ef, out_traj, out_top, file_3 = None, lipid
 	#with Pool(2) as p:
 	#	trajs_ = p.starmap(concat, lipids)
 	trajs_ = []
-	for i in range(N):
+	i = 0
+	j = 0
+	while j < N:
 		# print(i)
-		trajs_.append(concat(traj, i))	
+		try:
+			trajs_.append(concat(traj, i))	
+			i+= 1
+			j+= 1
+		except IndexError:
+			i += 1
 	traj = trajs_[0]
 	for i in range(1, N):
 		# print(i)
@@ -114,4 +122,3 @@ def main(file_1, file_2, stride, sf, ef, out_traj, out_top, file_3 = None, lipid
 # 		print('-f <trajectory file> (file format *.xtc, *trr)\n-t <topology file> (any file with topology)\n-r <reference traj file> (any topology file). If not supplied, \
 # 			the first frame of trajectory will be used for alignment\n -l <lipid type> (example: -l DPPC)\n -stride <positive integer; step of reading frames>\n \
 # 			 -sf <time in ps; number to determine from which frame to read the trajectory>\n -oc <output trajectory file>\n -oa <output topology file>\n')
-
