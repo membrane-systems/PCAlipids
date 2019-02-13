@@ -36,21 +36,25 @@ def PDFs(y, data, label, col, style=''):
 	else:
 		p= plt.plot(y, KDEpdf(y), 'r', label = label, color = col,linestyle = style)
 	# plt.show()
-	return p
+	return max(KDEpdf(y)), p
 
-def main(file1, file2):
+def main(files):
 	handles = []
-	data1 = get_data_from_file(file1)
-	data2 = get_data_from_file(file2)
-	min_ = min([min(data1), min(data2)])
-	max_ = max([max(data1), max(data2)])
+	data = [get_data_from_file(file) for file in files]
+	min_ = 10**10
+	max_ = -1 * 10**10
+	for seq in data:
+		min_ = min(min_, min(seq))
+		max_ = max(max_, max(seq))
 	y = np.linspace(min_, max_, 101)
-	line1, = PDFs(y, get_data_from_file(file1),'First trajectory', 'blue')
-	handles.append(line1)
+	max_t = -1 * 10**10
+	colors = ['green','yellow','blue','red','cyan','olive','orange','pink']
+
+	for i in range(len(data)):
+		max_y, line1 = PDFs(y, data[i],'%s trajectory' % str(i), colors[i])
+		max_t = max(max_y, max_t)
+		handles.append(line1[0])
 	
-	
-	line1, = PDFs(y, get_data_from_file(file2),'Second trajectory', 'green')
-	handles.append(line1)
 	#line1, = PDFs(y, get_data_from_file('projection_0004_map_12_or.xvg'), 'original mapping','black', '--')
 	#handles.append(line1)
 	#PDFs(y, get_data_from_file('projection_0008_map_16.xvg'), 'black', '--')
@@ -59,8 +63,8 @@ def main(file1, file2):
 	plt.title("Distributions in general basis")
 	plt.xlabel('PC projection value (A)')
 	plt.ylabel('Probability density (a.u.)')
-	plt.ylim([0,0.45])
+	plt.ylim([0,max_t + 0.05])
 	plt.xlim([min_, max_])
 	plt.legend(handles = handles, ncol = 2)
-	plt.savefig('Distributions_in_general_basis.png')
-	print('Picture saved as "Distributions_in_general_basis.png"')
+	plt.savefig('Distributions.png')
+	print('Picture saved as "Distributions.png"')
