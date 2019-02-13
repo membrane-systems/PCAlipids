@@ -51,7 +51,7 @@ def main(files):
 	colors = ['green','yellow','blue','red','cyan','olive','orange','pink']
 
 	for i in range(len(data)):
-		max_y, line1 = PDFs(y, data[i],'%s trajectory' % str(i), colors[i])
+		max_y, line1 = PDFs(y, data[i],'%s trajectory' % str(i+1), colors[i])
 		max_t = max(max_y, max_t)
 		handles.append(line1[0])
 	
