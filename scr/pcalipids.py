@@ -134,6 +134,22 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 		main = proj_dist_s.main
 		if '-p' in args and '-npc' in args:
 			main(args[args.index('-p') + 1],args[args.index('-npc') + 1])
+
+
+		elif '-pr' in args and '-npc' in args:
+			files = args[args.index('-pr') + 1]
+			file_start = files[:files.find('-')]
+			file_end = files[files.find('-') + 1:]
+			start = int(file_start[file_start.rfind('_') + 1:file_start.rfind('.')])
+			end = int(file_end[file_end.rfind('_') + 1:file_end.rfind('.')])
+			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
+			filenames = [file_mask[:file_mask.find('.')] + "_" + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
+
+			PCs = [i for i in range(int(args[args.index('-npc') + 1].split('-')[0]), int(args[args.index('-npc') + 1].split('-')[1])+ 1)]
+
+			for i in range(len(PCs)):
+				main(filenames[i],PCs[i])
+
 		elif '-h' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
@@ -237,17 +253,6 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n -stride <<positive integer; step of reading frames>\n -om <output file with conformations>')
 
 
-	elif args[0] == 'projdist':
-		main = proj_dist_s.main
-		if '-p' in args and '-first' in args and '-last' in args:
-	 		main(args[args.index('-p') + 1], args[args.index('-first') + 1], args[args.index('-last') + 1])
-		elif '-p' in args and '-first' not in args and '-last' not in args:
-	 		main(args[args.index('-p') + 1], 1, 3)
-		elif '-h' not in args:
-	 		print('Missing parameters, try -h for flags\n')
-		else:
-			print('-p <projection file> (file format *.xvg)\n -fisrt <first projection> -last <last projection> (int format). \nIf not supplied, the first 3 projections will be analyzed.')
-
 	elif args[0] == 'pearson':
 		main = pearson.main
 		if '-cov1' in args and '-cov2' in args:
@@ -275,12 +280,12 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 
 	elif args[0] == 'projdistm':
 		main = projdistm.main
-		if '-file1' in args and '-file2' in args:
-			main(args[args.index('-file1') + 1],args[args.index('-file2') + 1])
+		if '-files' in args and len(args) > 2:
+			main(args[args.index('-files') + 1:])
 		elif '-h' not in args and '-help' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
-			print('-file1 and -file2 - input files with projections of interest')
+			print('-files <sequence of files with projection>')
 
 
 	elif args[0] == 'reltime':
