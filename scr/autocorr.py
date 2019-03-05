@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import signal
 from multiprocessing import Pool
-import sys
+import sys, os
 import math
 
 
@@ -69,7 +69,7 @@ def calc(filename, N_lips, timestep):
 	T = []
 	for i in range(0, len(R)):
 	    T.append(timestep * i)
-	print(filename + ' - processed')
+	print(filename.split('/')[-1] + ' - processed')
 	# plt.scatter(T[:100],R[:100],s = 5)
 	# j = 1
 	# while j < len(R[:100]) / 2:
@@ -81,13 +81,39 @@ def calc(filename, N_lips, timestep):
 	return T, R
 
 
-def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg'):
-	input_data = [(filename, N_lips, timestep) for filename in filenames]
-	name = filenames[0][:filenames[0].rfind('_')]
-	# print(input_data)
+def main(file_name, range_fnames, N_lips, timestep, file_out ):
+	PATH = os.getcwd() + '/'
+	# if both file or range of files are not defined 
+	if not file_name and not range_fnames:
+		print("The projections files have to be provided.\n\
+		Use pcalipids.py projdist -h for help")
+	# if range is defined
+	elif range_fnames:
+		# define file name for the first projection file in list
+		firstFile = range_fnames[:range_fnames.find('-')]
+		# define file name for the last projection file in list
+		lastFile  = range_fnames[range_fnames.find('-')+1:]
+		# find first PC
+		first = int(firstFile[firstFile.rfind('_')+1:firstFile.rfind('.')])
+		# find last PC
+		last = int(lastFile[lastFile.rfind('_')+1:lastFile.rfind('.')])
+		# define filemask
+		mask = firstFile[:firstFile.rfind('_')]
+		# define filerez
+		rez = firstFile[firstFile.rfind('.'):]
+		input_data = [(PATH + mask + "_" + str(i) + rez, \
+			N_lips, timestep) \
+			for i in range(first,last+1)]
+	else:
+		input_data = [(file_name, N_lips, timestep)]
+
+	name = file_out[:file_out.rfind('.')]
+	rez  = file_out[file_out.rfind('.'):]
+
 	with Pool(8) as p:
 		data = p.starmap(calc, input_data)
-	file = open('%s_AUTO_VS_T.xvg' % name, 'w')
+
+	file = open(name+'_values_vs_t'+rez, 'w')
 	for j in range(len(data[0][0])):
 		for i in range(len(data)):
 			if i == 0:
@@ -111,10 +137,10 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	plt.ylim([0.001, 1])
 	plt.xlabel('Time (ns)')
 	plt.ylabel('Autocorrelation')
-	plt.savefig('autocorrelation.png')
+	plt.savefig(name+'_values_vs_t'+'.png')
 	plt.clf()
 
-	file = open('%s_' % name + file_out, 'w')
+	file = open(name + '_relax_times_vs_pc' + rez, 'w')
 	file.write('### Autocorr ###\n')
 	file.write('E**2\n')
 
@@ -181,39 +207,4 @@ def main(filenames, N_lips, timestep, file_out = 'autocorr_relaxtime_vs_PC.xvg')
 	plt.ylabel('Relaxation time (ns)')
 	plt.xlabel('Component')
 	plt.legend(handles = handles)
-	plt.savefig('autocorrelation_relax_time.png')
-
-
-# if __name__ == '__main__':
-# 	args = sys.argv[1:]
-# 	if '-p' in args and '-ln' in args and '-dt' in args and '-o' in args and '-pr' not in args:
-# 		filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
-# 		main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
-# 	elif '-p' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-pr' not in args:
-# 		print('No output file supplied. Data will be written in "autocorr_relaxtime_vs_PC.xvg"')
-# 		filenames = [args[i] for i in range(args.index('-p') + 1, args.index('-o'))]
-# 		main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
-# 	elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' in args and '-p' not in args:
-# 		files = args[args.index('-pr') + 1]
-# 		file_start = files[:files.find('-')]
-# 		file_end = files[files.find('-') + 1:]
-# 		start = int(''.join(filter(lambda x: x.isdigit(), file_start)))
-# 		end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
-# 		file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
-# 		filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-# 		main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
-# 	elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
-# 		files = args[args.index('-pr') + 1]
-# 		file_start = files[:files.find('-')]
-# 		file_end = files[files.find('-') + 1:]
-# 		start = int(''.join(filter(lambda x: x.isdigit(), file_start)))
-# 		end = int(''.join(filter(lambda x: x.isdigit(), file_end)))
-# 		file_mask = ''.join(filter(lambda x: not x.isdigit(), file_start))
-# 		filenames = [file_mask[:file_mask.find('.')] + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-# 		main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
-# 	elif '-h' not in args:
-# 		print('Missing parameters, try -h for flags\n')
-# 	else:
-# 		print('-p <sequence of projection files>\n -pr <range of files: "proj1.xvg-proj100.xvg">\n-t <topology file> (any file with topology)\n-r <reference traj file> (any file with 1 ref frame). If not supplied, \
-# 			the first frame of trajectory will be used for alignment.')
-
+	plt.savefig(name + '_relax_times_vs_pc.png')
