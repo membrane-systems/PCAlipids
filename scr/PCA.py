@@ -46,29 +46,18 @@ def PCA_mem(traj, top):
 	return eig_vals[::-1], eig_vecs, cov_mat
 
 
-def main(traj_file, top_file, val_file, vec_file, cov_file, invert, memory_flag):
+def main(traj_file, top_file, val_file, vec_file, cov_file, invert):
 	PATH = os.getcwd() + '/'
-	if memory_flag == False:
-# 		eig_vals, eig_vecs, cov_mat = PCA(load_traj(PATH + traj_file, PATH + top_file))
-		eig_vals, eig_vecs, cov_mat = PCA_mem(PATH + traj_file, PATH + top_file)
-	else:
-		eig_vals, eig_vecs, cov_mat = PCA_mem(PATH + traj_file, PATH + top_file)
-	if val_file == None:
-		file_out = 'eigenval.xvg'
-	else:
-		file_out = val_file
-	with open(PATH + file_out, 'w') as file:
+	eig_vals, eig_vecs, cov_mat = PCA_mem(PATH + traj_file, PATH + top_file)
+
+	with open(PATH + val_file, 'w') as file:
 		file.write('@    title "Eigenvalues of the covariance matrix"\n')
 		for i in range(len(eig_vals)):
 			file.write(str(i + 1) + ' ' + str(eig_vals[i]) + '\n')
 		file.write('&')
-	print('Wrote %s eigenvalues in "%s"' % (len(eig_vals), file_out))
+	print('Wrote %s eigenvalues in "%s"' % (len(eig_vals), val_file))
 
-	if cov_file == None:
-		file_out = 'covar.dat'
-	else:
-		file_out = cov_file
-	with open(PATH + file_out, 'w') as file:
+	with open(PATH + cov_file, 'w') as file:
 		flag = 0
 		for i in range(len(cov_mat)):
 			for j in range(len(cov_mat)):
@@ -77,44 +66,16 @@ def main(traj_file, top_file, val_file, vec_file, cov_file, invert, memory_flag)
 				if flag == 3:
 					flag = 0
 					file.write('\n')
-	print('Wrote covariance matrix in "%s"' % file_out)
+	print('Wrote covariance matrix in "%s"' % cov_file)
 
-	if vec_file == None:
-		file_out = 'eigenvec.xvg'
-	else:
-		file_out = vec_file
 	if invert:
 		invert = -1.
 	else:
 		invert = 1.
-	with open(PATH + file_out, 'w') as file:
+	with open(PATH + vec_file, 'w') as file:
 		for i in range(len(eig_vecs)):
 			for j in range(len(eig_vecs[:,len(eig_vecs) - 1 - i])):
 				file.write(str(invert * eig_vecs[:,len(eig_vecs) - 1 - i][j]) + ' ')
 			file.write('\n')
-	print('Wrote eigenvectors in "%s"' % file_out)
+	print('Wrote eigenvectors in "%s"' % vec_file)
 	return 
-
-
-# if __name__ == '__main__':
-# 	args = sys.argv[1:]
-# 	if '-oeval' in args:
-# 		val_file = args[args.index('-oeval') + 1]
-# 	else:
-# 		val_file = None
-# 	if '-oevec' in args:
-# 		vec_file = args[args.index('-oevec') + 1]
-# 	else:
-# 		vec_file = None
-# 	if '-ocov' in args:
-# 		cov_file = args[args.index('-ocov') + 1]
-# 	else:
-# 		cov_file = None
-# 	if '-f' in args and '-t' in args:
-# 		main(args[args.index('-f') + 1], args[args.index('-t') + 1], val_file = val_file, vec_file = vec_file, cov_file = cov_file)
-# 	elif '-h' not in args:
-# 		print('Missing parameters, try -h for flags\n')
-# 	else:
-# 		print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n -first <first PC> -last <last PC> \n -oeval <output file with eigenvalues>\n\
-# 			-oevec <output file with eigenvectors>\n -ocov <output file with covariance matrix>\n -op <output file with projections>.')
-
