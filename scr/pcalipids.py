@@ -64,6 +64,15 @@ def main(args):
 	("-l", OptionF(str, 1, None, "Lipid type"))		
 	]
 
+	optionsConspace = [
+	# options for conspace feature
+	"Input/output options for conspace feature",
+	("-f", OptionF(str, 1, None, "Input XTC or TRR file")),
+	("-t", OptionF(str, 1, None, "Input topology PDB of GRO file")),
+	("-stride", OptionF(int,1,1000, "Only read every Nr-th frame (default: 1000)")),
+	("-om", OptionF(str, 1, "conformations.pdb", "Output PDB file with conformations"))
+	]
+
 	optionsCovar = [
 	# options for covar feature
 	"Input/output options for covar feature",
@@ -103,6 +112,8 @@ def main(args):
 	"List of procedures",
 	("concat", Option(str,"con_traj",optionsConcat,\
 		"Concatenate trajectories of individual lipids")),
+	("conspace", Option(str,"lipic",optionsConspace,\
+		"Vizualize possible conformations")),
 	("covar", Option(str,"PCA",optionsCovar,\
 		"Perform PCA on aligned concatenated lipid trajectory")),
 	("project", Option(str,"project",optionsProject,\
@@ -231,24 +242,6 @@ def main(args):
 # 			print('Missing parameters, try -h for flags\n')
 # 		else:
 # 			print('-evec <two files with eigenvectors (example: -evec eigenvec1.xvg eigenvec2.xvg)>')
-
-
-# 	elif args[0] == 'conspace':
-# 		main = lipic.main
-# 		if '-stride' in args:
-# 			stride = int(args[args.index('-stride') + 1])
-# 		else:
-# 			stride = 10000
-# 		if '-om' in args:
-# 			mot_out = args[args.index('-om') + 1]
-# 		else:
-# 			mot_out = 'conform.pdb'
-# 		if '-f' in args and '-t' in args:
-# 			main(args[args.index('-f') + 1], args[args.index('-t') + 1], stride, mot_out)
-# 		elif '-h' not in args and '-help' not in args:
-# 			print('Missing parameters, try -h for flags\n')
-# 		else:
-# 			print('-f <trajectory file> (file format *.xtc)\n-t <topology file> (any file with topology)\n -stride <<positive integer; step of reading frames>\n -om <output file with conformations>')
 
 
 # 	elif args[0] == 'pearson':
