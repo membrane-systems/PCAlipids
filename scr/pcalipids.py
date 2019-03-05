@@ -52,15 +52,15 @@ def main(args):
 	optionsConcat = [
 	# options for concat feature
 	"Input/output options for concat feature",
-	("-f", OptionF(str, 1, None, "Input XTC or TRR file")),
-	("-t", OptionF(str, 1, None, "Input topology PDB of GRO file")),
-	("-stride", OptionF(int, 1, 1, "Only read every Nr-th frame")),
+	("-f", OptionF(str, 1, None, "Input trajectory file (.xtc, .trr, ...)")),
+	("-t", OptionF(str, 1, None, "Input topology file (.pdb, .gro, ...)")),
+	("-stride", OptionF(int, 1, 1, "Only read every Nth frame")),
 	("-sf", OptionF(int, 1, 0, "First frame (ps) to read from trajectory")),
 	("-ef", OptionF(int, 1, -1, "Last frame (ps) to read from trajectory")),
 	("-oc", OptionF(str, 1, "concatenated.xtc", "Output concatenated trajectory file")),
 	("-oa", OptionF(str, 1, "average.pdb", "Output average structure")),
-	("-r", OptionF(str, 1, None, "Input reference PDB of GRO file. If not supplied, \
-		the structure for the first lipid and the first frame is used for alignment")),
+	("-r", OptionF(str, 1, None, "Input reference file (.pdb, .gro). If not supplied, \
+the structure of the first lipid and the first frame is used for alignment")),
 	("-l", OptionF(str, 1, None, "Lipid type"))		
 	]
 
@@ -69,7 +69,7 @@ def main(args):
 	"Input/output options for conspace feature",
 	("-f", OptionF(str, 1, None, "Input XTC or TRR file")),
 	("-t", OptionF(str, 1, None, "Input topology PDB of GRO file")),
-	("-stride", OptionF(int,1,1000, "Only read every Nr-th frame (default: 1000)")),
+	("-stride", OptionF(int,1,1000, "Only read every Nth frame (default: 1000)")),
 	("-om", OptionF(str, 1, "conformations.pdb", "Output PDB file with conformations"))
 	]
 
@@ -99,6 +99,14 @@ def main(args):
 		Do not use '-' or '.' symbols in the projection file names"))
 	]
 
+	optionsMotion = [
+	# option for motion feature
+	"Input/output options for project feature",
+	("-p", OptionF(str, 1, None, "Input projection file")),
+	("-aver", OptionF(str, 1, None, "PDB of GRO file for average structure")),
+	("-ievec", OptionF(str, 1, None, "Eigenvector input file"))
+	]
+
 	optionsProjDist = [
 	# options for projdist feature
 	"Input/output options for projdist feature",
@@ -118,11 +126,14 @@ def main(args):
 		"Perform PCA on aligned concatenated lipid trajectory")),
 	("project", Option(str,"project",optionsProject,\
 		"Project concatenated lipid trajectory on the calculated PCs")),
+	("motion", Option(str,"visualizing",optionsMotion,\
+		"Create pdb file that represents the motion along selected PC")),
 	("projdist", Option(str,"proj_dist_s",optionsProjDist,\
 		"Plot projection distributions for selected PCs"))
 	]
 
-	desc = "\nPCAlipids is a software for analysis of lipid molecule conformations\n"
+	# add link for script; add link for publication
+	desc = "\nPCAlipids is a software for analysis of lipid molecule conformations\n" 
 
 	# If the user asks for help: pcalipids.py -h
 	if args[0] == '-h' or args[0] == '--help':
