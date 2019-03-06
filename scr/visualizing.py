@@ -19,7 +19,7 @@ def extreme_proj(proj_file, PC):
 		while line.find('&') == -1:
 			if line.find('@') == -1:
 				# print(line)
-				proj_val = float(line.split()[1])
+				proj_val = float(line.split()[0])
 				max_ = max(max_, proj_val)
 				min_ = min(min_, proj_val)
 			line = file.readline()
