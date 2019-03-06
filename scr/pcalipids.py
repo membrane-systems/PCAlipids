@@ -126,6 +126,17 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("-o", OptionF(str, 1, "acor.xvg", "Name of output files"))
 	]
 
+	optionsKsst = [
+	# options for autot feature
+	"Input/output options for ksst feature",
+	("-p", OptionF(str, 1, None, "Input projection file")),
+	("-pr", OptionF(str, 1, None, "Range of input projection files: \n\
+	example: -pr proj_1.xvg-proj_10.xvg")),
+	("-ln", OptionF(int, 1, 1, "Number of lipids in the system (default: 1)")),
+	("-dt", OptionF(float, 1, 0.01, "Timestep (ns) (default: 0.01 ns)")),
+	("-o", OptionF(str, 1, "kss.xvg", "Name of output files"))
+	]
+
 	options = [
 	# list of all available features
 	"List of procedures",
@@ -142,7 +153,9 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("projdist", Option(str,"proj_dist_s",optionsProjDist,\
 		"Plot projection distributions for selected PCs")),
 	("autot", Option(str,"autocorr",optionsAutot,\
-		"Calculate autocorrelation decay times"))
+		"Calculate autocorrelation decay times")),
+	("ksst", Option(str,"kss_time_scale",optionsKsst,\
+		"Calculate distribution convergence times"))
 	]
 
 	# add link for script; add link for publication
@@ -189,40 +202,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 	params=list(v.value for v in optionsF.values())
 	main(*params)
 
-# 	elif args[0] == 'ksst':
-# 		main = kss_time_scale.main
-# 		if '-p' in args and '-ln' in args and '-dt' in args and '-o' in args and '-pr' not in args:
-# 			start = args.index('-p')
-# 			end = min(args.index('-o'), args.index('-ln'))
-# 			filenames = [args[i] for i in range(start + 1, end)]
-# 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
-# 		elif '-p' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-pr' not in args:
-# 			# print('No output file supplied. Data will be written in "KSS_relaxtime_vs_PC.xvg"')
-# 			filenames = [args[i] for i in range(args.index('-p') + 1, min(args.index('-dt'), args.index('-ln')))]
-# 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
-# 		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' in args and '-p' not in args:
-# 			files = args[args.index('-pr') + 1]
-# 			file_start = files[:files.find('-')]
-# 			file_end = files[files.find('-') + 1:]
-# 			start = int(file_start[file_start.rfind('_') + 1:file_start.rfind('.')])
-# 			end = int(file_end[file_end.rfind('_') + 1:file_end.rfind('.')])
-# 			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
-# 			filenames = [file_mask[:file_mask.find('.')] + "_" + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-# 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]), args[args.index('-o') + 1])
-# 		elif '-pr' in args and '-ln' in args and '-dt' in args and '-o' not in args and '-p' not in args: 
-# 			files = args[args.index('-pr') + 1]
-# 			file_start = files[:files.find('-')]
-# 			file_end = files[files.find('-') + 1:]
-# 			start = int(file_start[file_start.rfind('_') + 1:file_start.rfind('.')])
-# 			end = int(file_end[file_end.rfind('_') + 1:file_end.rfind('.')])
-# 			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
-# 			filenames = [file_mask[:file_mask.find('.')] + "_" + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
-# 			main(filenames, int(args[args.index('-ln') + 1]), float(args[args.index('-dt') + 1]))
-# 		elif '-h' not in args:
-# 			print('Missing parameters, try -h for flags\n')
-# 		else:
-# 			print('-p <sequence of projection files> - this param must be the first\n -pr <range of files: "proj1.xvg-proj100.xvg">\n-o <timescales file> (*.xvg)\n\
-# -ln <number of lipids>\n -dt <timestep in (ns)>')
+
 
 
 # 	elif args[0] == 'eigenvecdot':
