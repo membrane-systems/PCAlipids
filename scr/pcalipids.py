@@ -316,12 +316,15 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 
 	elif args[0] == 'timescalespic':
 		main = timescalespic.main
-		if '-file1' in args and '-file2' in args and '-type' in args and '-time' in args:
-			main(args[args.index('-file1') + 1],args[args.index('-file2') + 1],args[args.index('-type') + 1],args[args.index('-time') + 1])
+		if '-file1' in args and '-file2' in args and '-type' in args and '-t' in args:
+			main(args[args.index('-file1') + 1],args[args.index('-file2') + 1],\
+				args[args.index('-type') + 1],args[args.index('-t') + 1])
 		elif '-h' not in args and '-help' not in args:
 			print('Missing parameters, try -h for flags\n')
 		else:
-			print('-file1 and -file2 - input files with timescales\n-type "kss" or "auto" for kss or autocorrelation data\n-time "t1" or "t2" for decreasing in e or e^2 times)')
+			print('-file1 and -file2 - input files with timescales\n\
+				-type "kss" or "auto" for kss or autocorrelation data\n\
+				-t "t1" or "t2" for decreasing in e or e^2 times)')
 
 
 	elif args[0] == 'eigenvals':
