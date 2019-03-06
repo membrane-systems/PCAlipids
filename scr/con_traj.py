@@ -42,17 +42,14 @@ def average_structure(traj):
 
 #@jit
 def main(file_1, file_2, stride, sf, ef, out_traj, out_top, file_3 = None, lipid_resname = None):
+
 	PATH = os.getcwd() + '/'
 	traj = load_traj(PATH + file_1, PATH + file_2, lipid_resname = lipid_resname, stride = stride, sf = sf, ef = ef)
 	N = traj[0].n_residues
-	#lipids = [(traj,i)  for i in range(N)]
-	#with Pool(2) as p:
-	#	trajs_ = p.starmap(concat, lipids)
 	trajs_ = []
 	i = 0
 	j = 0
 	while j < N:
-		# print(i)
 		try:
 			trajs_.append(concat(traj, i))	
 			i+= 1
@@ -61,7 +58,6 @@ def main(file_1, file_2, stride, sf, ef, out_traj, out_top, file_3 = None, lipid
 			i += 1
 	traj = trajs_[0]
 	for i in range(1, N):
-		# print(i)
 		traj = traj.join(trajs_[i])
 		trajs_[i] = 0
 	if file_3 != None:
@@ -87,38 +83,3 @@ def main(file_1, file_2, stride, sf, ef, out_traj, out_top, file_3 = None, lipid
 		avg_str.save(out_top)
 		print('Average structure saved in "%s"' % out_top)
 	return
-
-
-# if __name__ == '__main__':
-# 	args = sys.argv[1:]
-# 	if '-stride' in args:
-# 		stride = int(args[args.index('-stride') + 1])
-# 	else:
-# 		stride = None
-# 	if '-sf' in args:
-# 		sf = int(args[args.index('-sf') + 1])
-# 	else:
-# 		sf = None
-# 	if '-oc' in args:
-# 		out_traj = args[args.index('-oc') + 1]
-# 	else:
-# 		out_traj = None
-# 	if '-oa' in args:
-# 		out_top = args[args.index('-oa') + 1]
-# 	else:
-# 		out_top = None
-# 	if '-f' in args and '-t' in args and '-r' in args and '-l' in args:
-# 		main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-r') + 1], args[args.index('-l') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
-# 	elif '-f' in args and '-t' in args and '-r' not in args:
-# 		print('No reference file supplied. The first frame of trajectory will be used for alignment.')
-# 		main(args[args.index('-f') + 1], args[args.index('-t') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
-# 	elif '-f' in args and '-t' in args and '-r' in args and '-l' not in args:
-# 		main(args[args.index('-f') + 1], args[args.index('-t') + 1], args[args.index('-r') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
-# 	elif '-f' in args and '-t' in args and '-r' not in args and '-l' not in args:
-# 		main(args[args.index('-f') + 1], args[args.index('-t') + 1], stride = stride, sf = sf, out_traj = out_traj, out_top = out_top)
-# 	elif '-h' not in args:
-# 		print('Missing parameters, try -h for flags\n')
-# 	else:
-# 		print('-f <trajectory file> (file format *.xtc, *trr)\n-t <topology file> (any file with topology)\n-r <reference traj file> (any topology file). If not supplied, \
-# 			the first frame of trajectory will be used for alignment\n -l <lipid type> (example: -l DPPC)\n -stride <positive integer; step of reading frames>\n \
-# 			 -sf <time in ps; number to determine from which frame to read the trajectory>\n -oc <output trajectory file>\n -oa <output topology file>\n')
