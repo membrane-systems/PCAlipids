@@ -199,14 +199,14 @@ def main(filenames, N_lipids, timestep, fileout = None):
     plt.clf()
 
     file = open('%s_KSS_vs_T.xvg' % name, 'w')
-	for j in range(len(data[0][0])):
-		for i in range(len(data)):
-			if i == 0:
-				file.write(str(data[i][1][j]) + ' ' + str(str(data[i][0][j])))
-			else:
-				file.write(' ' + str(str(data[i][0][j])))
-		file.write('\n')
-	file.close()
+    for j in range(len(data[0][0])):
+        for i in range(len(data)):
+            if i == 0:
+                file.write(str(data[i][1][j]) + ' ' + str(str(data[i][0][j])))
+            else:
+                file.write(' ' + str(str(data[i][0][j])))
+        file.write('\n')
+    file.close()
 
     if fileout == None:
         file = open("%s_KSS_relaxation_time_vs_PC.xvg" % name, 'w')
