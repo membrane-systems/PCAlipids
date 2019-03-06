@@ -127,7 +127,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 	]
 
 	optionsKsst = [
-	# options for autot feature
+	# options for ksst feature
 	"Input/output options for ksst feature",
 	("-p", OptionF(str, 1, None, "Input projection file")),
 	("-pr", OptionF(str, 1, None, "Range of input projection files: \n\
@@ -137,9 +137,18 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("-o", OptionF(str, 1, "kss.xvg", "Name of output files"))
 	]
 
+	optionsCombtrajs = [
+	# options for combtrajs feature
+	"Input/output options for combtrajs feature",
+	("-fs", OptionF(str, -1, None, \
+		"Input trajectories and corresponding average structures")),
+	("-ou", OptionF(str,1,"united.xtc","Output combined trajectory"))
+	]
+
 	options = [
 	# list of all available features
-	"List of procedures",
+	"List of procedures\n",
+	"Performing PCA on lipid molecule conforamtions\n",
 	("concat", Option(str,"con_traj",optionsConcat,\
 		"Concatenate trajectories of individual lipids")),
 	("conspace", Option(str,"lipic",optionsConspace,\
@@ -152,10 +161,14 @@ the structure of the first lipid and the first frame is used for alignment")),
 		"Create pdb file that represents the motion along selected PC")),
 	("projdist", Option(str,"proj_dist_s",optionsProjDist,\
 		"Plot projection distributions for selected PCs")),
+	"\nCalculating characteristic timescales\n",
 	("autot", Option(str,"autocorr",optionsAutot,\
 		"Calculate autocorrelation decay times")),
 	("ksst", Option(str,"kss_time_scale",optionsKsst,\
-		"Calculate distribution convergence times"))
+		"Calculate distribution convergence times")),
+	"\nComparing several trajectories\n",
+	("combtrajs", Option(str,"combtraj",optionsCombtrajs,\
+		"Combine two trajectories"))
 	]
 
 	# add link for script; add link for publication
@@ -196,7 +209,19 @@ the structure of the first lipid and the first frame is used for alignment")),
 	# Parsing argumens and setting values
 	while args:
 		ar = args.pop(0) # choose argument
-		optionsF[ar].setvalue([args.pop(0) for i in range(optionsF[ar].num)]) # set value
+		if optionsF[ar].num == -1:
+			listOfInputs = []
+			while args:
+				ar1 = args.pop(0)
+				if ar1 in list(optionsF.keys()):
+					optionsF[ar].setvalue(listOfInputs)
+					args.insert(0,ar1)
+					break
+				else:
+					listOfInputs.append(ar1)
+			optionsF[ar].setvalue(listOfInputs)
+		else:
+			optionsF[ar].setvalue([args.pop(0) for i in range(optionsF[ar].num)]) # set value
 
 	# Pass all the parameters to function
 	params=list(v.value for v in optionsF.values())
@@ -224,21 +249,6 @@ the structure of the first lipid and the first frame is used for alignment")),
 # 		else:
 # 			print('-cov1, -cov2 - 2 files with covariance matrices')
 
-# 	elif args[0] == 'splitproj':
-# 		main = proj_parse.main
-# 		if '-p' in args:
-# 			main(args[args.index('-p') + 1])
-# 		elif '-h' not in args and '-help' not in args:
-# 			print('Missing parameters, try -h for flags\n')
-# 		else:
-# 			print('-p - projection file')
-
-# 	elif args[0] == 'motion':
-# 		main = visualizing.main
-# 		if '-p' in args and '-npc' in args and '-aver' in args and '-ievec' in args:
-# 			main(args[args.index('-p') + 1], args[args.index('-npc') + 1], args[args.index('-aver') + 1], args[args.index('-ievec') + 1])
-# 		else:
-# 			print('-p - projection file\n -npc - number of principal component\n -aver - average structure\n -ievec - file with eigenvectors')
 
 # 	elif args[0] == 'projdistm':
 # 		main = projdistm.main
@@ -258,21 +268,6 @@ the structure of the first lipid and the first frame is used for alignment")),
 # 			print('Missing parameters, try -h for flags\n')
 # 		else:
 # 			print('-eval - file with eigenvalues \n-time1 and -time2 - 2 files related to different trajectories that contains relaxation time for autocorrelations')
-
-
-# 	elif args[0] == 'combtrajs':
-# 		main = combtraj.main
-# 		if '-fs' in args:
-# 			i = args.index('-fs')
-# 			length = len(args[(i+1):])
-# 			omaewa = []
-# 			for j in range(i+1, len(args), 2):
-# 				omaewa.append((args[j], args[j + 1]))
-# 			main(omaewa)
-# 		elif '-h' not in args and '-help' not in args:
-# 			print('Missing parameters, try -h for flags\n')
-# 		else:
-# 			print('-fs - input files with trajectories and topologies in the right order: \n-fs concatenated_1.xtc average_1.pdb concatenated_2.xtc average_2.pdb')
 
 
 # 	elif args[0] == 'timescalespic':
@@ -299,30 +294,6 @@ the structure of the first lipid and the first frame is used for alignment")),
 # 			print('Missing parameters, try -h for flags\n')
 # 		else:
 # 			print('-ieval - input file with eigevalues (file format *.xvg)\n-cumulative - cumulative sum of eigenvalues (optional <False>)')
-
-
-# 	elif args[0] == 'help' or args[0] == '-h' or args[0] == '-help':
-# 		print("'concat' - create concatenated trajectory\n\
-# 'covar' - principal component analysis\n\
-# 'project' - calculating projections\n\
-# 'projdist' - probability density of single trajectory projection\n\
-# 'projdistm' - probability density of two trajectories projections\n\
-# 'ksst' - Kolmogorov-Smirnov convergence\n\
-# 'autot' - Autocorrelation decay\n\
-# 'eigenvecdot' - scalar product of eigenvectors from different trajectories\n\
-# 'conspace' - conformational space of lipids in trajectory\n\
-# 'pearson' - Pearson coefficient for covariance matrices from different trajectories\n\
-# 'splitproj' - split files with all projections into files with projections for single PC\n\
-# 'motion' - demonstrates the motion along PC.\n\
-# 'eigenvals' - picture of eigenvalues of covariance matrix or their cumulative sum\n\
-# 'combtrajs' - combine 2 concatenated trajectories into one associated trajectory\n\
-# 'reltime' - comparison of the characteristic timescales for KSS or autocorrelation\n\
-# 'timescalespic' - picture for joint analysis of the timescales of two trajectories\n\
-#  Use any of this options.")
-
-# 	else:
-# 		print('Use -h or help for more information.')
-###
 
 if __name__ == '__main__':
 	args = sys.argv[1:]
