@@ -15,7 +15,10 @@ def average_structure(traj):
 	return avg_traj
 
 
-def main(data):
+def main(inp,output_file):
+	data = []
+	for i in range(0,len(inp),2):
+		data.append((inp[i],inp[i+1]))
 	with Pool(2) as p:
 		trajs = p.starmap(load_traj, data)
 	traj = trajs[0]
@@ -39,13 +42,3 @@ def main(data):
 	traj.save_xtc('united.xtc')
 	avg_str.save('average.pdb')
 
-
-# if __name__ == '__main__':
-# 	args = sys.argv[1:]
-# 	i = 0
-# 	data = []
-# 	while i < len(args):
-# 		if args[i] == '-fs':
-# 			data.append((args[i + 1], args[i + 2]))
-# 			i += 3
-# 	main(data)
