@@ -132,11 +132,13 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 	
 	elif args[0] == 'projdist':
 		main = proj_dist_s.main
-		if '-p' in args and '-npc' in args:
-			main(args[args.index('-p') + 1],args[args.index('-npc') + 1])
+		if '-p' in args:
+			filename = args[args.index('-p') + 1]
+			PC = int(filename.split('_')[1].split('.')[0])
+			main(filename, PC)
 
 
-		elif '-pr' in args and '-npc' in args:
+		elif '-pr' in args and '-pr' in args:
 			files = args[args.index('-pr') + 1]
 			file_start = files[:files.find('-')]
 			file_end = files[files.find('-') + 1:]
@@ -145,8 +147,7 @@ the first frame of trajectory will be used for alignment\n -l <lipid type> (exam
 			file_mask = file_start[:file_start.rfind('_')] + file_start[file_start.rfind('.'):]
 			filenames = [file_mask[:file_mask.find('.')] + "_" + str(i) + file_mask[file_mask.find('.'):] for i in range(start, end + 1)]
 
-			PCs = [i for i in range(int(args[args.index('-npc') + 1].split('-')[0]), int(args[args.index('-npc') + 1].split('-')[1])+ 1)]
-
+			PCs = [int(filenames[i].split('_')[1].split('.')[0]) for i in range(len(filenames))]
 			for i in range(len(PCs)):
 				main(filenames[i],PCs[i])
 
