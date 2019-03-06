@@ -115,7 +115,7 @@ or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/ma
 
 We have just calculated the trajectory projections on the first 10 principal components. To visualize the motion along specific principal component (here we visualize the 1st PC) run:
 
-    $ pcalipids motion -p proj.xvg -npc 1 -aver average.pdb -ievec eigenvec.xvg
+    $ pcalipids motion -p proj_1.xvg -npc 1 -aver average.pdb -ievec eigenvec.xvg
     
 To get the information on *motion* procedure you can run
 
@@ -134,7 +134,11 @@ The movement along PC could be visualized using PyMol or any graphical software 
 
 The distribution of projections on principal components can be visualized using projdist:
 
-    $ pcalipids projdist -p proj.xvg -first 1 -last 5
+    $ pcalipids projdist -p proj_1.xvg 
+
+or
+
+    $ pcalipids projdist -pr proj_1.xvg-proj_3.xvg
 
 To get the information on *projdist* procedure you can run
 
@@ -159,17 +163,7 @@ or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/ma
 
 To describe the equilibration process of the molecule of interest we either calculate the decay in autocorrelation of the PC projection values, or look at the convergence of PC projections' PDFs using Kolmogorov-Smirnov statistics. PCALipids can perform both types of the analysis. 
 
-First, we need to split the projection file into separate files, containing only the projections on a specific PC:
-
-    $ pcalipids splitproj -p proj.xvg
-    
-To get the information on *splitproj* procedure you can run
-
-    $ pcalipids splitproj -h
-    
-or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
-
-This will produce 10 projection files *proj_i.xvg*. To calculate the autocorrelation decay times of the projections run the *autot* procedure:
+To calculate the autocorrelation decay times of the projections run the *autot* procedure:
 
     $ pcalipids autot -pr proj_1.xvg-proj_10.xvg -ln 128 -dt 1
 
@@ -292,7 +286,7 @@ To compare the PDFs of the trajectory projections on PCs we need to perform PCA 
 
 Now we can plot the PDFs for the first PC for different simulations. First, we need to split each projection file into separate files using *splitproj* procedure like we did in the first part of the tutorial. Then we can plot the PDF of the projections on the first PC
 
-    $ pcalipids projdistm -file1 proj1_1.xvg -file2 proj2_1.xvg
+    $ pcalipids projdistm -files proj1_1.xvg proj2_1.xvg
     
 To get more information on *projdistm* run
 
