@@ -146,7 +146,7 @@ Input/output options for pearson feature
         -o: Output file name
 
  projdistm: Plot projection distributions for simulations of interest
- 
+
 Input/output options for evecdot feature
     -files: Input projection files
         -o: Output file name
