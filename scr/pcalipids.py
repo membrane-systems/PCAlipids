@@ -101,7 +101,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 
 	optionsMotion = [
 	# option for motion feature
-	"Input/output options for project feature",
+	"Input/output options for motion feature",
 	("-p", OptionF(str, 1, None, "Input projection file")),
 	("-aver", OptionF(str, 1, None, "PDB of GRO file for average structure")),
 	("-ievec", OptionF(str, 1, None, "Eigenvector input file"))
@@ -159,7 +159,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 
 	optionsEigenvecdot = [
 	# options for eigenvecdot feature
-	"Input/output options for pearson feature",
+	"Input/output options for evecdot feature",
 	("-evec", OptionF(str,2,None,"Input eigenvectors for 2 simulations")),
 	("-o", OptionF(str,1,"eigenvecproduct.xvg","Output file name"))
 	]
@@ -267,6 +267,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 
 	# Redirect main to the correct import class
 	main = globals()[options[args[0]].fname].main
+	funcname=args[0]
 	optionsF = options[args[0]].optList
 
 	# We don't need 0 argument of args any more
@@ -274,7 +275,8 @@ the structure of the first lipid and the first frame is used for alignment")),
 
 	# if the user asks for help: pcalipids.py concat -h
 	if (len(args)>0 and (args[0] == '-h' or args[0] == '--help')) or len(args)==0:
-		print("\n",__file__) # print executable file name
+		print("\n",__file__[__file__.rfind('/')+1:],\
+			funcname+": "+options[funcname].description) # print executable file name
 		print(desc) # print description !!! we need to create a good one
 		for thing in optionsF: # print all options for selected feature
 			print(type(thing) != str and "%10s: %s"%(thing[0],thing[1].description) or thing)
