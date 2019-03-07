@@ -171,6 +171,18 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("-o", OptionF(str,1,"distributions.png","Output file name"))
 	]
 
+	optionsTimescalespic = [
+	# options for timescalespic feature
+	"Input/output options for timescalespic feature",
+	("-file1", OptionF(str,-1,None,"Input timescales for 1st simulation")),
+	("-file2", OptionF(str,-1,None,"Input timescales for 2nd simulation")),
+	("-type", OptionF(str,1,"auto","auto for autocorrelation timescales;\n\
+	kss for distribution convergence timescales")),
+	("-t",  OptionF(str,-1,"t2",'t1" or "t2" for selected \n\
+	timescale measure decay in e or e^2 times')),
+	("-o", OptionF(str,1,"timescales_comp.png","Output file name"))
+	]
+
 	options = [
 	# list of all available features
 	"List of procedures\n",
@@ -200,7 +212,9 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("eigenvecdot", Option(str,"eigenvecdot",optionsEigenvecdot,\
 		"Compare eigenvectors from two simulations")),
 	("projdistm", Option(str,"projdistm",optionsProjdistM,\
-		"Plot projection distributions for simulations of interest"))
+		"Plot projection distributions for simulations of interest")),
+	("tsCmpFig", Option(str,"timescalespic",optionsTimescalespic,\
+		"Plot timescales for two trajectories"))
 	]
 
 	# add link for script; add link for publication
@@ -259,15 +273,6 @@ the structure of the first lipid and the first frame is used for alignment")),
 	params=list(v.value for v in optionsF.values())
 	main(*params)
 
-# 	elif args[0] == 'projdistm':
-# 		main = projdistm.main
-# 		if '-files' in args and len(args) > 2:
-# 			main(args[args.index('-files') + 1:])
-# 		elif '-h' not in args and '-help' not in args:
-# 			print('Missing parameters, try -h for flags\n')
-# 		else:
-# 			print('-files <sequence of files with projection>')
-
 
 # 	elif args[0] == 'reltime':
 # 		main = reltime.main
@@ -277,16 +282,6 @@ the structure of the first lipid and the first frame is used for alignment")),
 # 			print('Missing parameters, try -h for flags\n')
 # 		else:
 # 			print('-eval - file with eigenvalues \n-time1 and -time2 - 2 files related to different trajectories that contains relaxation time for autocorrelations')
-
-
-# 	elif args[0] == 'timescalespic':
-# 		main = timescalespic.main
-# 		if '-file1' in args and '-file2' in args and '-type' in args and '-time' in args:
-# 			main(args[args.index('-file1') + 1],args[args.index('-file2') + 1],args[args.index('-type') + 1],args[args.index('-time') + 1])
-# 		elif '-h' not in args and '-help' not in args:
-# 			print('Missing parameters, try -h for flags\n')
-# 		else:
-# 			print('-file1 and -file2 - input files with timescales\n-type "kss" or "auto" for kss or autocorrelation data\n-time "t1" or "t2" for decreasing in e or e^2 times)')
 
 
 # 	elif args[0] == 'eigenvals':

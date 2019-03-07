@@ -21,7 +21,7 @@ def PDFs(data, label, col, style=''):
 	return p
 
 
-def main(file1,file2,type_,time):	
+def main(file1,file2,type_,time,fout):	
 	handles = []
 	if time == 't2':
 		data = get_data_from_file(file1, time)
@@ -44,10 +44,10 @@ def main(file1,file2,type_,time):
 	plt.legend(handles = handles, ncol = 2)
 	if type_ == 'auto':
 		plt.title('Autocorrelation relaxation')
-		plt.savefig('Autocorrelation_relaxation_2_traj.png')
-		print('Picture saved as "Autocorrelation_relaxation_2_traj.png"')
+		plt.savefig(fout)
+		print('Picture saved as '+fout)
 	elif type_ == 'kss':
 		plt.title('KSS relaxation')
-		plt.savefig('KSS_relaxation_2_traj.png')
-		print('Picture saved as "KSS_relaxation_2_traj.png"')
+		plt.savefig(fout)
+		print('Picture saved as '+fout)
 	
