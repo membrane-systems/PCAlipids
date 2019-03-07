@@ -1,122 +1,171 @@
-1. 'concat' - create concatenated trajectory
+   PCAlipids is a software for analysis of lipid 
+   molecule conformations and dynamics.
+   You could find more information on the software usage at:
+      https://github.com/membrane-systems/PCAlipids
+   In case of usage for your research please cite:
+   1. [Principal Component Analysis of Lipid Molecule Conformational 
+   Changes in Molecular Dynamics Simulations, Buslaev et al., JCTC 2016](https://doi.org/10.1021/acs.jctc.5b01106)
+   2. [Effects of Coarse Graining and Saturation of Hydrocarbon 
+   Chains on Structure and Dynamics of Simulated Lipid Molecules, 
+   Buslaev & Gushchin, Sci. Rep. 2017](https://doi.org/10.1038/s41598-017-11761-5)
+	
+List of procedures
 
-**Description**: Creates a concatenated trajectory.
+Performing PCA on lipid molecule conforamtions
 
-**Input**: Trajectory file and structure file. Optional: reference structure for alignment, starting frame, frame step.
+    concat: Concatenate trajectories of individual lipids
+  conspace: Vizualize possible conformations
+     covar: Perform PCA on aligned concatenated lipid trajectory
+     evals: Plot eigenvalues for calculated PCs
+   project: Project concatenated lipid trajectory on the calculated PCs
+    motion: Create pdb file that represents the motion along selected PC
+  projdist: Plot projection distributions for selected PCs
 
-**Output**: Trajectory file and topology file for single lipid molecule.
+Calculating characteristic timescales
 
-**Parameters**:
+     autot: Calculate autocorrelation decay times
+      ksst: Calculate distribution convergence times
 
-**Required**:
-* -f \<input trajectory file> 
-* -t \<input topology file> 
+Comparing several trajectories
 
-**Optional**:
-* -ref \<reference structure>
-* -stride \<positive integer; step of reading frames> 
-* -dt \<time in ps; number to determine from which frame to read the trajectory>
-* -oc \<output trajectory file> - concatenated trajectory
-* -oa \<output topology file> - average structure calculated from the concatenated trajectory
-* -sf \<time in ps> - start frame for reading the trajectory
-* -ef \<time in ps> - end frame for reading the trajectory
+ combtrajs: Combine two trajectories
+   pearson: Compare covariance matrices from two simulations
+   evecdot: Compare eigenvectors from two simulations
+ projdistm: Plot projection distributions for simulations of interest
+  tsCmpFig: Plot timescales for two trajectories
+   reltime: Compare characteristic timescales for two trajectories
 
-2. 'covar' - principal component analysis
+Detailed functions descriptions:
 
-**Description**: Carry out the PCA of the concatenated trajectory.
+    concat: Concatenate trajectories of individual lipids
 
-**Input**: Concatenated trajectory file and structure file.
+Input/output options for concat feature
+        -f: Input trajectory file (.xtc, .trr, ...)
+        -t: Input topology file (.pdb, .gro, ...)
+   -stride: Only read every Nth frame
+       -sf: First frame (ps) to read from trajectory
+       -ef: Last frame (ps) to read from trajectory
+       -oc: Output concatenated trajectory file
+       -oa: Output average structure
+        -r: Input reference file (.pdb, .gro). If not supplied, the structure of the first lipid and the first frame is used for alignment
+        -l: Lipid type
 
-**Output**: Files with eigenvalues, eigenvectors and covariance matrix.
+  conspace: Vizualize possible conformations
 
-**Parameters**:
+Input/output options for conspace feature
+        -f: Input XTC or TRR file
+        -t: Input topology PDB of GRO file
+   -stride: Only read every Nth frame (default: 1000)
+       -om: Output PDB file with conformations
 
-**Required**:
-* -f \<input trajectory file> 
-* -t \<input topology file>
+     covar: Perform PCA on aligned concatenated lipid trajectory
 
-**Optional**:
-* -oeval \<output file with eigenvalues>
-* -oevec \<output file with eigenvectors>
-* -ocov \<output file with covariance matrix> 
+Input/output options for covar feature
+        -f: Input XTC or TRR concatenated trajectory
+        -t: Input topology PDB of GRO file
+    -oeval: Eigenvalue output file
+    -oevec: Eigenvector output file
+     -ocov: Covariance matrix output file
+-invertPC1: Invert the distribution for the first PC or not
+		[default] 0 - do not invert
+		1 - invert
 
-**Files**:
-* covar.dat - covariance matrix
-* eigenval.xvg - eigenvalues
-* eigenvec.xvg - eigenvectors
+   	 evals: Plot eigenvalues for calculated PCs
 
-3. 'project' - calculating projections
+Input/output options for evals feature
+    -ieval: Eigenvalue file for simulation
+      -cum: Plot cumulative (or just) eigenvalues 1(0). default: 0
+        -o: Output file
 
-**Description**: Calculates projections.
+   project: Project concatenated lipid trajectory on the calculated PCs
 
-**Input**: Concatenated trajectory file, structure file, average structure and eigenvectors. Optional: two positive integers to defining the range of principal components for the analysis.
+Input/output options for project feature
+        -f: Input XTC or TRR concatenated trajectory
+        -t: Input topology PDB of GRO file
+       -ia: PDB of GRO file for average structure
+    -ievec: Eigenvector input file
+    -first: First PC for projection (default: 1)
+     -last: First PC for projection (default: 10)
+       -op: Output projection files name
+		Do not use '-' or '.' symbols in the projection file names
 
-**Output**: File with projections.
+    motion: Create pdb file that represents the motion along selected PC
 
-**Parameters**:
+Input/output options for motion feature
+        -p: Input projection file
+     -aver: PDB of GRO file for average structure
+    -ievec: Eigenvector input file
 
-**Required**:
-* -f \<input trajectory file> 
-* -t \<input topology file>
-* -ia \<input average structure>
-* -ievec \<input eigenvectors>
+  projdist: Plot projection distributions for selected PCs
+  
+Input/output options for projdist feature
+        -p: Input projection file
+       -pr: Range of input projection files: 
+	example: -pr proj_1.xvg-proj_10.xvg
 
-**Optional**:
-* -first \<number of the first principal component> 
-* -last \<number of the last principal component>
-* -op \<output file with projections>
+     autot: Calculate autocorrelation decay times
 
-**Files**:
-* proj.xvg - projections of trajectory on principal components
+Input/output options for autot feature
+        -p: Input projection file
+       -pr: Range of input projection files: 
+	example: -pr proj_1.xvg-proj_10.xvg
+       -ln: Number of lipids in the system (default: 1)
+       -dt: Timestep (ns) (default: 0.01 ns)
+        -o: Name of output files
 
-4. 'projdist' - probability density
+      ksst: Calculate distribution convergence times
 
--p <projection file> (file format *.xvg)
- -first <first projection> -last <last projection> (int format). 
-If not supplied, the first 3 projections will be analyzed.
+Input/output options for ksst feature
+        -p: Input projection file
+       -pr: Range of input projection files: 
+	example: -pr proj_1.xvg-proj_10.xvg
+       -ln: Number of lipids in the system (default: 1)
+       -dt: Timestep (ns) (default: 0.01 ns)
+        -o: Name of output files
 
-5. 'ksst' - Kolmogorov-Smirnov convergence
+ combtrajs: Combine two trajectories
 
--p <sequence of projection files> - this param must be the first
- -pr <range of files: "proj1.xvg-proj100.xvg">
--o <timescales file> (*.xvg)
--ln <number of lipids>
- -dt <timestep in (ns)>
+Input/output options for combtrajs feature
+       -fs: Input trajectories and corresponding average structures
+       -ou: Output combined trajectory
+       -oc: Aligned trajectories for different simulations
+       -oa: Output average structures
 
-6. 'autot' - Autocorrelation decay
+   pearson: Compare covariance matrices from two simulations
 
--p <sequence of projection files> - this param must be the first
- -pr <range of files: "proj1.xvg-proj100.xvg">
--o <timescales file> (*.xvg)
--ln <number of lipids>
+Input/output options for pearson feature
+     -cov1: Covariance matrix for the first trajectory
+     -cov2: Covariance matrix for the second trajectory
+        -o: Output file
+Pearson correlation coeficient is shown in the terminal and saved to the output file
 
-7. 'eigenvecdot' - scalar product of eigenvectors from different trajectories
+   evecdot: Compare eigenvectors from two simulations
 
--evec <two files with eigenvectors (example: -evec eigenvec1.xvg eigenvec2.xvg)>
+Input/output options for pearson feature
+     -evec: Input eigenvectors for 2 simulations
+        -o: Output file name
 
-8. 'conspace' - conformational space of lipids in trajectory
-
--f <trajectory file> (file format *.xtc)
--t <topology file> (any file with topology)
- -stride <<positive integer; step of reading frames>
- -om <output file with conformations>
-
-9. 'pearson' - Pearson coefficient for covariance matrices from different trajectories
-
--cov1, -cov2 - 2 files with covariance matrices
-
-10. 'splitproj' - split files with all projections into files with projections for single PC
-
--p - projection file
-
-11. 'motion' - demonstrates the motion along PC
-
--p - projection file
- -npc - number of principal component
- -aver - average structure
- -e - file with eigenvectors
+ projdistm: Plot projection distributions for simulations of interest
  
- 12. 'combtrajs' - concatenate different trajectories to perform the comparison in the united basis
- -fs - input files with trajectories and topologies in the right order: 
--fs concatenated_1.xtc average_1.pdb concatenated_2.xtc average_2.pdb
+Input/output options for evecdot feature
+    -files: Input projection files
+        -o: Output file name
 
+  tsCmpFig: Plot timescales for two trajectories
+
+Input/output options for tsCmpFig feature
+    -file1: Input timescales for 1st simulation
+    -file2: Input timescales for 2nd simulation
+     -type: auto for autocorrelation timescales;
+	kss for distribution convergence timescales
+        -t: t1" or "t2" for selected 
+	timescale measure decay in e or e^2 times
+        -o: Output file name
+
+   reltime: Compare characteristic timescales for two trajectories
+
+Input/output options for reltime feature
+     -eval: Eigenvalue file for base simulation
+    -time1: characteristic timescales for 1st simulation
+    -time2: characteristic timescales for 2nd simulation
+        -o: Output file
