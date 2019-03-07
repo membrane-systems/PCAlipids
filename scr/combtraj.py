@@ -15,7 +15,7 @@ def average_structure(traj):
 	return avg_traj
 
 
-def main(inp,output_file):
+def main(inp,output_file,conc_file,av_str):
 	data = []
 	for i in range(0,len(inp),2):
 		data.append((inp[i],inp[i+1]))
@@ -29,16 +29,18 @@ def main(inp,output_file):
 	traj = traj.superpose(traj[0], parallel = True)
 	avg_str = average_structure(traj)
 	traj = traj.superpose(avg_str, parallel = True)
-	traj[:length[0]].save_xtc('concatenated1_FALL.xtc')
-	average_structure(traj[:length[0]]).save('average1_FALL.pdb')
+	traj[:length[0]].save_xtc(conc_file[:conc_file.rfind('.')]+str(1)+'.xtc')
+	average_structure(traj[:length[0]]).save(av_str[:av_str.rfind('.')]+str(1)+'.pdb')
 	start_ = length[0]
 	end_ = length[0]
 	for i in range(1, len(length)):
-		traj[start_:end_ + length[i]].save_xtc('concatenated%s_FALL.xtc' % str(i + 1))
-		average_structure(traj[start_:end_ + length[i]]).save('average%s_FALL.pdb' % str(i + 1))
+		traj[start_:end_ + length[i]].save_xtc(\
+			conc_file[:conc_file.rfind('.')]+str(i+1)+'.xtc')
+		average_structure(traj[start_:end_ + length[i]]).save(\
+			av_str[:av_str.rfind('.')]+str(i+1)+'.pdb')
 		start_ += length[i]
 		end_ += length[i]
 	avg_str = average_structure(traj)
-	traj.save_xtc('united.xtc')
-	avg_str.save('average.pdb')
+	traj.save_xtc(output_file)
+	avg_str.save(av_str)
 

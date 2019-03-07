@@ -142,7 +142,10 @@ the structure of the first lipid and the first frame is used for alignment")),
 	"Input/output options for combtrajs feature",
 	("-fs", OptionF(str, -1, None, \
 		"Input trajectories and corresponding average structures")),
-	("-ou", OptionF(str,1,"united.xtc","Output combined trajectory"))
+	("-ou", OptionF(str,1,"united.xtc","Output combined trajectory")),
+	("-oc", OptionF(str,1,"concatenated.xtc",\
+		"Aligned trajectories for different simulations")),
+	("-oa", OptionF(str,1,"average.pdb","Output average structures"))
 	]
 
 	options = [
