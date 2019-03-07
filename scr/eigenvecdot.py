@@ -7,7 +7,7 @@ def main(filesIn, fileOut):
 	if not filesIn:
 		print("Eigenvectors for 2 simulations have to be provided.\n\
 Run pcalipids.py eigenvecdot -h for help")
-		return 0g
+		return 0
 	
 	file1 = filesIn[0]
 	file2 = filesIn[1]
