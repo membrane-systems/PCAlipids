@@ -183,6 +183,23 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("-o", OptionF(str,1,"timescales_comp.png","Output file name"))
 	]
 
+	optionsReltime = [
+	# options for reltime feature
+	"Input/output options for reltime feature",
+	("-eval",OptionF(str,1,None,"Eigenvalue file for base simulation")),
+	("-time1",OptionF(str,1,None,"characteristic timescales for 1st simulation")),
+	("-time2",OptionF(str,1,None,"characteristic timescales for 2nd simulation")),
+	("-o",OptionF(str,1,"tsCmp.dat","Output file"))
+	]
+
+	optionsEvals = [
+	# options for evals feature
+	"Input/output options for evals feature",
+	("-ieval", OptionF(str,1,None,"Eigenvalue file for simulation")),
+	("-cum", OptionF(int,1,0,"Plot cumulative (or just) eigenvalues 1(0). default: 0")),
+	("-o",OptionF(str,1,"eval.png","Output file"))
+	]
+
 	options = [
 	# list of all available features
 	"List of procedures\n",
@@ -193,6 +210,8 @@ the structure of the first lipid and the first frame is used for alignment")),
 		"Vizualize possible conformations")),
 	("covar", Option(str,"PCA",optionsCovar,\
 		"Perform PCA on aligned concatenated lipid trajectory")),
+	("evals", Option(str,"eigenvalues",optionsEvals,\
+		"Plot eigenvalues for calculated PCs")),
 	("project", Option(str,"project",optionsProject,\
 		"Project concatenated lipid trajectory on the calculated PCs")),
 	("motion", Option(str,"visualizing",optionsMotion,\
@@ -209,20 +228,33 @@ the structure of the first lipid and the first frame is used for alignment")),
 		"Combine two trajectories")),
 	("pearson", Option(str,"pearson",optionsPearson,\
 		"Compare covariance matrices from two simulations")),
-	("eigenvecdot", Option(str,"eigenvecdot",optionsEigenvecdot,\
+	("evecdot", Option(str,"eigenvecdot",optionsEigenvecdot,\
 		"Compare eigenvectors from two simulations")),
 	("projdistm", Option(str,"projdistm",optionsProjdistM,\
 		"Plot projection distributions for simulations of interest")),
 	("tsCmpFig", Option(str,"timescalespic",optionsTimescalespic,\
-		"Plot timescales for two trajectories"))
+		"Plot timescales for two trajectories")),
+	("reltime", Option(str,"reltime",optionsReltime,\
+		"Compare characteristic timescales for two trajectories"))
 	]
 
-	# add link for script; add link for publication
-	desc = "\nPCAlipids is a software for analysis of lipid molecule conformations\n" 
+	# Short description of the software
+	desc = """
+   PCAlipids is a software for analysis of lipid 
+   molecule conformations and dynamics.
+   You could find more information on the software usage at:
+      https://github.com/membrane-systems/PCAlipids
+   In case of usage for your research please cite:
+   1. [Principal Component Analysis of Lipid Molecule Conformational 
+   Changes in Molecular Dynamics Simulations, Buslaev et al., JCTC 2016]
+   2. [Effects of Coarse Graining and Saturation of Hydrocarbon 
+   Chains on Structure and Dynamics of Simulated Lipid Molecules, 
+   Buslaev & Gushchin, Sci. Rep. 2017]
+	"""
 
 	# If the user asks for help: pcalipids.py -h
 	if (len(args)>0 and (args[0] == '-h' or args[0] == '--help')) or len(args)==0:
-		print("\n",__file__) # print executable file name
+		print("\n",__file__[__file__.rfind('/')+1:]) # print executable file name
 		print(desc) # print description !!! we need to create a good one
 		for thing in options: # print all options
 			print(type(thing) != str and "%10s: %s"%(thing[0],thing[1].description) or thing)
@@ -272,32 +304,6 @@ the structure of the first lipid and the first frame is used for alignment")),
 	# Pass all the parameters to function
 	params=list(v.value for v in optionsF.values())
 	main(*params)
-
-
-# 	elif args[0] == 'reltime':
-# 		main = reltime.main
-# 		if '-eval' in args and '-time1' in args and '-time2' in args:
-# 			main(args[args.index('-eval') + 1],args[args.index('-time1') + 1],args[args.index('-time2') + 1])
-# 		elif '-h' not in args and '-help' not in args:
-# 			print('Missing parameters, try -h for flags\n')
-# 		else:
-# 			print('-eval - file with eigenvalues \n-time1 and -time2 - 2 files related to different trajectories that contains relaxation time for autocorrelations')
-
-
-# 	elif args[0] == 'eigenvals':
-# 		main = eigenvalues.main
-# 		if '-cumulative' in args:
-# 			cumul = args[args.index('-cumulative') + 1]
-# 		if cumul == "True" or cumul == "1":
-# 			cumul = True
-# 		else:
-# 			cumul = False
-# 		if '-ieval' in args:
-# 			main(args[args.index('-ieval') + 1], cumul)
-# 		elif '-h' not in args and '-help' not in args:
-# 			print('Missing parameters, try -h for flags\n')
-# 		else:
-# 			print('-ieval - input file with eigevalues (file format *.xvg)\n-cumulative - cumulative sum of eigenvalues (optional <False>)')
 
 if __name__ == '__main__':
 	args = sys.argv[1:]
