@@ -47,7 +47,9 @@ Input/output options for concat feature
        -ef: Last frame (ps) to read from trajectory
        -oc: Output concatenated trajectory file
        -oa: Output average structure
-        -r: Input reference file (.pdb, .gro). If not supplied, the structure of the first lipid and the first frame is used for alignment
+        -r: Input reference file (.pdb, .gro). 
+            If not supplied, the structure of the first lipid and the first frame 
+            is used for alignment
         -l: Lipid type
 
   conspace: Vizualize possible conformations
