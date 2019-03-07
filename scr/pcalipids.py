@@ -164,6 +164,13 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("-o", OptionF(str,1,"eigenvecproduct.xvg","Output file name"))
 	]
 
+	optionsProjdistM = [
+	# options for projdistm feature
+	"Input/output options for projdistm feature",
+	("-files", OptionF(str,-1,None,"Input projection files")),
+	("-o", OptionF(str,1,"distributions.png","Output file name"))
+	]
+
 	options = [
 	# list of all available features
 	"List of procedures\n",
@@ -191,7 +198,9 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("pearson", Option(str,"pearson",optionsPearson,\
 		"Compare covariance matrices from two simulations")),
 	("eigenvecdot", Option(str,"eigenvecdot",optionsEigenvecdot,\
-		"Compare eigenvectors from two simulations"))
+		"Compare eigenvectors from two simulations")),
+	("projdistm", Option(str,"projdistm",optionsProjdistM,\
+		"Plot projection distributions for simulations of interest"))
 	]
 
 	# add link for script; add link for publication

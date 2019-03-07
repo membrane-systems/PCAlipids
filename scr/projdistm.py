@@ -38,7 +38,11 @@ def PDFs(y, data, label, col, style=''):
 	# plt.show()
 	return max(KDEpdf(y)), p
 
-def main(files):
+def main(files,outF):
+	if len(files) < 2:
+		print("Projection for at least 2 simulations have to be provided.\n\
+Run pcalipids.py projdistm -h for help")
+		return 0
 	handles = []
 	data = [get_data_from_file(file) for file in files]
 	min_ = 10**10
@@ -48,23 +52,18 @@ def main(files):
 		max_ = max(max_, max(seq))
 	y = np.linspace(min_, max_, 101)
 	max_t = -1 * 10**10
-	colors = ['green','yellow','blue','red','cyan','olive','orange','pink']
+	colors = ['green','blue','red','cyan','olive','orange','pink','yellow']
 
 	for i in range(len(data)):
-		max_y, line1 = PDFs(y, data[i],'%s trajectory' % str(i+1), colors[i])
+		max_y, line1 = PDFs(y, data[i],'%s trajectory' % str(i+1), colors[i%len(colors)])
 		max_t = max(max_y, max_t)
 		handles.append(line1[0])
 	
-	#line1, = PDFs(y, get_data_from_file('projection_0004_map_12_or.xvg'), 'original mapping','black', '--')
-	#handles.append(line1)
-	#PDFs(y, get_data_from_file('projection_0008_map_16.xvg'), 'black', '--')
-	#line1, = PDFs(y, get_data_from_file('projection_slipids.xvg'),'Slipids', (52./255,167./255,7./255))
-	#handles.append(line1)
 	plt.title("Distributions in general basis")
 	plt.xlabel('PC projection value (A)')
 	plt.ylabel('Probability density (a.u.)')
 	plt.ylim([0,max_t + 0.05])
 	plt.xlim([min_, max_])
 	plt.legend(handles = handles, ncol = 2)
-	plt.savefig('Distributions.png')
-	print('Picture saved as "Distributions.png"')
+	plt.savefig(outF)
+	print('Picture saved as '+outF)
