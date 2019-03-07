@@ -314,8 +314,8 @@ You should get the figures similar to what you see below:
 
 To directly compare the timescales we can use *reltime* procedure
 
-    $ pcalipids reltime -evec eigenval.xvg -time1 proj1_autocorr_relaxtime_vs_PC.xvg -time2 proj2_autocorr_relaxtime_vs_PC.xvg
+    $ pcalipids reltime -eval eigenval.xvg -time1 proj1_autocorr_relaxtime_vs_PC.xvg -time2 proj2_autocorr_relaxtime_vs_PC.xvg
     
-    $ pcalipids reltime -evec eigenval.xvg -time1 proj1_KSS_relaxation_time_vs_PC.xvg -time2 proj2_KSS_relaxation_time_vs_PC.xvg
+    $ pcalipids reltime -eval eigenval.xvg -time1 proj1_KSS_relaxation_time_vs_PC.xvg -time2 proj2_KSS_relaxation_time_vs_PC.xvg
     
 For autocorrelations you should get something close to **0.3374** and for KSS **0.59468**. Thus, at higher temperatures the dynamics is accelerated by **~1.7**.
