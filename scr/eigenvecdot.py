@@ -3,34 +3,16 @@ import matplotlib.pyplot as plt
 import sys
 
 
-def main(file1, file2):
-	file = open(file1, 'r')
+def main(filesIn, fileOut):
+	if not filesIn:
+		print("Eigenvectors for 2 simulations have to be provided.\n\
+Run pcalipids.py eigenvecdot -h for help")
+	file1 = filesIn[0]
+	file2 = filesIn[1]
 
-	eigenvecs1 = []
-
-	for line in file:
-		line_data = line.split()
-		for i in range(len(line_data)):
-			line_data[i] = float(line_data[i])
-		eigenvecs1.append(line_data)
-
-	file.close()
-
-	file = open(file2, 'r')
-
-	eigenvecs2 = []
-
-	for line in file:
-		line_data = line.split()
-		for i in range(len(line_data)):
-			line_data[i] = float(line_data[i])
-		eigenvecs2.append(line_data)
-
-	file.close()
-
-	eigenvecs1 = np.array(eigenvecs1)
-	eigenvecs2 = np.array(eigenvecs2)
-
+	eigenvecs1 = np.loadtxt(file1)
+	eigenvecs2 = np.loadtxt(file2)
+	
 	matrix = [[0.0] * 100 for i in range(100)]
 
 	for i in range(100):
@@ -47,7 +29,7 @@ def main(file1, file2):
 	ax1.set_yticks([0,9,19,29,39,49,59,69,79,89,99]);
 	ax1.set_xticklabels([1,10,20,30,40,50,60,70,80,90,100]);
 	ax1.set_yticklabels([1,10,20,30,40,50,60,70,80,90,100]);
-	with open('eigenvecdot.dat', 'w') as file:
+	with open(fileOut, 'w') as file:
 		flag = 0
 		for i in range(len(matrix)):
 			for j in range(len(matrix)):
@@ -56,7 +38,7 @@ def main(file1, file2):
 				if flag == 3:
 					flag = 0
 					file.write('\n')
-	print('Wrote eigevectors dot product matrix in "eigenvecdot.dat"')
+	print('Wrote eigevectors dot product matrix in '+fileOut)
 
 	matrix = [[0.0] * 10 for i in range(10)]
 
@@ -72,8 +54,8 @@ def main(file1, file2):
 	plt.sca(ax1)
 	plt.ylabel('PCALipids eigenvectors for first trajectory')
 	plt.xlabel('PCALipids eigenvectors for second trajectory')
-	plt.savefig('eigenvecdot.png')
-	print('Picture saved as "eigenvecdot.png"')
+	plt.savefig(fileOut[:fileOut.rfind('.')]+'.png')
+	print('Picture saved as '+fileOut[:fileOut.rfind('.')]+'.png')
 
 # if __name__ == '__main__':
 # 	args = sys.argv[1:]

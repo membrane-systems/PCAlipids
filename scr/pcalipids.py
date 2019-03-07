@@ -157,6 +157,13 @@ the structure of the first lipid and the first frame is used for alignment")),
 	"Pearson correlation coeficient is shown in the terminal and saved to the output file"
 	]
 
+	optionsEigenvecdot = [
+	# options for eigenvecdot feature
+	"Input/output options for pearson feature",
+	("-evec", OptionF(str,2,None,"Input eigenvectors for 2 simulations")),
+	("-o", OptionF(str,1,"eigenvecproduct.xvg","Output file name"))
+	]
+
 	options = [
 	# list of all available features
 	"List of procedures\n",
@@ -182,7 +189,9 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("combtrajs", Option(str,"combtraj",optionsCombtrajs,\
 		"Combine two trajectories")),
 	("pearson", Option(str,"pearson",optionsPearson,\
-		"Compare covariance matrices from two simulations"))
+		"Compare covariance matrices from two simulations")),
+	("eigenvecdot", Option(str,"eigenvecdot",optionsEigenvecdot,\
+		"Compare eigenvectors from two simulations"))
 	]
 
 	# add link for script; add link for publication
@@ -240,29 +249,6 @@ the structure of the first lipid and the first frame is used for alignment")),
 	# Pass all the parameters to function
 	params=list(v.value for v in optionsF.values())
 	main(*params)
-
-
-
-
-# 	elif args[0] == 'eigenvecdot':
-# 		main = eigenvecdot.main
-# 		if '-evec' in args:
-# 			main(args[args.index('-evec') + 1], args[args.index('-evec') + 2])
-# 		elif '-h' not in args and '-help' not in args:
-# 			print('Missing parameters, try -h for flags\n')
-# 		else:
-# 			print('-evec <two files with eigenvectors (example: -evec eigenvec1.xvg eigenvec2.xvg)>')
-
-
-# 	elif args[0] == 'pearson':
-# 		main = pearson.main
-# 		if '-cov1' in args and '-cov2' in args:
-# 			main(args[args.index('-cov1') + 1], args[args.index('-cov2') + 1])
-# 		elif '-h' not in args and '-help' not in args:
-# 			print('Missing parameters, try -h for flags\n')
-# 		else:
-# 			print('-cov1, -cov2 - 2 files with covariance matrices')
-
 
 # 	elif args[0] == 'projdistm':
 # 		main = projdistm.main
