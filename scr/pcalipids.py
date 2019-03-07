@@ -148,6 +148,15 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("-oa", OptionF(str,1,"average.pdb","Output average structures"))
 	]
 
+	optionsPearson = [
+	# options for pearson feature
+	"Input/output options for pearson feature",
+	("-cov1", OptionF(str,1,None,"Covariance matrix for the first trajectory")),
+	("-cov2", OptionF(str,1,None,"Covariance matrix for the second trajectory")),
+	("-o", OptionF(str,1,"pearson.dat","Output file")),
+	"Pearson correlation coeficient is shown in the terminal and saved to the output file"
+	]
+
 	options = [
 	# list of all available features
 	"List of procedures\n",
@@ -171,14 +180,16 @@ the structure of the first lipid and the first frame is used for alignment")),
 		"Calculate distribution convergence times")),
 	"\nComparing several trajectories\n",
 	("combtrajs", Option(str,"combtraj",optionsCombtrajs,\
-		"Combine two trajectories"))
+		"Combine two trajectories")),
+	("pearson", Option(str,"pearson",optionsPearson,\
+		"Compare covariance matrices from two simulations"))
 	]
 
 	# add link for script; add link for publication
 	desc = "\nPCAlipids is a software for analysis of lipid molecule conformations\n" 
 
 	# If the user asks for help: pcalipids.py -h
-	if args[0] == '-h' or args[0] == '--help':
+	if (len(args)>0 and (args[0] == '-h' or args[0] == '--help')) or len(args)==0:
 		print("\n",__file__) # print executable file name
 		print(desc) # print description !!! we need to create a good one
 		for thing in options: # print all options
@@ -198,7 +209,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 	args = args[1:]
 
 	# if the user asks for help: pcalipids.py concat -h
-	if args[0] == '-h' or args[0] == '--help':
+	if (len(args)>0 and (args[0] == '-h' or args[0] == '--help')) or len(args)==0:
 		print("\n",__file__) # print executable file name
 		print(desc) # print description !!! we need to create a good one
 		for thing in optionsF: # print all options for selected feature
