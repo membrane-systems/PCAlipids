@@ -70,7 +70,8 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("-f", OptionF(str, 1, None, "Input XTC or TRR file")),
 	("-t", OptionF(str, 1, None, "Input topology PDB of GRO file")),
 	("-stride", OptionF(int,1,1000, "Only read every Nth frame (default: 1000)")),
-	("-om", OptionF(str, 1, "conformations.pdb", "Output PDB file with conformations"))
+	("-om", OptionF(str, 1, "conformations.pdb", "Output PDB file with conformations")),
+	("-al", OptionF(str, 1, 0, "Is align needed (0: no; 1: yes; default: 0)"))
 	]
 
 	optionsCovar = [
@@ -207,7 +208,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("concat", Option(str,"con_traj",optionsConcat,\
 		"Concatenate trajectories of individual lipids")),
 	("conspace", Option(str,"lipic",optionsConspace,\
-		"Vizualize possible conformations")),
+		"Vizualize possible conformations for concatenated trajectory")),
 	("covar", Option(str,"PCA",optionsCovar,\
 		"Perform PCA on aligned concatenated lipid trajectory")),
 	("evals", Option(str,"eigenvalues",optionsEvals,\
