@@ -81,10 +81,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("-t", OptionF(str, 1, None, "Input topology PDB of GRO file")),
 	("-oeval", OptionF(str, 1, "eigenval.xvg", "Eigenvalue output file")),
 	("-oevec", OptionF(str, 1, "eigenvec.xvg", "Eigenvector output file")),
-	("-ocov", OptionF(str, 1, "covar.dat", "Covariance matrix output file")),
-	("-invertPC1", OptionF(int, 1, 0, "Invert the distribution for the first PC or not\n\
-		[default] 0 - do not invert\n\
-		1 - invert"))
+	("-ocov", OptionF(str, 1, "covar.dat", "Covariance matrix output file"))
 	]
 
 	optionsProject = [

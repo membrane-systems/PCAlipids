@@ -29,7 +29,6 @@ def average_structure(traj):
 	avg_traj = md.Trajectory([avg_xyz], traj.top)
 	return avg_traj
 
-
 #@jit
 def main(file_1, file_2, stride, sf, ef, \
 	out_traj, out_top, file_3, lipid_resname):
@@ -39,7 +38,6 @@ def main(file_1, file_2, stride, sf, ef, \
 Name of residue of interest have to be indicated.\n\
 Run pcalipids.py concat -h for help")
 		return 0
-
 
 	# load trajectory
 	PATH = os.getcwd() + '/'
@@ -80,11 +78,11 @@ Run pcalipids.py concat -h for help")
 	print('The trajectory was aligned to the average structure')
 	
 	# save concatenated trajectory
-	trajConc.save(PATH + out_traj)
+	traj.save(PATH + out_traj)
 	print('Concatenated trajectory was created, saved in %s' % out_traj)
 	
 	# save average structure
-	avg_str = average_structure(trajConc)
+	avg_str = average_structure(traj)
 	avg_str.save(out_top)
 	print('Average structure saved in "%s"' % out_top)
 	return
