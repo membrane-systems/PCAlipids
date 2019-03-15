@@ -102,7 +102,9 @@ the structure of the first lipid and the first frame is used for alignment")),
 	"Input/output options for motion feature",
 	("-p", OptionF(str, 1, None, "Input projection file")),
 	("-aver", OptionF(str, 1, None, "PDB of GRO file for average structure")),
-	("-ievec", OptionF(str, 1, None, "Eigenvector input file"))
+	("-ievec", OptionF(str, 1, None, "Eigenvector input file")),
+	("-eo", OptionF(str, 1, "extreme.pdb", \
+		"PDB file name with a motion for selected PC"))
 	]
 
 	optionsProjDist = [
