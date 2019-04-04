@@ -73,7 +73,7 @@ Run pcalipids.py concat -h for help")
 		ref_traj = traj[0]
 		traj.superpose(ref_traj, parallel = True)
 		avg_str = average_structure(traj)
-		traj.superpose(ref_traj, parallel = True)
+		traj.superpose(avg_str, parallel = True)
 	print('The trajectory was aligned, reference = %s.' % file_3) if file_3 else \
 	print('The trajectory was aligned to the average structure')
 	
