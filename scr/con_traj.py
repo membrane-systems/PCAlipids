@@ -15,17 +15,15 @@ def load_traj(traj_file, traj_top, lipid_resname, stride, sf, ef, max_frames = N
 	ailist = topol.select('not water and not type W H Hs WT4 NaW KW CLW MgW and resname %s' \
 			% lipid_resname)
 	# load trajectory
-	traj = md.load(traj_file, top = traj_top, stride = stride, \
+	return md.load(traj_file, top = traj_top, stride = stride, \
 		atom_indices = ailist)[sf:ef]
-	return traj
-
 
 def concat(traj, lipid):
 	return traj.atom_slice(traj.topology.select('resid %s' % lipid))
 
 
 def average_structure(traj):
-	avg_xyz = traj.xyz.astype(np.float64).mean(axis = 0, dtype=np.float64)
+	avg_xyz = traj.xyz.mean(axis = 0, dtype=np.float64)
 	avg_traj = md.Trajectory([avg_xyz], traj.top)
 	return avg_traj
 
