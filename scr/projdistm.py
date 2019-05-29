@@ -25,18 +25,27 @@ def get_data_from_file(file_name):
 
 	return np.array(data)
 
+def KDE(data, grid):
+    delta = (grid[1] - grid[0])
+    dist = [0.] * len(grid)
+    if type(data) is np.ndarray:
+        for value in data:
+            dist[int(round((value - grid[0]) / delta))] += 1.
+    else:
+        dist[int(round((data - grid[0]) / delta))] += 1.
+    return dist
 
 def PDFs(y, data, label, col, style=''):
-	KDEpdf = gaussian_kde(data)
+	dist = KDE(data,y)
 	max_ = np.amax(data)
 	min_ = np.amin(data)
-	K = KDEpdf(y)
+	
 	if style == '':
-		p= plt.plot(y, KDEpdf(y), 'r', label = label, color = col) 
+		p= plt.plot(y, dist, 'r', label = label, color = col) 
 	else:
-		p= plt.plot(y, KDEpdf(y), 'r', label = label, color = col,linestyle = style)
+		p= plt.plot(y, dist, 'r', label = label, color = col,linestyle = style)
 	# plt.show()
-	return max(KDEpdf(y)), p
+	return max(dist), p
 
 def main(files,outF):
 	if len(files) < 2:

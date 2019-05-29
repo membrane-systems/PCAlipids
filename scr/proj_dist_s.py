@@ -17,16 +17,26 @@ def get_data_from_file(file_name):
 	file.close()
 	return proj
 
+def KDE(data, grid):
+    delta = (grid[1] - grid[0])
+    dist = [0.] * len(grid)
+    if type(data) is np.ndarray:
+        for value in data:
+            dist[int(round((value - grid[0]) / delta))] += 1.
+    else:
+        dist[int(round((data - grid[0]) / delta))] += 1.
+    return dist
 
 def plot_dist(data, PATH, PC):
 	N = PC
 	data = np.array(data)
-	KDEpf = gaussian_kde(data)
+	#KDEpf = gaussian_kde(data)
 	x = np.linspace(np.amin(data), np.amax(data), 100)
+	dist = KDE(data,x)
 	plt.ylabel('Probability density (a.u.)')
 	plt.xlabel('PC projection value (A)')
 	plt.title('Distribution of the PC%s projection' % N)
-	plt.plot(x, KDEpf(x), 'r', color = 'blue')
+	plt.plot(x, dist, 'r', color = 'blue')
 	plt.savefig(PATH + 'PC%s_dist.png' % N)
 	plt.clf()
 
