@@ -58,41 +58,54 @@ def get_proj(traj, first_PC, last_PC, aver, evecs, filename):
 
 def get_proj_mem(traj, top, first_PC, last_PC, aver, evecs, filename):
 	print("Projections are calculated while saving memory, it may take some time.")
+	
 	ref_aver_str = md.load(aver)
 	eigenvecs = load_evecs(evecs)
 	mean_vec = ref_aver_str.xyz.astype(np.float64).reshape(1, ref_aver_str.n_atoms * 3)
-	if first_PC == None and last_PC == None:
-		first_PC = 1
-		last_PC = len(eigenvecs)
-	elif first_PC == None:
-		first_PC = 1
-		last_PC = int(last_PC)
-	elif last_PC == None:
-		first_PC = int(first_PC)
-		last_PC = len(eigenvecs)
-	else:
-		first_PC = int(first_PC)
-		last_PC = int(last_PC)
+	
+	first_PC = first_PC
+	last_PC = last_PC
+	
 	files = []
+	
 	chPC1 = (first_PC == 1)
+	
+	# if chPC1 - we need to orient it correctly
+
+	if chPC1:
+		proj0 = [] #create the array for pc1 projections
+
+	# prepare files
 	for i in range(first_PC,last_PC + 1):
 		file = open(filename[:filename.rfind('.')]+'_'+str(i)+filename[filename.rfind('.'):],'w')
 		file.write('@    title "Projection %s"\n' % (i))
 		files.append(file)
+	
 	for frame in md.iterload(traj, top = top, chunk = 100000):
+		# superpose trajectory
 		X = frame.superpose(ref_aver_str).xyz.astype(np.float64)\
 		.reshape(frame.n_frames, frame.n_atoms * 3) - mean_vec
+		# calculate projections for chunk
 		proj = np.tensordot(X,eigenvecs[first_PC - 1:last_PC],axes = (1,1)).T
 		for i in range(len(files)):
 			# Find wether the distribution is skewed to the correct side
-			k = skew(proj[i])/abs(skew(proj[i])) if chPC1 else 1
-			print(k)
-			files[i].write(''.join(('     ' + str(k*proj[i][j]) + '\n') \
-				for j in range(len(proj[i]))))
-			chPC1 = False
+			if chPC1 and i == 0:
+				proj0.append(proj[i]) #save projection for PC1 into special array
+			else:
+				files[i].write(''.join(('     ' + str(k*proj[i][j]) + '\n') \
+				for j in range(len(proj[i])))) # write projection for other PCs directly to file
+	# Write projection on PC1 to file		
+	if chPC1:
+		proj0=np.concatenate(np.array(proj0),axis=None)
+		k = skew(proj0)/abs(skew(proj[i])) # calculate the correct orientation
+		files[0].write(''.join(('     ' + str(k*proj0[j]) + '\n') \
+				for j in range(len(proj0))))
+	
+	# Correct endings to files	
 	for i in range(len(files)):
 		files[i].write('&\n')
 		files[i].close
+	
 	print('Wrote %s projections in "%s".' % (len(files), files[0].name[:files[0].name.rfind('_')] + "*"))
 
 
