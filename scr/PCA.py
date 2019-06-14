@@ -55,7 +55,7 @@ def PCA_mem(traj, top):
 	
 	# calculation of eigenvalues and eigenvectors
 	eig_vals, eig_vecs = np.linalg.eigh(cov_mat)
-	return eig_vals[::-1], eig_vecs, cov_mat
+	return 10*eig_vals[::-1]/(mean_str.n_atoms), eig_vecs, cov_mat
 
 
 def main(traj_file, top_file, val_file, vec_file, cov_file):
