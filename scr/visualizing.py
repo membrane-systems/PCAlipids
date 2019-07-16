@@ -37,11 +37,15 @@ def get_eigvec(eigvec_file, PC):
 # calculate extremes
 def create_extreme(eigvec, avg_str_xyz, max_, min_, avg_str, PC, exfile):
 	# generate xyz for max projection value
-	extr_max_xyz = [eigvec[i] * max_ + avg_str_xyz[i] for i in range(len(eigvec))]
+	print(max_,min_)
+
+	na = avg_str.n_atoms
+
+	extr_max_xyz = [eigvec[i] * max_ * (na**0.5) + avg_str_xyz[i] for i in range(len(eigvec))]
 	extr_max_xyz = np.array(extr_max_xyz).reshape(len(extr_max_xyz),1)
 	
 	# generate xyz for min projection value
-	extr_min_xyz = [eigvec[i] * min_ + avg_str_xyz[i] for i in range(len(eigvec))]
+	extr_min_xyz = [eigvec[i] * min_ * (na**0.5) + avg_str_xyz[i] for i in range(len(eigvec))]
 	extr_min_xyz = np.array(extr_min_xyz).reshape(len(extr_min_xyz),1)
 	
 	delta_vec = np.array((extr_max_xyz - extr_min_xyz), dtype = np.float64)

@@ -82,12 +82,14 @@ def get_proj_mem(traj, top, first_PC, last_PC, aver, evecs, filename):
 		file.write('@    title "Projection %s"\n' % (i))
 		files.append(file)
 	
-	for frame in md.iterload(traj, top = top, chunk = 100000):
+	for frame in md.iterload(traj, top = top, chunk = 100000): 
 		# superpose trajectory
 		X = frame.superpose(ref_aver_str).xyz.astype(np.float64)\
 		.reshape(frame.n_frames, frame.n_atoms * 3) - mean_vec
+	
 		# calculate projections for chunk
-		proj = np.tensordot(X,eigenvecs[first_PC - 1:last_PC],axes = (1,1)).T
+		proj = np.tensordot(X,eigenvecs[first_PC - 1:last_PC],axes = (1,1)).T 
+		
 		for i in range(len(files)):
 			# Find wether the distribution is skewed to the correct side
 			if chPC1 and i == 0:
@@ -98,7 +100,15 @@ def get_proj_mem(traj, top, first_PC, last_PC, aver, evecs, filename):
 	# Write projection on PC1 to file		
 	if chPC1:
 		proj0=np.concatenate(np.array(proj0),axis=None)
-		k = skew(proj0)/abs(skew(proj[i])) # calculate the correct orientation
+		k = skew(proj0)/abs(skew(proj0)) # calculate the correct orientation
+
+		# if k < 0 we then need to rewright eigenvector
+		# it's direction has to be changed
+		if k < 0:
+			eigenvecs[0] = -eigenvecs[0]
+			np.savetxt(evecs,eigenvecs,fmt='%20.17g')
+			print('Wrote eigenvectors in "%s"' % evecs)
+
 		files[0].write(''.join(('     ' + str(k*proj0[j]/(na**0.5)) + '\n') \
 				for j in range(len(proj0))))
 	
