@@ -41,6 +41,7 @@ def create_extreme(eigvec, avg_str_xyz, max_, min_, avg_str, PC, exfile):
 
 	na = avg_str.n_atoms
 
+	# generate xyz for max projection value
 	extr_max_xyz = [eigvec[i] * max_ * (na**0.5) + avg_str_xyz[i] for i in range(len(eigvec))]
 	extr_max_xyz = np.array(extr_max_xyz).reshape(len(extr_max_xyz),1)
 	
