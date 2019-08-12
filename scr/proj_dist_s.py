@@ -5,7 +5,8 @@ from multiprocessing import Pool
 import sys
 import os
 
-
+# Get the projection data
+# Maybe should be reworked with numpy
 def get_data_from_file(file_name):
 	file = open(file_name, 'r')
 	proj = []
@@ -17,6 +18,8 @@ def get_data_from_file(file_name):
 	file.close()
 	return proj
 
+# Calculate the distribution
+# Get bins and put data to the bins
 def KDE(data, grid):
     delta = (grid[1] - grid[0])
     dist = [0.] * len(grid)
@@ -30,6 +33,7 @@ def KDE(data, grid):
     	k+=1
     return [x/(k*delta) for x in dist]
 
+# Plotting
 def plot_dist(data, PATH, PC):
 	N = PC
 	data = np.array(data)
