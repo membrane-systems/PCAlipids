@@ -9,31 +9,21 @@ import math
 
 
 def estimated_autocorrelation(x, variance, mean):
+	# x - data
 	n = len(x)
-	# variance = x.var()
-	# print(variance)
+	# Center the data
 	x = x-mean
+	# Convolve the data
 	r = signal.fftconvolve(x, x[::-1], mode="full")[-n:]
-	# assert np.allclose(r, np.array([(x[:n-k]*x[-(n-k):]).sum() for k in range(n)]))
+	# Weight the correlation to get the result in range -1 to 1
 	result = r/(variance*(np.arange(n, 0, -1)))
 	return result
 
-
+# Interpolation
 def get_nearest_value(iterable, value):
-	# idx = (np.abs(iterable - value)).argmin()
-	# B = idx
-	# if B == 0:
-	# 	A = 1
-	# elif B == len(iterable) - 1:
-	# 	A = B - 1
-	# elif (iterable[idx] - value) * (iterable[idx + 1] - value) > 0:
-	# 	A = idx - 1
-	# else:
-	# 	A = idx + 1
 	for idx, x in enumerate(iterable):
 		if x < value:
 			break
-	
 
 	A = idx
 	if idx == 0:
@@ -49,6 +39,8 @@ def get_nearest_value(iterable, value):
 
 def calc(filename, N_lips, timestep):
 	file = open(filename, 'r')
+
+	# Colecting the data
 	data = []
 	for line in file:
 	    if line.find('@') == -1 and line.find('&') == -1:
@@ -57,27 +49,28 @@ def calc(filename, N_lips, timestep):
 	        break
 	file.close()
 	data = np.array(data, dtype = np.float64)
+	
+	# Calculate data parameters
 	variance  = data.var()
 	mean = data.mean()
+	
+	# Get correlation for the first lipid
 	data_1 = data[:len(data) // N_lips]
 	R = estimated_autocorrelation(data_1, variance, mean)
+	
+	# Get correlation for other lipids
 	for i in range(1, N_lips):
 	    data_1 = data[len(data) * i // N_lips:len(data) * (i + 1) // N_lips]
 	    R += estimated_autocorrelation(data_1, variance, mean)
+	
+	# Calculate averaged correlation
 	R /= N_lips
-	# print(len(R))
+	
+	# Get corresponding times
 	T = []
 	for i in range(0, len(R)):
 	    T.append(timestep * i)
 	print(filename.split('/')[-1] + ' - processed')
-	# plt.scatter(T[:100],R[:100],s = 5)
-	# j = 1
-	# while j < len(R[:100]) / 2:
-	# 	plt.plot([T[:100][j], T[:100][j*2]], [R[:100][j],R[:100][j * 2]], color = 'red')
-	# 	j *= 2
-	# plt.yscale('log')
-	# plt.xscale('log')
-	# plt.show()
 	return T, R
 
 
@@ -110,9 +103,11 @@ def main(file_name, range_fnames, N_lips, timestep, file_out ):
 	name = file_out[:file_out.rfind('.')]
 	rez  = file_out[file_out.rfind('.'):]
 
+	# Calculate correlation
 	with Pool(8) as p:
 		data = p.starmap(calc, input_data)
 
+	# Write correlation to file
 	file = open(name+'_values_vs_t'+rez, 'w')
 	for j in range(len(data[0][0])):
 		for i in range(len(data)):
@@ -122,24 +117,29 @@ def main(file_name, range_fnames, N_lips, timestep, file_out ):
 				file.write(' ' + str(str(data[i][1][j])))
 		file.write('\n')
 	file.close()
+	
+	# Interpolation of data
+	# Create time array
 	POINTS = []
 	j = 1
 	while j < len(data[0][0]):
 		POINTS.append(j)
 		j = int(1.5 * j) + 1
-	# print(POINTS)
+
+	# Plotting autocorrelation
 	for idx, obj in enumerate(data[:10]):
 		T = obj[0]
 		R = obj[1]
-		# T_pic = [T[i] for i in POINTS]
-		# R_pic = [R[i] for i in POINTS]
 		plt.loglog(T, R, color = [0, 0, 1 - idx / 10])
+
 	plt.ylim([0.001, 1])
 	plt.xlabel('Time (ns)')
 	plt.ylabel('Autocorrelation')
 	plt.savefig(name+'_values_vs_t'+'.png')
 	plt.clf()
 
+	# Save autocorrelation decay times to file
+	# Write data for e^2 decay
 	file = open(name + '_relax_times_vs_pc' + rez, 'w')
 	file.write('### Autocorr ###\n')
 	file.write('E**2\n')
@@ -156,10 +156,9 @@ def main(file_name, range_fnames, N_lips, timestep, file_out ):
 		R_pic = np.array([R[i] for i in POINTS if R[i] > 0.])
 		R_log = np.log(R_pic[:])
 		T_log = np.log(T_pic[:])
+		# Interpolate data
 		A,B = get_nearest_value(R_log, -2)
 		a = (T_log[B] - T_log[A]) / (R_log[B] - R_log[A])
-		# print(T_log[B], T_log[A], R_log[B], R_log[A])
-		# print(A)
 		b = T_log[A] - a * R_log[A]
 		t_relax = a * -2 + b
 		PC.append(i + 1)
@@ -174,6 +173,7 @@ def main(file_name, range_fnames, N_lips, timestep, file_out ):
 		file.write('\n')
 	file.write('\n')
 
+	# Write data for e decay
 	PC = []
 	T_relax = []
 
@@ -189,7 +189,6 @@ def main(file_name, range_fnames, N_lips, timestep, file_out ):
 		b = T_log[A] - a * R_log[A]
 		t_relax = a * -1 + b
 		PC.append(i + 1)
-		# print(math.e ** t_relax)
 		T_relax.append(math.e ** t_relax)
 
 
