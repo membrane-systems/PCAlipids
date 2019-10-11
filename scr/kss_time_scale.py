@@ -10,11 +10,7 @@ import time
 from numba import jit
 import mdtraj as md
 
-#import warnings
-
-#warnings.simplefilter('ignore')
-
-def sample(data, N_bins):
+def sample(data, N_bins): #data to integers from 0 to N_bins-1
     m, M = np.min(data), np.max(data)
     x = (N_bins-0.0000001)/(M - m)
     return np.array((data - m)*x, dtype = int)
@@ -22,7 +18,7 @@ def sample(data, N_bins):
 def load_data(filename):
     return np.loadtxt(filename, dtype=np.float64, comments=('@', '#', '&'))
 
-def grid(tt, N_lip, timestep): #gr[0] - L_tau, gr[1] - number of parts, gr[2] - cut_fr
+def grid(tt, N_lip, timestep): #len(grids) = max_power, gr[0] - L_tau, gr[1] - number of parts, gr[2] - cut_fr
     max_power = int(math.log(tt, 1.5))
     grids = np.zeros((max_power, 3), dtype='int')
     for i in range(max_power):
@@ -34,15 +30,16 @@ def grid(tt, N_lip, timestep): #gr[0] - L_tau, gr[1] - number of parts, gr[2] - 
     timescale = grids[:, 0] * timestep
     return grids, timescale
 
-def prepare_data(sdat, N_bins, N_lip, fr):
-    sdat = sample(sdat, N_bins)
+def prepare_data(data, N_bins, N_lip, fr): #after sampling converts value in data to [cum_ideal[value], cum_ideal[value-1] or 0]
+    print('data loaded') 
+    sdat = sample(data, N_bins)
     N = len(sdat)
     t=time.clock()
     M = np.zeros((N, 2))
     cum = 0
     for i in range(N_bins):
-        cuma = np.mean(sdat<=i)
-        bol = sdat==i
+        cuma = np.mean(data<=i) #cum_ideal
+        bol = data==i
         M[bol, 0] = cum
         M[bol, 1] = cuma
         cum = cuma
@@ -50,7 +47,7 @@ def prepare_data(sdat, N_bins, N_lip, fr):
     return M.reshape((N_lip, fr, 2))
 
 
-def calc(M, grids):     #, N_lip, N_bins, N_samples, cutoff = 0):
+def calc(M, grids):     #calculates KSS for prerared array M
     t=time.clock()
     max_power = len(grids)
     KSS_time = np.zeros(max_power)
@@ -65,7 +62,7 @@ def calc(M, grids):     #, N_lip, N_bins, N_samples, cutoff = 0):
     print('KSS done', time.clock() - t) 
     return KSS_time
 
-def produce(filename, N_lip, fr, grids, N_bins):
+def produce(filename, N_lip, fr, grids, N_bins):#loads, prepares and calculates KSS
     return calc(prepare_data(load_data(filename), N_bins, N_lip, fr), grids)
 
 def get_nearest_value(iterable, value):
@@ -77,7 +74,6 @@ def get_nearest_value(iterable, value):
         A = idx + 1
     else:
         A = idx - 1
-    # print(A,B)
     return A, B
 
 
@@ -101,7 +97,7 @@ def plotter(data, timescale, power, n_PC):
 
 def main(file_name, range_fnames, fr, N_lip, N_bins, traj, timestep, file_out):
     if N_lip is None:
-        N_lip = md.load(traj).n_residues
+        N_lip = md.load(traj).n_residues #calculate N_lip from pdb file
     PATH = os.getcwd() + '/'
     # if both file or range of files are not defined 
     if not file_name and not range_fnames:
@@ -128,27 +124,25 @@ def main(file_name, range_fnames, fr, N_lip, N_bins, traj, timestep, file_out):
         filenames = [file_name]
         firstFile = file_name
     if fr is None:
-        fr = len(load_data(firstFile))//N_lip
-    grids, timescale = grid(fr, N_lip, timestep)
+        fr = len(load_data(firstFile))//N_lip #calculate fr from projection file, very slow!
+    grids, timescale = grid(fr, N_lip, timestep) #one for all projections
 
     name = file_out[:file_out.rfind('.')]
     rez  = file_out[file_out.rfind('.'):]
     max_power = len(grids)
 
-    #with Pool(4) as p:
-    #    data = p.starmap(load_data, filenames)
-    input_data = [(filenames[i], N_lip, fr, grids, N_bins) for i in range(n_PC)]
+    input_data = [(filenames[i], N_lip, fr, grids, N_bins) for i in range(n_PC)] #prepare to Pool
     with Pool(8) as p:
-        data = p.starmap(produce, input_data)
+        data = p.starmap(produce, input_data) #parallel calculations
     for idx, KSS_time in  enumerate(data):
         plt.loglog(timescale, KSS_time, color = [0, 0, 1 - idx / n_PC])
     ttt=time.clock()
     plt.ylim([0.005, 0.75])
     plt.xlabel('Time (ns)')
     plt.ylabel('K-S statistics')
-    plt.savefig(name+'_values_vs_t'+'.png')
+    plt.savefig(name+'_values_vs_t'+'.png') #K-S plot
     plt.clf()
-    np.savetxt(name+'_values_vs_t'+rez, np.vstack((timescale, data)).T, fmt='%-8.3f', header='# time in first column, KSS in other columns', footer='&', comments='')
+    np.savetxt(name+'_values_vs_t'+rez, np.vstack((timescale, data)).T, fmt='%-8.3f', header='# time in first column, KSS in other columns', footer='&', comments='') #KSS file
 
     handles = [0, 0]
     T_relax = np.zeros((3, n_PC))
@@ -159,7 +153,7 @@ def main(file_name, range_fnames, fr, N_lip, N_bins, traj, timestep, file_out):
     plt.ylabel('Relaxation time (ns)')
     plt.xlabel('Component')
     plt.legend(handles = handles)
-    plt.savefig(name + '_relax_times_vs_pc.png')
+    plt.savefig(name + '_relax_times_vs_pc.png') #relaxation plot
 
-    np.savetxt(name + '_relax_times_vs_pc' + rez, T_relax.T, fmt='%-8.3f', header='# PC in first column, E**2 in second column, E**1 in third column', footer='&', comments='')
+    np.savetxt(name + '_relax_times_vs_pc' + rez, T_relax.T, fmt='%-8.3f', header='# PC in first column, E**2 in second column, E**1 in third column', footer='&', comments='') #relaxation file
     print('finished', time.clock() - ttt)
