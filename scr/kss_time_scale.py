@@ -30,16 +30,15 @@ def grid(tt, N_lip, timestep): #len(grids) = max_power, gr[0] - L_tau, gr[1] - n
     timescale = grids[:, 0] * timestep
     return grids, timescale
 
-def prepare_data(data, N_bins, N_lip, fr): #after sampling converts value in data to [cum_ideal[value], cum_ideal[value-1] or 0]
-    print('data loaded') 
-    sdat = sample(data, N_bins)
+def prepare_data(sdat, N_bins, N_lip, fr):  #after sampling converts value in data to [cum_ideal[value], cum_ideal[value-1] or 0]
+    sdat = sample(sdat, N_bins)
     N = len(sdat)
     t=time.clock()
     M = np.zeros((N, 2))
     cum = 0
     for i in range(N_bins):
-        cuma = np.mean(data<=i) #cum_ideal
-        bol = data==i
+        cuma = np.mean(sdat<=i) #cum_ideal
+        bol = sdat==i
         M[bol, 0] = cum
         M[bol, 1] = cuma
         cum = cuma
@@ -62,7 +61,7 @@ def calc(M, grids):     #calculates KSS for prerared array M
     print('KSS done', time.clock() - t) 
     return KSS_time
 
-def produce(filename, N_lip, fr, grids, N_bins):#loads, prepares and calculates KSS
+def produce(filename, N_lip, fr, grids, N_bins): #loads, prepares and calculates KSS
     return calc(prepare_data(load_data(filename), N_bins, N_lip, fr), grids)
 
 def get_nearest_value(iterable, value):
@@ -140,9 +139,9 @@ def main(file_name, range_fnames, fr, N_lip, N_bins, traj, timestep, file_out):
     plt.ylim([0.005, 0.75])
     plt.xlabel('Time (ns)')
     plt.ylabel('K-S statistics')
-    plt.savefig(name+'_values_vs_t'+'.png') #K-S plot
+    plt.savefig(name+'_values_vs_t'+'.png')
     plt.clf()
-    np.savetxt(name+'_values_vs_t'+rez, np.vstack((timescale, data)).T, fmt='%-8.3f', header='# time in first column, KSS in other columns', footer='&', comments='') #KSS file
+    np.savetxt(name+'_values_vs_t'+rez, np.vstack((timescale, data)).T, fmt='%-8.3f', header='# time in first column, KSS in other columns', footer='&', comments='')
 
     handles = [0, 0]
     T_relax = np.zeros((3, n_PC))
@@ -153,7 +152,7 @@ def main(file_name, range_fnames, fr, N_lip, N_bins, traj, timestep, file_out):
     plt.ylabel('Relaxation time (ns)')
     plt.xlabel('Component')
     plt.legend(handles = handles)
-    plt.savefig(name + '_relax_times_vs_pc.png') #relaxation plot
+    plt.savefig(name + '_relax_times_vs_pc.png')
 
-    np.savetxt(name + '_relax_times_vs_pc' + rez, T_relax.T, fmt='%-8.3f', header='# PC in first column, E**2 in second column, E**1 in third column', footer='&', comments='') #relaxation file
+    np.savetxt(name + '_relax_times_vs_pc' + rez, T_relax.T, fmt='%-8.3f', header='# PC in first column, E**2 in second column, E**1 in third column', footer='&', comments='')
     print('finished', time.clock() - ttt)
