@@ -29,7 +29,6 @@ def average_structure(traj):
 	avg_traj = md.Trajectory([avg_xyz], traj.top)
 	return avg_traj
 
-#@jit
 def main(file_1, file_2, stride, sf, ef, \
 	out_traj, out_top, file_3, lipid_resname):
 	
@@ -64,6 +63,7 @@ Run pcalipids.py concat -h for help")
 	if file_3:
 		# if reference structure is provided:
 		# align all frames to the reference structure
+
 		ref_traj = md.load(file_3)
 		traj.superpose(ref_traj, parallel = True)
 	else:

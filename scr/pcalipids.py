@@ -303,6 +303,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 		else:
 			optionsF[ar].setvalue([args.pop(0) for i in range(optionsF[ar].num)]) # set value
 
+
 	# Pass all the parameters to function
 	params=list(v.value for v in optionsF.values())
 	main(*params)

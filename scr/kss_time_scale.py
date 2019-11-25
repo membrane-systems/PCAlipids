@@ -232,6 +232,7 @@ def main(file_name, range_fnames, N_lips, timestep, file_out):
     file.close()
 
     file = open(name + '_relax_times_vs_pc' + rez, 'w')
+
     file.write('### KSS ###\n')
     file.write('E**2\n')
 

@@ -18,6 +18,7 @@ def extreme_proj(proj_file):
 			proj_val = float(line)
 			max_ = max(max_, proj_val)
 			min_ = min(min_, proj_val)
+
 			line = file.readline()
 	return max_, min_
 
@@ -90,5 +91,4 @@ Run pcalipids.py motion -h for help")
 	
 	# Create extreme projections
 	create_extreme(eigvec, avg_str_xyz, max_, min_, avg_str, PC, exfile)
-
 

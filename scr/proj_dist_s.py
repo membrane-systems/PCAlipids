@@ -5,6 +5,7 @@ from multiprocessing import Pool
 import sys
 import os
 
+
 # Get the projection data
 # Maybe should be reworked with numpy
 def get_data_from_file(file_name):
@@ -47,7 +48,6 @@ def plot_dist(data, PATH, PC):
 	plt.plot(x, dist, 'r', color = 'blue')
 	plt.savefig(PATH + 'PC%s_dist.png' % N)
 	plt.clf()
-
 
 def main(file_name, range_fnames):
 	PATH = os.getcwd() + '/'
