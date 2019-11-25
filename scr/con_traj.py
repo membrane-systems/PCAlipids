@@ -16,7 +16,9 @@ def load_traj(traj_file, traj_top, lipid_resname, stride, sf, ef, max_frames = N
 			% lipid_resname)
 	# load trajectory
 	return md.load(traj_file, top = traj_top, stride = stride, \
-		atom_indices = ailist)[sf:ef]
+		atom_indices = ailist)[sf:ef] if ef != -1 else \
+                md.load(traj_file, top = traj_top, stride = stride, \
+                atom_indices = ailist)[sf:]
 
 def concat(traj, lipid):
 	return traj.atom_slice(traj.topology.select('resid %s' % lipid))

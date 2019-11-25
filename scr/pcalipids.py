@@ -71,7 +71,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("-t", OptionF(str, 1, None, "Input topology PDB of GRO file")),
 	("-stride", OptionF(int,1,1000, "Only read every Nth frame (default: 1000)")),
 	("-om", OptionF(str, 1, "conformations.pdb", "Output PDB file with conformations")),
-	("-al", OptionF(str, 1, 0, "Is align needed (0: no; 1: yes; default: 0)"))
+	("-al", OptionF(int, 1, 0, "Is align needed (0: no; 1: yes; default: 0)"))
 	]
 
 	optionsCovar = [
