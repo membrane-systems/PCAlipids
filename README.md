@@ -12,8 +12,8 @@ You can find the information on installation and a brief tutorial [here](https:/
 
 If you have any questions about using the PCALipids, please contact:
 
-* **Khalid Mustafin** - khalid.mustafin@phystech.edu *developer of PCAlipids; code-related questions*
-* **Pavel Buslaev** - pbuslaev@phystech.edu *applying PCAlipids*
+* **Khalid Mustafin** - *developer of PCAlipids; code-related questions*
+* **Pavel Buslaev** - pbuslaev@phystech.edu *applying PCAlipids, developer of PCAlipids*
 * **Ivan Gushchin** - ivan.gushchin@phystech.edu *general questions & supervision*
 
 
