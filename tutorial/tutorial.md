@@ -37,11 +37,9 @@ To run the software simply type in the command prompt (on some machines you need
 
     $ pcalipids
 
-As an output the description of the script functionality line should appear:
+As an output the description of the script functionality line should appear.
 
-    $ Use -h or -help for more information
-
-To get the information on usage type:
+To get this information you can also type:
 
     $ pcalipids -h
     or
