@@ -292,11 +292,11 @@ You should get a PNG figure with 2 PDFs for different simulations similar to wha
 
 #### Step3: Comparing timescales
 
-To compare the timescales we will use procedures *autot* and *ksst* like we did in the first part of the tutorial. To plot the characteristic timescales for different simulations at the same plot use 
+To compare the timescales we will use procedures *autot* and *ksst* like we did in the first part of the tutorial. You may specify name of output files for different trajectories (e.g. *acor1.xvg*, *acor2.xvg*, *kss1.xvg*, *kss2.xvg*). To plot the characteristic timescales for different simulations at the same plot use 
 
-    $ pcalipids tsCmpFig -file1 proj1_autocorr_relaxtime_vs_PC_proj1.xvg -file2 proj2_autocorr_relaxtime_vs_PC_proj1.xvg -type auto -t t2
+    $ pcalipids tsCmpFig -file1 acor1_relaxtime_vs_pc.xvg -file2 acor2_relaxtime_vs_pc.xvg -type auto -t t2
     
-    $ pcalipids tsCmpFig -file1 proj1_KSS_relaxation_time_vs_PC.xvg -file2 proj2_KSS_relaxation_time_vs_PC.xvg -type kss -t t2
+    $ pcalipids tsCmpFig -file1 kss1_relaxation_time_vs_pc.xvg -file2 kss2_relaxation_time_vs_pc.xvg -type kss -t t2
 
 You should get the figures similar to what you see below:
 
@@ -304,10 +304,10 @@ You should get the figures similar to what you see below:
 
 ![KSS convergence times for different simulations analysed in common basis](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1_vs_2/KSS_relaxation_2_traj.png)
 
-To directly compare the timescales we can use *reltime* procedure
+To directly compare the timescales we can use *reltime* procedure. It is recommended to use relaxation time for all PCs, however the script will work with the specified range of projections as well (in case of this tutorial - first 10 PCs)
 
-    $ pcalipids reltime -eval eigenval.xvg -time1 proj1_autocorr_relaxtime_vs_PC.xvg -time2 proj2_autocorr_relaxtime_vs_PC.xvg
+    $ pcalipids reltime -eval eigenval.xvg -time1 acor1_relaxtime_vs_pc.xvg -time2 acor2_relaxtime_vs_pc.xvg
     
-    $ pcalipids reltime -eval eigenval.xvg -time1 proj1_KSS_relaxation_time_vs_PC.xvg -time2 proj2_KSS_relaxation_time_vs_PC.xvg
+    $ pcalipids reltime -eval eigenval.xvg -time1 kss1_relaxtime_vs_pc.xvg -time2 kss2_relaxtime_vs_pc.xvg
     
-For autocorrelations you should get something close to **0.3374** and for KSS **0.59468**. Thus, at higher temperatures the dynamics is accelerated by **~1.7**.
+For autocorrelations you should get something close to **0.358** and for KSS **0.558**. Thus, at higher temperatures the dynamics is accelerated by **~1.7**.
