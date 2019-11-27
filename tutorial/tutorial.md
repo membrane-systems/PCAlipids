@@ -276,7 +276,7 @@ You should get the *eigenvecdot.dat* and *eigenvecdot.png* with the resulting do
 
 To compare the PDFs of the trajectory projections on PCs we need to perform PCA on concatenated trajectory. Use the *covar* procedure to do it. We get the covariance matrix (covar.dat), eigenvalues (eigenval.dat) and eigenvalues (eigenvec.dat). Then we need to project each concatenated trajectory on the common basis. For this, we can use *project* procedure applied to respective concatenated trajectories. You can find more on the *project* procedure in the first part of the tutorial. Note that it is important to provide *project* with the eigenvectors obtained for the united trajectory. Finaly, we obtain a projection files for each concatenated trajectory (*proj1.xvg* and *proj2.xvg*). You can chose the PCs for which you want to perform the following analysis using options (*-first* and *-last*). We consider only the first 10 modes for the following analysis.
 
-Now we can plot the PDFs for the first PC for different simulations. First, we need to split each projection file into separate files using *splitproj* procedure like we did in the first part of the tutorial. Then we can plot the PDF of the projections on the first PC
+Now we can plot the PDFs for the first PC for different simulations. To plot the PDF of the projections on the first PC run
 
     $ pcalipids projdistm -files proj1_1.xvg proj2_1.xvg
     
