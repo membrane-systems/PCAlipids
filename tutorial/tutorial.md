@@ -224,10 +224,6 @@ or address the [manual](https://github.com/membrane-systems/PCAlipids/blob/maste
 After combining the trajectories you should get the following files:
 1. united.xtc - the united trajectory of two concatenated trajectories for different simulations
 2. average.pdb - the average structure for the united trajectory
-3. concatenated1_FALL.xtc - trajectory corresponding to the first simulation
-4. average1_FALL.pdb - average structure for concatenated1_FALL.xtc
-5. concatenated2_FALL.xtc - trajectory corresponding to the second simulation
-6. average2_FALL.pdb - average structure for concatenated2_FALL.xtc
 
 Now we are ready to perform PCA analysis on the concatenated trajectory and to compare the simulations.
 
@@ -242,7 +238,7 @@ Two perform two first comparisons, we have to analyze the trajectories in their 
 
 ##### Comparison of covariance matrices
 
-To directly compare the covariance matrices we can use Pearson correlation coefficient. But first we need to calculate the covariance matrices for the concatenated trajectories of each simulation. This can be done by applying the *covar* procedure on *concatenated1_FALL.xtx* and *concatenated2_FALL.xtc* as it was done in the first part of the tutorial. Note that you need to use respective average structure for the concatenated trajectory. Save the resulting covariance matrices, eigenvalues and eigenvectors to different files for each simulation (eg *cov1.dat*, *eigenval1.xvg* and *eigenvec1.xvg* for the first simulation; *cov2.dat*, *eigenval2.xvg* and *eigenvec2.xvg* for the second simulation). To get information on *procedure* run
+To directly compare the covariance matrices we can use Pearson correlation coefficient. But first we need to calculate the covariance matrices for the concatenated trajectories of each simulation. This can be done by applying the *covar* procedure on *concatenated1.xtx* and *concatenated2.xtc* as it was done in the first part of the tutorial. Note that you need to use respective average structure for the concatenated trajectory. Save the resulting covariance matrices, eigenvalues and eigenvectors to different files for each simulation (eg *cov1.dat*, *eigenval1.xvg* and *eigenvec1.xvg* for the first simulation; *cov2.dat*, *eigenval2.xvg* and *eigenvec2.xvg* for the second simulation). To get information on *procedure* run
 
     $ pcalipids covar -h
     
