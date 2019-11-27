@@ -33,11 +33,11 @@ PCAlipids software is ready to use. You only need to download the *scr* director
 
 where `<path to PCALipids dir>` has to be replaced with the path to PCALipids directory on your machine.
 
-To run the software simply type in the command prompt:
+To run the software simply type in the command prompt (on some machines you need to use pcalipids.py):
 
     $ pcalipids
 
-The following output line should appear:
+As an output the description of the script functionality line should appear:
 
     $ Use -h or -help for more information
 
