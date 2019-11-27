@@ -288,7 +288,7 @@ or address the [manual](https://github.com/membrane-systems/PCAlipids/blob/maste
 
 You should get a PNG figure with 2 PDFs for different simulations similar to what you see below:
 
-![PDFs for PC1 for different simulations analysed in common basis](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1_vs_2/Distributions_in_general_basis.png)
+![PDFs for PC1 for different simulations analysed in common basis](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/distributions.png)
 
 #### Step3: Comparing timescales
 
