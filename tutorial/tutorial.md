@@ -33,15 +33,13 @@ PCAlipids software is ready to use. You only need to download the *scr* director
 
 where `<path to PCALipids dir>` has to be replaced with the path to PCALipids directory on your machine.
 
-To run the software simply type in the command prompt:
+To run the software simply type in the command prompt (on some machines you need to use pcalipids.py):
 
     $ pcalipids
 
-The following output line should appear:
+As an output the description of the script functionality line should appear.
 
-    $ Use -h or -help for more information
-
-To get the information on usage type:
+To get this information you can also type:
 
     $ pcalipids -h
     or
@@ -105,7 +103,7 @@ This will calculate the covariance matrix, its eigenvectors and eigenvalues. You
 
 After the eigenvectors are calculated, we can project the trajectory on them:
 
-    $ pcalipids project -f concatenated.xtc -t average.pdb -ia average.pdb -ievec eigenvec.xvg - first 1 -last 10 -op proj.xvg
+    $ pcalipids project -f concatenated.xtc -t average.pdb -ia average.pdb -ievec eigenvec.xvg -first 1 -last 10 -op proj.xvg
 
 To get the information on *project* procedure you can run
 
@@ -115,7 +113,7 @@ or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/ma
 
 We have just calculated the trajectory projections on the first 10 principal components. To visualize the motion along specific principal component (here we visualize the 1st PC) run:
 
-    $ pcalipids motion -p proj_1.xvg -npc 1 -aver average.pdb -ievec eigenvec.xvg
+    $ pcalipids motion -p proj_1.xvg -aver average.pdb -ievec eigenvec.xvg
     
 To get the information on *motion* procedure you can run
 
@@ -123,9 +121,7 @@ To get the information on *motion* procedure you can run
     
 or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-The *motion* produces 3 files:
-* extreme_1_min.pdb - the structure with the minimal projection value on the 1st PC
-* extreme_1_max.pdb - the structure with the maximal projection value on the 1st PC
+The *motion* produces 1 file:
 * extreme1.pdb - 20 intermediate structures representing the movement along the 1st PC
 
 The movement along PC could be visualized using PyMol or any graphical software you like. The example of such a visualization is shown below.
@@ -179,8 +175,8 @@ This will produce 2 files and 2 png figures:
 
 You should get something similar to what you see below:
 
-![Autocorrelation decay of the partial projections on differrent principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/auto.png)
-![Characteristic autocorrelation decay timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/auto_TS.png)
+![Autocorrelation decay of the partial projections on differrent principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/acor_values_vs_t.png)
+![Characteristic autocorrelation decay timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/acor_relax_times_vs_pc.png)
 
 To calculate the convergence of PDFs for a particular PC run *ksst* procedure:
 
@@ -198,8 +194,8 @@ This will produce 2 files and 2 png figures:
 
 You should get something similar to what you see below:
 
-![Examples of convergence of the distributions of the projections on principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS.png)
-![Timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS_TS.png)
+![Examples of convergence of the distributions of the projections on principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/kss_values_vs_t.png)
+![Timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/kss_relax_times_vs_pc.png)
 
 # Comparing two different simulations
 
@@ -228,10 +224,6 @@ or address the [manual](https://github.com/membrane-systems/PCAlipids/blob/maste
 After combining the trajectories you should get the following files:
 1. united.xtc - the united trajectory of two concatenated trajectories for different simulations
 2. average.pdb - the average structure for the united trajectory
-3. concatenated1_FALL.xtc - trajectory corresponding to the first simulation
-4. average1_FALL.pdb - average structure for concatenated1_FALL.xtc
-5. concatenated2_FALL.xtc - trajectory corresponding to the second simulation
-6. average2_FALL.pdb - average structure for concatenated2_FALL.xtc
 
 Now we are ready to perform PCA analysis on the concatenated trajectory and to compare the simulations.
 
@@ -246,7 +238,7 @@ Two perform two first comparisons, we have to analyze the trajectories in their 
 
 ##### Comparison of covariance matrices
 
-To directly compare the covariance matrices we can use Pearson correlation coefficient. But first we need to calculate the covariance matrices for the concatenated trajectories of each simulation. This can be done by applying the *covar* procedure on *concatenated1_FALL.xtx* and *concatenated2_FALL.xtc* as it was done in the first part of the tutorial. Note that you need to use respective average structure for the concatenated trajectory. Save the resulting covariance matrices, eigenvalues and eigenvectors to different files for each simulation (eg *cov1.dat*, *eigenval1.xvg* and *eigenvec1.xvg* for the first simulation; *cov2.dat*, *eigenval2.xvg* and *eigenvec2.xvg* for the second simulation). To get information on *procedure* run
+To directly compare the covariance matrices we can use Pearson correlation coefficient. But first we need to calculate the covariance matrices for the concatenated trajectories of each simulation. This can be done by applying the *covar* procedure on *concatenated1.xtx* and *concatenated2.xtc* as it was done in the first part of the tutorial. Note that you need to use respective average structure for the concatenated trajectory. Save the resulting covariance matrices, eigenvalues and eigenvectors to different files for each simulation (eg *cov1.dat*, *eigenval1.xvg* and *eigenvec1.xvg* for the first simulation; *cov2.dat*, *eigenval2.xvg* and *eigenvec2.xvg* for the second simulation). To get information on *procedure* run
 
     $ pcalipids covar -h
     
@@ -268,11 +260,11 @@ The resulting value as reported in the terminal should be close to **0.99916**. 
 
 To compare sets of eigenvectors for each simulation we can calculate the dot product matrix of two sets:
 
-    $ pcalipids eigenvecdot -evec eigenvec1.xvg eigenvec2.xvg 
+    $ pcalipids evecdot -evec eigenvec1.xvg eigenvec2.xvg 
 
 To get more information on *eigenvecdot* procedure run
 
-    $ pcalipids eigenvecdot -h
+    $ pcalipids evecdot -h
     
 or address the [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
@@ -284,7 +276,7 @@ You should get the *eigenvecdot.dat* and *eigenvecdot.png* with the resulting do
 
 To compare the PDFs of the trajectory projections on PCs we need to perform PCA on concatenated trajectory. Use the *covar* procedure to do it. We get the covariance matrix (covar.dat), eigenvalues (eigenval.dat) and eigenvalues (eigenvec.dat). Then we need to project each concatenated trajectory on the common basis. For this, we can use *project* procedure applied to respective concatenated trajectories. You can find more on the *project* procedure in the first part of the tutorial. Note that it is important to provide *project* with the eigenvectors obtained for the united trajectory. Finaly, we obtain a projection files for each concatenated trajectory (*proj1.xvg* and *proj2.xvg*). You can chose the PCs for which you want to perform the following analysis using options (*-first* and *-last*). We consider only the first 10 modes for the following analysis.
 
-Now we can plot the PDFs for the first PC for different simulations. First, we need to split each projection file into separate files using *splitproj* procedure like we did in the first part of the tutorial. Then we can plot the PDF of the projections on the first PC
+Now we can plot the PDFs for the first PC for different simulations. To plot the PDF of the projections on the first PC run
 
     $ pcalipids projdistm -files proj1_1.xvg proj2_1.xvg
     
@@ -296,15 +288,15 @@ or address the [manual](https://github.com/membrane-systems/PCAlipids/blob/maste
 
 You should get a PNG figure with 2 PDFs for different simulations similar to what you see below:
 
-![PDFs for PC1 for different simulations analysed in common basis](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/1_vs_2/Distributions_in_general_basis.png)
+![PDFs for PC1 for different simulations analysed in common basis](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/distributions.png)
 
 #### Step3: Comparing timescales
 
 To compare the timescales we will use procedures *autot* and *ksst* like we did in the first part of the tutorial. To plot the characteristic timescales for different simulations at the same plot use 
 
-    $ pcalipids timescalespic -file1 proj1_autocorr_relaxtime_vs_PC_proj1.xvg -file2 proj2_autocorr_relaxtime_vs_PC_proj1.xvg -type auto -t t2
+    $ pcalipids tsCmpFig -file1 proj1_autocorr_relaxtime_vs_PC_proj1.xvg -file2 proj2_autocorr_relaxtime_vs_PC_proj1.xvg -type auto -t t2
     
-    $ pcalipids timescalespic -file1 proj1_KSS_relaxation_time_vs_PC.xvg -file2 proj2_KSS_relaxation_time_vs_PC.xvg -type kss -t t2
+    $ pcalipids tsCmpFig -file1 proj1_KSS_relaxation_time_vs_PC.xvg -file2 proj2_KSS_relaxation_time_vs_PC.xvg -type kss -t t2
 
 You should get the figures similar to what you see below:
 
