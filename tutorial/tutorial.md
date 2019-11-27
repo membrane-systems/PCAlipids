@@ -103,7 +103,7 @@ This will calculate the covariance matrix, its eigenvectors and eigenvalues. You
 
 After the eigenvectors are calculated, we can project the trajectory on them:
 
-    $ pcalipids project -f concatenated.xtc -t average.pdb -ia average.pdb -ievec eigenvec.xvg - first 1 -last 10 -op proj.xvg
+    $ pcalipids project -f concatenated.xtc -t average.pdb -ia average.pdb -ievec eigenvec.xvg -first 1 -last 10 -op proj.xvg
 
 To get the information on *project* procedure you can run
 
