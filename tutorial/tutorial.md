@@ -294,9 +294,9 @@ You should get a PNG figure with 2 PDFs for different simulations similar to wha
 
 To compare the timescales we will use procedures *autot* and *ksst* like we did in the first part of the tutorial. To plot the characteristic timescales for different simulations at the same plot use 
 
-    $ pcalipids timescalespic -file1 proj1_autocorr_relaxtime_vs_PC_proj1.xvg -file2 proj2_autocorr_relaxtime_vs_PC_proj1.xvg -type auto -t t2
+    $ pcalipids tsCmpFig -file1 proj1_autocorr_relaxtime_vs_PC_proj1.xvg -file2 proj2_autocorr_relaxtime_vs_PC_proj1.xvg -type auto -t t2
     
-    $ pcalipids timescalespic -file1 proj1_KSS_relaxation_time_vs_PC.xvg -file2 proj2_KSS_relaxation_time_vs_PC.xvg -type kss -t t2
+    $ pcalipids tsCmpFig -file1 proj1_KSS_relaxation_time_vs_PC.xvg -file2 proj2_KSS_relaxation_time_vs_PC.xvg -type kss -t t2
 
 You should get the figures similar to what you see below:
 
