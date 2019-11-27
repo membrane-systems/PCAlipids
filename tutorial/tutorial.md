@@ -121,9 +121,7 @@ To get the information on *motion* procedure you can run
     
 or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-The *motion* produces 3 files:
-* extreme_1_min.pdb - the structure with the minimal projection value on the 1st PC
-* extreme_1_max.pdb - the structure with the maximal projection value on the 1st PC
+The *motion* produces 1 file:
 * extreme1.pdb - 20 intermediate structures representing the movement along the 1st PC
 
 The movement along PC could be visualized using PyMol or any graphical software you like. The example of such a visualization is shown below.
