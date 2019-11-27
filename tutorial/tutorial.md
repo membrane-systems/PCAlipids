@@ -260,11 +260,11 @@ The resulting value as reported in the terminal should be close to **0.99916**. 
 
 To compare sets of eigenvectors for each simulation we can calculate the dot product matrix of two sets:
 
-    $ pcalipids eigenvecdot -evec eigenvec1.xvg eigenvec2.xvg 
+    $ pcalipids evecdot -evec eigenvec1.xvg eigenvec2.xvg 
 
 To get more information on *eigenvecdot* procedure run
 
-    $ pcalipids eigenvecdot -h
+    $ pcalipids evecdot -h
     
 or address the [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
