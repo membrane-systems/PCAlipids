@@ -113,7 +113,7 @@ or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/ma
 
 We have just calculated the trajectory projections on the first 10 principal components. To visualize the motion along specific principal component (here we visualize the 1st PC) run:
 
-    $ pcalipids motion -p proj_1.xvg -npc 1 -aver average.pdb -ievec eigenvec.xvg
+    $ pcalipids motion -p proj_1.xvg -aver average.pdb -ievec eigenvec.xvg
     
 To get the information on *motion* procedure you can run
 
