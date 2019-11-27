@@ -175,8 +175,8 @@ This will produce 2 files and 2 png figures:
 
 You should get something similar to what you see below:
 
-![Autocorrelation decay of the partial projections on differrent principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/auto.png)
-![Characteristic autocorrelation decay timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/auto_TS.png)
+![Autocorrelation decay of the partial projections on differrent principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/acor_values_vs_t.png)
+![Characteristic autocorrelation decay timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/acor_relax_times_vs_pc.png)
 
 To calculate the convergence of PDFs for a particular PC run *ksst* procedure:
 
@@ -194,8 +194,8 @@ This will produce 2 files and 2 png figures:
 
 You should get something similar to what you see below:
 
-![Examples of convergence of the distributions of the projections on principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS.png)
-![Timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/KSS_TS.png)
+![Examples of convergence of the distributions of the projections on principal components](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/kss_values_vs_t.png)
+![Timescales](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/kss_relax_times_vs_pc.png)
 
 # Comparing two different simulations
 
