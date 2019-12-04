@@ -71,7 +71,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("-t", OptionF(str, 1, None, "Input topology PDB of GRO file")),
 	("-stride", OptionF(int,1,1000, "Only read every Nth frame (default: 1000)")),
 	("-om", OptionF(str, 1, "conformations.pdb", "Output PDB file with conformations")),
-	("-al", OptionF(str, 1, 0, "Is align needed (0: no; 1: yes; default: 0)"))
+	("-al", OptionF(int, 1, 0, "Is align needed (0: no; 1: yes; default: 0)"))
 	]
 
 	optionsCovar = [
@@ -132,10 +132,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("-p", OptionF(str, 1, None, "Input projection file")),
 	("-pr", OptionF(str, 1, None, "Range of input projection files: \n\
 	example: -pr proj_1.xvg-proj_10.xvg")),
-	("-fr", OptionF(int, 1, None, "Number of frames (default: None)")),
-	("-ln", OptionF(int, 1, None, "Number of lipids in the system (default: None)")),
-	("-bin", OptionF(int, 1, 51, "Number of bins (default: 51)")),
-	("-struct", OptionF(str, 1, None, "gro or pdb structure (default: None)")),
+	("-ln", OptionF(int, 1, 1, "Number of lipids in the system (default: 1)")),
 	("-dt", OptionF(float, 1, 0.01, "Timestep (ns) (default: 0.01 ns)")),
 	("-o", OptionF(str, 1, "kss.xvg", "Name of output files"))
 	]
@@ -305,6 +302,7 @@ the structure of the first lipid and the first frame is used for alignment")),
 			optionsF[ar].setvalue(listOfInputs)
 		else:
 			optionsF[ar].setvalue([args.pop(0) for i in range(optionsF[ar].num)]) # set value
+
 
 	# Pass all the parameters to function
 	params=list(v.value for v in optionsF.values())
