@@ -16,14 +16,19 @@ def load_traj(traj_file, traj_top, lipid_resname, stride, sf, ef, max_frames = N
 			% lipid_resname)
 	# load trajectory
 	return md.load(traj_file, top = traj_top, stride = stride, \
-		atom_indices = ailist)[sf:ef]
+		atom_indices = ailist)[sf:ef] if ef != -1 else \
+                md.load(traj_file, top = traj_top, stride = stride, \
+                atom_indices = ailist)[sf:]
+
+def concat(traj, lipid):
+	return traj.atom_slice(traj.topology.select('resid %s' % lipid))
+
 
 def average_structure(traj):
 	avg_xyz = traj.xyz.mean(axis = 0, dtype=np.float64)
 	avg_traj = md.Trajectory([avg_xyz], traj.top)
 	return avg_traj
 
-#@jit
 def main(file_1, file_2, stride, sf, ef, \
 	out_traj, out_top, file_3, lipid_resname):
 	
@@ -58,6 +63,7 @@ Run pcalipids.py concat -h for help")
 	if file_3:
 		# if reference structure is provided:
 		# align all frames to the reference structure
+
 		ref_traj = md.load(file_3)
 		traj.superpose(ref_traj, parallel = True)
 	else:
