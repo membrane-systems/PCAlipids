@@ -19,6 +19,7 @@ import combtraj
 import reltime
 import timescalespic
 import argparse
+import overlap
 
 # Basic option class
 # Needed to select correct function to continue
@@ -157,6 +158,16 @@ the structure of the first lipid and the first frame is used for alignment")),
 	"Pearson correlation coeficient is shown in the terminal and saved to the output file"
 	]
 
+	optionsOverlap = [
+	# options for pearson feature
+	"Input/output options for overlap feature",
+	("-cov1", OptionF(str,1,None,"Covariance matrix for the first trajectory")),
+	("-cov2", OptionF(str,1,None,"Covariance matrix for the second trajectory")),
+	("-o", OptionF(str,1,"overlap.dat","Output file")),
+	"Overlap of the conformational spaces as introduce in https://doi.org/10.1103/PhysRevE.65.031910 \n\
+	is shown in the terminal and saved to the output file"
+	]
+
 	optionsEigenvecdot = [
 	# options for eigenvecdot feature
 	"Input/output options for evecdot feature",
@@ -227,6 +238,8 @@ the structure of the first lipid and the first frame is used for alignment")),
 	("combtrajs", Option(str,"combtraj",optionsCombtrajs,\
 		"Combine two trajectories")),
 	("pearson", Option(str,"pearson",optionsPearson,\
+		"Compare covariance matrices from two simulations")),
+	("overlap", Option(str,"overlap",optionsOverlap,\
 		"Compare covariance matrices from two simulations")),
 	("evecdot", Option(str,"eigenvecdot",optionsEigenvecdot,\
 		"Compare eigenvectors from two simulations")),
