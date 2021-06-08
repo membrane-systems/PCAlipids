@@ -9,15 +9,15 @@ All the files needed to perform the tutorial can be downloaded [here](https://gi
 
 ### Prerequisites
 
-PCALipids is a Python3 based software. To use it please install the following packages and programms:
+PCAlipids is a Python3 based software. To use it please install the following packages and programs:
 
 * [Python 3.x](https://www.python.org/download/releases/3.0/)
-* [Cython](http://cython.org/) - c-extensions for python (version >= 0.26.1)
+* [Cython](http://cython.org/) - c-extensions for Python (version >= 0.26.1)
 * [Numpy](http://www.numpy.org/) - module for linear algebra (version >= 1.13.3)
 * [Scipy](https://www.scipy.org/) - module for scientific calculations (version >= 0.19.1)
 * [Matplotlib](https://matplotlib.org/) - module for creating plots (version >= 2.0.2)
 * [MDTraj](http://mdtraj.org/1.9.0/) - module for MD trajectories routines (version >= 1.9.1)
-* [Nose](http://nose.readthedocs.io/en/latest/) - module for python unittests (version >= 1.3.7)
+* [Nose](http://nose.readthedocs.io/en/latest/) - module for Python unit tests (version >= 1.3.7)
 
 Useful information on installing Python and its packages can be found here:
 * https://wiki.python.org/moin/BeginnersGuide/Download
@@ -25,13 +25,13 @@ Useful information on installing Python and its packages can be found here:
 
 We recommend to install packages in the mentioned order to overcome possible issues.
 
-### Welcome to PCALipids 
+### Welcome to PCAlipids 
 
 PCAlipids software is ready to use. You only need to download the *scr* directory from the repository. To run PCAlipids from any folder, you can add the path to the software on your machine to the PATH environmental variable:
 
     $ PATH=<path to PCALipids dir>:${PATH} 
 
-where `<path to PCALipids dir>` has to be replaced with the path to PCALipids directory on your machine.
+where `<path to PCALipids dir>` has to be replaced with the path to PCAlipids directory on your machine.
 
 To run the software simply type in the command prompt (on some machines you need to use pcalipids.py):
 
@@ -45,7 +45,7 @@ To get this information you can also type:
     or
     $ pcalipids -help
 
-You will get all the information about PCALipids functionality and usage. You could also find all the information [here](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
+You will get all the information about PCAlipids functionality and usage. You could also find all the information [here](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
 # Analysis of a single trajectory
 
@@ -54,13 +54,13 @@ In this part of the tutorial we will work with a trajectory containing DOPC lipi
     $ tutorial/1_analysis_single/
 
 Overall, the process is as follows:
-* Trajectories of individual lipids are extracted from the input trajectory and are concatenated in a single trajectory
-* The resulting trajectory is subjected to PCA. Covariance matrix, eigenvalues, eigenvectors and projections of the trajectory on eigenvectors are calculated.
+* Trajectories of individual lipids are extracted from the input trajectory and are concatenated in a single trajectory.
+* The resulting trajectory is subjected to PCA. Covariance matrix, eigenvalues, eigenvectors, and projections of the trajectory on eigenvectors are calculated.
 * Projections of the trajectory on PCA eigenvectors are analyzed by calculating the projection distribution and characteristic time scales.
 
 ### Step 1: Creating concatenated trajectory
 
-When working with lipids (or other flexible molecules) usually we have several molecules of interest in the simulated system (e.g. in the lipid bilayer where each lipid is a molecule of interest). To study available conformations it is worth to concatenate the trajectories of individual molecules into the concatenated trajectory. Thus, all of the possible conformations will be represented in this concatenated trajectory. The concatenated trajectory is produced by running:
+When working with lipids (or other flexible molecules) usually we have several molecules of interest in the simulated system (e.g. in the lipid bilayer, where each lipid is a molecule of interest). To study the available conformations, it is worth to concatenate the trajectories of individual molecules into a concatenated trajectory. Thus, all the possible conformations will be represented in this concatenated trajectory. The concatenated trajectory is produced by running:
 
     $ pcalipids concat -f trajectory.xtc -t structure.pdb -l DOPC
 
@@ -80,7 +80,7 @@ To get the information on *conspace* procedure you can run
     
 or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-As a result, *conspace* pruduces the *pdb* file with conformations of lipid molecule. The conformations can be visualized using PyMol or any graphical software you like. The example of lipid molecule conformations visualization is shown below.
+As a result, *conspace* produces the *pdb* file with conformations of lipid molecule. The conformations can be visualized using PyMol or any graphical software you like. An example of lipid molecule conformations visualization is shown below.
 
 ![Example of comformational space with average structure](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/conform.png)
 
@@ -96,7 +96,7 @@ To get the information on *covar* procedure you can run
     
 or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-This will calculate the covariance matrix, its eigenvectors and eigenvalues. You could visualize eigenvalues using any graphical package (matplotlib is great for python). You should get something similar to what you see below for eigenvalues and cumulative eigenvalues:
+This will calculate the covariance matrix, its eigenvectors and eigenvalues. You could visualize eigenvalues using any graphical package (matplotlib is great for Python). You should get something similar to what you see below for eigenvalues and cumulative eigenvalues:
 
 ![Eigenvalues of the covariance matrix](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenvalues.png)
 ![Cumulative eigenvalues of the covariance matrix](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/eigenvalues_cumulative.png)
@@ -124,7 +124,7 @@ or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/ma
 The *motion* produces 1 file:
 * extreme1.pdb - 20 intermediate structures representing the movement along the 1st PC
 
-The movement along PC could be visualized using PyMol or any graphical software you like. The example of such a visualization is shown below.
+The movement along a PC can be visualized using PyMol or any graphical software you like. An example of such a visualization is shown below.
 
 ![Example of single lipid motions](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/motion_PC_1.png)
 
@@ -142,7 +142,7 @@ To get the information on *projdist* procedure you can run
     
 or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-*projdist* calculates the probability distribution functions for the projectoins of the trajectory on principal components. The resulting PDFs are saved as *.png* files. See below the distributions for the first 2 PCs. 
+*projdist* calculates the probability distribution functions (PDFs) for the projections of the trajectory on principal components. The resulting PDFs are saved as *.png* files. See below the distributions for the first 2 PCs. 
 
 ![Probability distribution density of projections on the first principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC1_dist.png)
 ![Probability distribution density of projections on the second principal component](https://github.com/membrane-systems/PCAlipids/blob/master/scr/output/PC2_dist.png)
@@ -157,7 +157,7 @@ or address [manual](https://github.com/membrane-systems/PCAlipids/blob/master/ma
 
 #### Step 3: Characteristic timescales
 
-To describe the equilibration process of the molecule of interest we either calculate the decay in autocorrelation of the PC projection values, or look at the convergence of PC projections' PDFs using Kolmogorov-Smirnov statistics. PCALipids can perform both types of the analysis. 
+To describe the equilibration process of the molecule of interest we either calculate the decay in autocorrelation of the PC projection values, or look at the convergence of PC projections' PDFs using Kolmogorov-Smirnov statistics (KSS). PCAlipids can perform both types of the analysis. 
 
 To calculate the autocorrelation decay times of the projections run the *autot* procedure:
 
@@ -234,17 +234,21 @@ To compare the available conformations for different simulations we can apply di
 * Comparison of the sets of eigenvectors
 * Comparison of the PDFs of the trajectory projections on the PCs
 
-Two perform two first comparisons, we have to analyze the trajectories in their own basis. For the last comparison it is important to perform the analysis in the common basis.
+To perform the first two comparisons, we have to analyze the trajectories in their own basis. For the last comparison it is important to perform the analysis in the common basis.
 
 ##### Comparison of covariance matrices
 
-To directly compare the covariance matrices we can use Pearson correlation coefficient. But first we need to calculate the covariance matrices for the concatenated trajectories of each simulation. This can be done by applying the *covar* procedure on *concatenated1.xtx* and *concatenated2.xtc* as it was done in the first part of the tutorial. Note that you need to use respective average structure for the concatenated trajectory. Save the resulting covariance matrices, eigenvalues and eigenvectors to different files for each simulation (eg *cov1.dat*, *eigenval1.xvg* and *eigenvec1.xvg* for the first simulation; *cov2.dat*, *eigenval2.xvg* and *eigenvec2.xvg* for the second simulation). To get information on *procedure* run
+To directly compare the covariance matrices we can use the Pearson correlation coefficient. But first we need to calculate the covariance matrices for the concatenated trajectories of each simulation. This can be done by applying the *covar* procedure on *concatenated1.xtx* and *concatenated2.xtc* as it was done in the first part of the tutorial. Note, however, the following:
+* Your two trajectories must have the same order of atoms. (This might not be the case, if you are comparing trajectories from two different force fields.)
+* You should preferably use the respective average structure for each of your two concatenated trajectories. (Otherwise the mean atom positions in your trajectories will not be zero.)
+* These two average structures must be aligned to one another, because otherwise the entries in the two covariance matrices might not correspond to the same coordinates. (So you need to do two extra alignment steps: first to align the two average structures, and second to realign the corresponding trajectories to the newly aligned average structures using the switch *-r* in *concat*.)
+Save the resulting covariance matrices, eigenvalues and eigenvectors to different files for each simulation (eg *cov1.dat*, *eigenval1.xvg* and *eigenvec1.xvg* for the first simulation; *cov2.dat*, *eigenval2.xvg* and *eigenvec2.xvg* for the second simulation). To get information on *covar* run
 
     $ pcalipids covar -h
     
 or address the [manual](https://github.com/membrane-systems/PCAlipids/blob/master/manual.txt).
 
-Next, we can calculate the Pearson correlation coefficient of obtained covarience matrices:
+Next, we can calculate the Pearson correlation coefficient of the obtained covarience matrices:
 
     $ pcalipids pearson -cov1 cov1.dat -cov2 cov2.dat
     
@@ -258,7 +262,7 @@ The resulting value as reported in the terminal should be close to **0.99916**. 
 
 ##### Comparison of sets of eigenvectors
 
-To compare sets of eigenvectors for each simulation we can calculate the dot product matrix of two sets:
+To compare sets of eigenvectors for each simulation we can calculate the dot product matrix of the two sets:
 
     $ pcalipids evecdot -evec eigenvec1.xvg eigenvec2.xvg 
 
@@ -274,7 +278,9 @@ You should get the *eigenvecdot.dat* and *eigenvecdot.png* with the resulting do
 
 ##### Comparison of simulations in common PC basis
 
-To compare the PDFs of the trajectory projections on PCs we need to perform PCA on concatenated trajectory. Use the *covar* procedure to do it. We get the covariance matrix (covar.dat), eigenvalues (eigenval.dat) and eigenvalues (eigenvec.dat). Then we need to project each concatenated trajectory on the common basis. For this, we can use *project* procedure applied to respective concatenated trajectories. You can find more on the *project* procedure in the first part of the tutorial. Note that it is important to provide *project* with the eigenvectors obtained for the united trajectory. Finaly, we obtain a projection files for each concatenated trajectory (*proj1.xvg* and *proj2.xvg*). You can chose the PCs for which you want to perform the following analysis using options (*-first* and *-last*). We consider only the first 10 modes for the following analysis.
+To compare the PDFs of the trajectory projections on common PCs, we need to perform PCA on the united concatenated trajectory that contains the lipids of both simulations (the *united.xtc* you obtained using *combtrajs* in Step1 above). Use the *covar* procedure on this trajectory to perform the PCA. We get the covariance matrix (*covar.dat*), eigenvalues (*eigenval.dat*), and eigenvalues (*eigenvec.dat*).
+
+Then we need to project the concatenated trajectories of each simulation (the *concatenated1.xtc* & *concatenated2.xtc* you obtained in Step1 above) on the common basis. For this, we can use the *project* procedure applied to the respective concatenated trajectories. You can find more on the *project* procedure in the first part of the tutorial. Note that it is important to provide *project* with the eigenvectors obtained for the united trajectory. Finally, we obtain projection files for each concatenated trajectory (*proj1.xvg* and *proj2.xvg*). You can choose the PCs for which you want to perform the following analysis by using the options (*-first* and *-last*); we consider only the first 10 modes for the following analysis.
 
 Now we can plot the PDFs for the first PC for different simulations. To plot the PDF of the projections on the first PC run
 
