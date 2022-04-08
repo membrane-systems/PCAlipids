@@ -8,12 +8,15 @@ import gc
 #from numba import jit
 
 
-def load_traj(traj_file, traj_top, lipid_resname, stride, sf, ef, max_frames = None):
+def load_traj(traj_file, traj_top, lipid_resname, stride, sf, ef, sel = "", max_frames = None):
 	# create topology
 	topol = md.load(traj_top).topology
 	# select atoms for loading
-	ailist = topol.select('not water and not type W H Hs WT4 NaW KW CLW MgW and resname %s' \
+	if sel == "":
+		ailist = topol.select('not water and not type W H Hs WT4 NaW KW CLW MgW and resname %s' \
 			% lipid_resname)
+	else:
+		ailist = topol.select(sel)
 	# load trajectory
 	return md.load(traj_file, top = traj_top, stride = stride, \
 		atom_indices = ailist)[sf:ef] if ef != -1 else \
@@ -30,7 +33,7 @@ def average_structure(traj):
 	return avg_traj
 
 def main(file_1, file_2, stride, sf, ef, \
-	out_traj, out_top, file_3, lipid_resname):
+	out_traj, out_top, file_3, lipid_resname, lipid_sel):
 	
 	if not file_1 or not file_2 or not lipid_resname:
 		print("Trajectory and topology files have to be provided.\n\
@@ -41,7 +44,7 @@ Run pcalipids.py concat -h for help")
 	# load trajectory
 	PATH = os.getcwd() + '/'
 	traj = load_traj(PATH + file_1, PATH + file_2, \
-		lipid_resname = lipid_resname, stride = stride, sf = sf, ef = ef)
+		lipid_resname = lipid_resname, stride = stride, sf = sf, ef = ef, sel = lipid_sel)
 	print("Loaded trajectory "+file_1)
 
 	# get number of frames, lipids and atoms

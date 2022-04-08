@@ -62,7 +62,8 @@ def main(args):
 	("-oa", OptionF(str, 1, "average.pdb", "Output average structure")),
 	("-r", OptionF(str, 1, None, "Input reference file (.pdb, .gro). If not supplied, \
 the structure of the first lipid and the first frame is used for alignment")),
-	("-l", OptionF(str, 1, None, "Lipid type"))		
+	("-l", OptionF(str, 1, None, "Lipid type")),
+	("-sel", OptionF(str, 1, "", "Lipid selection"))		
 	]
 
 	optionsConspace = [
